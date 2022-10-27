@@ -24,11 +24,10 @@ contract MumbaiFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
         string calldata tokenURI,
         uint256 expTime
     ) public {
-        uint256 amount = 10 ** 18;
         address creator = msg.sender;
         uint256 tokenId = getId(tokenURI, creator, expTime);
 
-        _mint(creator, tokenId, amount, "");
+        _mint(creator, tokenId, 1, "");
         _setURI(tokenId, tokenURI);
         _setData(tokenId, tokenURI, creator, block.timestamp, expTime);
     }

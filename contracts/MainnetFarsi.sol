@@ -22,7 +22,7 @@ contract MainnetFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStor
     }
 
     function fee(uint256 tokenId) public view returns(uint256) {
-        return 10 ** 18 + (10 ** 18 * totalSupply(tokenId) * 25/1000);
+        return 1 + (totalSupply(tokenId) * 25/1000);
     }
 
     function collect (
@@ -33,7 +33,6 @@ contract MainnetFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStor
         address[] calldata receivers, 
         uint16[] calldata fractions
     ) public payable{
-        uint256 amount = 10 ** 18;
         address buyer = msg.sender;
 
         require(
@@ -42,18 +41,23 @@ contract MainnetFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStor
         );
 
         require(
+            block.timestamp <= expTime,
+            "Mainnet Farsi: token sale time is expired"
+        );
+
+        require(
             msg.value >= fee(tokenId),
             "Mainnet Farsi: insufficient fee"
         );
-        _payFees(creator, amount, receivers, fractions);
+        _payFees(creator, 1, receivers, fractions);
 
         if(totalSupply(tokenId) == 0){
-            _mint(creator, tokenId, amount * 10, "");
+            _mint(creator, tokenId, 10, "");
             _setURI(tokenId, tokenURI);
             _setData(tokenId, tokenURI, creator, block.timestamp, expTime);
         }
 
-        _mint(buyer, tokenId, amount, "");
+        _mint(buyer, tokenId, 1, "");
     }
 
     function name() public pure returns(string memory) {
