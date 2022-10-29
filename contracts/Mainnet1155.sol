@@ -9,7 +9,7 @@ import "./utils/qHash.sol";
 import "./utils/DataStorage.sol";
 import "./utils/FeeManager.sol";
 
-contract MainnetFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStorage, DataStorage, FeeManager {
+contract Mainnet1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStorage, DataStorage, FeeManager {
     using qHash for string;
     constructor() ERC1155("") {}
 
@@ -22,7 +22,7 @@ contract MainnetFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStor
     }
 
     function fee(uint256 tokenId) public view returns(uint256) {
-        return 1 + (totalSupply(tokenId) * 25/1000);
+        return 10 ** 18 + (10 ** 18 * totalSupply(tokenId) * 25/10000);
     }
 
     function collect (
@@ -61,7 +61,7 @@ contract MainnetFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStor
     }
 
     function name() public pure returns(string memory) {
-        return "MainnetFarsi";
+        return "Mainnet1155";
     }
 
     function symbol() public pure returns(string memory) {

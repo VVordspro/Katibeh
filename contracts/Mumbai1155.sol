@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 import "./utils/qHash.sol";
 import "./utils/DataStorage.sol";
 
-contract MumbaiFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStorage, DataStorage {
+contract Mumbai1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStorage, DataStorage {
     using qHash for string;
     constructor() ERC1155("") {}
 
@@ -33,7 +33,7 @@ contract MumbaiFarsi is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
     }
 
     function name() public pure returns(string memory) {
-        return "MumbaiFarsi";
+        return "Mumbai1155";
     }
 
     function symbol() public pure returns(string memory) {
