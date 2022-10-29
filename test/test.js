@@ -8,8 +8,9 @@ describe('Test', async function () {
     let zero_address
     let ONE_MONTH_IN_SECS
     let deployer, user1, user2
+    let mum721
     let mum1155
-    let MF
+    let main1155
     let latestId
     let latestExpTime
 
@@ -18,18 +19,18 @@ describe('Test', async function () {
         ONE_MONTH_IN_SECS = 30 * 24 * 60 * 60;
         const accounts = await ethers.getSigners();
         [deployer, user1, user2] = accounts
-        mumbai721Farsi = await hre.ethers.getContractFactory("Mumbai721");
-        mum721 = await mumbai1155Farsi.deploy();
-        mumbai1155Farsi = await hre.ethers.getContractFactory("Mumbai1155");
-        mum1155 = await mumbai1155Farsi.deploy();
-        mainnet1155Farsi = await hre.ethers.getContractFactory("Mainnet1155");
-        main1155 = await mainnet1155Farsi.deploy();
+        let mumbai721 = await hre.ethers.getContractFactory("Mumbai721");
+        mum721 = await mumbai721.deploy();
+        let mumbai1155 = await hre.ethers.getContractFactory("Mumbai1155");
+        mum1155 = await mumbai1155.deploy();
+        let mainnet1155 = await hre.ethers.getContractFactory("Mainnet1155");
+        main1155 = await mainnet1155.deploy();
 
         latestExpTime = ((await time.latest()) + ONE_MONTH_IN_SECS)
     }) 
 
     it('should mint 721 freely for every user on mumbai', async () => {
-        await mum721.connect(deployer).mint("tokenURI", latestExpTime)
+        await mum721.connect(deployer).safeMint("tokenURI", latestExpTime)
 
         latestId = await mum721.getId("tokenURI", deployer.address, latestExpTime)
         
