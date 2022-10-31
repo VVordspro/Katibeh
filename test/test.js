@@ -65,6 +65,8 @@ describe('Test', async function () {
         ).to.be.revertedWith(
             "Mainnet Farsi: insufficient fee"
         );
+
+        console.log(await main1155.fee(latestId))
     })
 
     it('should not accept different length of address and fraction', async () => {
@@ -124,8 +126,10 @@ describe('Test', async function () {
         
         assert.equal(
             await main1155.fee(latestId),
-            1.0275 * 10 ** 18 - 100
+            1.275 * 10 ** 18 - 100
         )
+
+        console.log(await main1155.fee(latestId))
     })
 
     it('should collect 2 correctly on mainnet', async () => {

@@ -22,7 +22,7 @@ contract Mainnet1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
     }
 
     function fee(uint256 tokenId) public view returns(uint256) {
-        return 10 ** 18 + (10 ** 18 * totalSupply(tokenId) * 25/10000);
+        return 10 ** 18 + (10 ** 18 * totalSupply(tokenId) * 25/1000);
     }
 
     function collect (
