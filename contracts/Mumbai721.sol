@@ -7,8 +7,9 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "./utils/qHash.sol";
 import "./utils/DataStorage.sol";
+import "./utils/Comments.sol";
 
-contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage {
+contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage, Comments {
     using qHash for string;
 
     constructor() ERC721("Mumbai721", "MF") {}

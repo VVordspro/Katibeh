@@ -221,5 +221,21 @@ describe('Test', async function () {
         );
     })
 
+    it('comment on the token', async () => {
+        await mum721.connect(user1).comment(
+            latestId, deployer.address, "+this is a posetive comment"
+        )
+        await mum721.connect(user1).comment(
+            latestId, deployer.address, "-this is a negative comment"
+        )
+        await mum721.connect(user1).comment(
+            latestId, deployer.address, "this is an abstentional comment"
+        )
+        
+        assert.equal(
+            await mum721.tokenScore(latestId),
+            '1000000000000000001000000000000000001'
+        )
+    })
 
 })
