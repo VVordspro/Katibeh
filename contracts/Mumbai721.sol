@@ -24,7 +24,8 @@ contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable
 
     function safeMint(
         string calldata _tokenURI,
-        uint256 expTime
+        uint256 expTime,
+        string[] calldata tags
     ) public {
         address creator = msg.sender;
         uint256 tokenId = getId(_tokenURI, creator, expTime);
@@ -33,6 +34,7 @@ contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable
         _setTokenURI(tokenId, _tokenURI);
         _registerURI(_tokenURI, tokenId);
         _setData(tokenId, _tokenURI, creator, block.timestamp, expTime);
+        _emitTags(tags);
     }
 
     // The following functions are overrides required by Solidity.

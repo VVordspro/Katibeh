@@ -14,6 +14,18 @@ abstract contract DataStorage {
         uint256 expTime;
     }
 
+    event NewToken(
+        uint256 indexed tokenId, 
+        address indexed creator, 
+        uint256 expTime
+    );
+
+    event Tags(
+        string indexed tag1, 
+        string indexed tag2, 
+        string indexed tag3
+    );
+
     function _registerURI(string calldata _uri, uint256 tokenId) internal {
         require(getUriId(_uri) == 0, "DataStorage: uri registered already");
         URIsRegistered[_uri] = tokenId;
@@ -27,6 +39,12 @@ abstract contract DataStorage {
         uint256 expTime
     ) internal {
         idToDS[tokenId] = DS(tokenURI, creator, initTime, expTime);
+        emit NewToken(tokenId, creator, expTime);
+    }
+
+    function _emitTags(string[] calldata tags) internal {
+        require(tags.length == 3, "DataStorage: tags length must be 3");
+        emit Tags(tags[0], tags[1], tags[2]);
     }
 
     function getUriId(string calldata _uri) public view returns(uint256) {
