@@ -15,7 +15,7 @@ abstract contract DataStorage {
     }
 
     function _registerURI(string calldata _uri, uint256 tokenId) internal {
-        require(getUriId(_uri) == 0, "uri registered already");
+        require(getUriId(_uri) == 0, "DataStorage: uri registered already");
         URIsRegistered[_uri] = tokenId;
     }
 

@@ -51,6 +51,22 @@ describe('Test', async function () {
         )
     })
 
+    it('should not mint 721 with same token id', async () => {
+        await expect(
+            mum721.connect(deployer).safeMint("tokenURI", latestExpTime)
+        ).to.be.revertedWith(
+            "ERC721: token already minted"
+        );
+    })
+
+    it('should not mint 721 with same token uri', async () => {
+        await expect(
+            mum721.connect(deployer).safeMint("tokenURI", latestExpTime + 1)
+        ).to.be.revertedWith(
+            "DataStorage: uri registered already"
+        );
+    })
+
     it('should check collecting fee', async () => {
         await expect(
             main1155.connect(user1).collect(
@@ -65,8 +81,6 @@ describe('Test', async function () {
         ).to.be.revertedWith(
             "Mainnet Farsi: insufficient fee"
         );
-
-        console.log(await main1155.fee(latestId))
     })
 
     it('should not accept different length of address and fraction', async () => {
@@ -128,8 +142,6 @@ describe('Test', async function () {
             await main1155.fee(latestId),
             1.275 * 10 ** 18 - 100
         )
-
-        console.log(await main1155.fee(latestId))
     })
 
     it('should collect 2 correctly on mainnet', async () => {
