@@ -149,7 +149,7 @@ describe('Test', async function () {
         
         assert.equal(
             await main1155.fee(latestId),
-            1.03 * 10 ** 18 
+            1.3 * 10 ** 18 
         )
     })
 
