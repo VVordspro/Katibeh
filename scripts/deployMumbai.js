@@ -1,13 +1,13 @@
 const { ethers } = require("hardhat");
 
-  async function deployMumbai1155() {
+  async function deployMumbai721() {
 
     // simple deploy
-    const Mumbai1155 = await ethers.getContractFactory("Mumbai1155");
-    const MuF = await Mumbai1155.deploy();
+    const Mumbai721 = await ethers.getContractFactory("Mumbai721");
+    const MuF = await Mumbai721.deploy();
     await MuF.deployed();
-    console.log("Mumbai1155 Contract Address:", MuF.address); 
+    console.log("Mumbai721 Contract Address:", MuF.address); 
 
   }
     
-  deployMumbai1155();
+  deployMumbai721();
