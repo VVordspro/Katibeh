@@ -9,7 +9,6 @@ describe('Test', async function () {
     let ONE_MONTH_IN_SECS
     let deployer, user1, user2
     let mum721
-    let mum1155
     let main1155
     let latestId
     let latestExpTime
@@ -21,8 +20,6 @@ describe('Test', async function () {
         [deployer, user1, user2] = accounts
         let mumbai721 = await hre.ethers.getContractFactory("Mumbai721");
         mum721 = await mumbai721.deploy();
-        let mumbai1155 = await hre.ethers.getContractFactory("Mumbai1155");
-        mum1155 = await mumbai1155.deploy();
         let mainnet1155 = await hre.ethers.getContractFactory("Mainnet1155");
         main1155 = await mainnet1155.deploy();
 
@@ -36,17 +33,6 @@ describe('Test', async function () {
         
         assert.equal(
             await mum721.totalSupply(),
-            1
-        )
-    })
-
-    it('should mint 1155 freely for every user on mumbai', async () => {
-        await mum1155.connect(deployer).mint("tokenURI", latestExpTime)
-
-        latestId = await mum1155.getId("tokenURI", deployer.address, latestExpTime)
-        
-        assert.equal(
-            await mum1155.totalSupply(latestId),
             1
         )
     })
@@ -231,7 +217,7 @@ describe('Test', async function () {
         await mum721.connect(user1).comment(
             latestId, deployer.address, "this is an abstentional comment"
         )
-        
+
         assert.equal(
             await mum721.tokenScore(latestId),
             '1000000000000000001000000000000000001'
