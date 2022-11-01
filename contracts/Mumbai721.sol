@@ -22,6 +22,21 @@ contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable
         tokenId = _tokenURI.q(creator, expTime);
     }
 
+    function tokenInfo(uint256 tokenId) public view returns(
+        string memory uri,
+        address creator,
+        uint256 initTime,
+        uint256 expTime,
+        uint256 score
+    ) {
+        DS storage ds = idToDS[tokenId];
+        uri = ds.tokenURI;
+        creator = ds.creator;
+        initTime = ds.initTime;
+        expTime = ds.expTime;
+        score = tokenScore[tokenId];
+    }
+
     function safeMint(
         string calldata _tokenURI,
         uint256 expTime,

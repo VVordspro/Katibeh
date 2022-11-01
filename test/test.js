@@ -27,7 +27,7 @@ describe('Test', async function () {
     }) 
 
     it('should mint 721 freely for every user on mumbai', async () => {
-        await mum721.connect(deployer).safeMint("tokenURI", latestExpTime)
+        await mum721.connect(deployer).safeMint("tokenURI", latestExpTime, ["tag1", "tag2", "tag3"])
 
         latestId = await mum721.getId("tokenURI", deployer.address, latestExpTime)
         
@@ -39,7 +39,7 @@ describe('Test', async function () {
 
     it('should not mint 721 with same token id', async () => {
         await expect(
-            mum721.connect(deployer).safeMint("tokenURI", latestExpTime)
+            mum721.connect(deployer).safeMint("tokenURI", latestExpTime, ["tag1", "tag2", "tag3"])
         ).to.be.revertedWith(
             "ERC721: token already minted"
         );
@@ -47,7 +47,7 @@ describe('Test', async function () {
 
     it('should not mint 721 with same token uri', async () => {
         await expect(
-            mum721.connect(deployer).safeMint("tokenURI", latestExpTime + 1)
+            mum721.connect(deployer).safeMint("tokenURI", latestExpTime + 1, ["tag1", "tag2", "tag3"])
         ).to.be.revertedWith(
             "DataStorage: uri registered already"
         );
