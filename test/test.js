@@ -120,6 +120,23 @@ describe('Test', async function () {
         )
     })
 
+    it('should not collect same token for same user', async () => {
+        
+        await expect(
+            main1155.connect(user1).collect(
+                latestId,
+                "tokenURI",
+                deployer.address,
+                latestExpTime,
+                [user1.address, user2.address], 
+                [6000, 4000],
+                { value: await main1155.fee(latestId) }
+            )
+        ).to.be.revertedWith(
+            "Mainnet Farsi: token collected already"
+        );
+    })
+
     it('should have correct balances after collect 1', async () => {
         
         assert.equal(

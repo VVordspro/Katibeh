@@ -46,6 +46,11 @@ contract Mainnet1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
         );
 
         require(
+            balanceOf(buyer, tokenId) == 0,
+            "Mainnet Farsi: token collected already"
+        );
+        
+        require(
             msg.value >= fee(tokenId),
             "Mainnet Farsi: insufficient fee"
         );
