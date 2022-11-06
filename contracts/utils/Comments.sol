@@ -17,9 +17,9 @@ abstract contract Comments {
         address to,
         string calldata text
     ) public {
-        if(bytes(text)[0] == 0x2b) {
+        if(bytes(text)[0] == 0x2b) { //+
             tokenScore[tokenId] += 1;
-        } else if (bytes(text)[0] == 0x2d) {
+        } else if (bytes(text)[0] == 0x2d) { //-
             tokenScore[tokenId] += 10**18;
         } else {
             tokenScore[tokenId] += 10**36;

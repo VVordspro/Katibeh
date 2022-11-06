@@ -21,6 +21,7 @@ abstract contract DataStorage {
     );
 
     event Tags(
+        uint256 tokenId,
         string indexed tag1, 
         string indexed tag2, 
         string indexed tag3
@@ -42,9 +43,9 @@ abstract contract DataStorage {
         emit NewToken(tokenId, creator, expTime);
     }
 
-    function _emitTags(string[] calldata tags) internal {
+    function _emitTags(uint256 tokenId, string[] calldata tags) internal {
         require(tags.length == 3, "DataStorage: tags length must be 3");
-        emit Tags(tags[0], tags[1], tags[2]);
+        emit Tags(tokenId, tags[0], tags[1], tags[2]);
     }
 
     function getUriId(string calldata _uri) public view returns(uint256) {

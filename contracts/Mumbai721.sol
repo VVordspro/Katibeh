@@ -49,7 +49,7 @@ contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable
         _setTokenURI(tokenId, _tokenURI);
         _registerURI(_tokenURI, tokenId);
         _setData(tokenId, _tokenURI, creator, block.timestamp, expTime);
-        _emitTags(tags);
+        _emitTags(tokenId, tags);
     }
 
     // The following functions are overrides required by Solidity.
