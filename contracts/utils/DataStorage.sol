@@ -17,6 +17,7 @@ abstract contract DataStorage {
     event NewToken(
         uint256 indexed tokenId, 
         address indexed creator, 
+        uint256 indexed toTokenId, 
         uint256 expTime
     );
 
@@ -36,11 +37,12 @@ abstract contract DataStorage {
         uint256 tokenId,
         string memory tokenURI,
         address creator,
+        uint256 toTokenId,
         uint256 initTime,
         uint256 expTime
     ) internal {
         idToDS[tokenId] = DS(tokenURI, creator, initTime, expTime);
-        emit NewToken(tokenId, creator, expTime);
+        emit NewToken(tokenId, creator, toTokenId, expTime);
     }
 
     function _emitTags(uint256 tokenId, string[] calldata tags) internal {

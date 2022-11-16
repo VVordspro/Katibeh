@@ -9,7 +9,7 @@ import "./utils/qHash.sol";
 import "./utils/DataStorage.sol";
 import "./utils/FeeManager.sol";
 
-contract Mainnet1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStorage, DataStorage, FeeManager {
+contract Katibeh1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStorage, DataStorage, FeeManager {
     using qHash for string;
     constructor() ERC1155("") {}
 
@@ -59,14 +59,14 @@ contract Mainnet1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
         if(totalSupply(tokenId) == 0){
             _mint(creator, tokenId, 10, "");
             _setURI(tokenId, tokenURI);
-            _setData(tokenId, tokenURI, creator, block.timestamp, expTime);
+            // _setData(tokenId, tokenURI, creator, block.timestamp, expTime);
         }
 
         _mint(buyer, tokenId, 1, "");
     }
 
     function name() public pure returns(string memory) {
-        return "Mainnet1155";
+        return "Katibeh1155";
     }
 
     function symbol() public pure returns(string memory) {

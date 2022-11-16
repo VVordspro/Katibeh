@@ -7,12 +7,11 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "./utils/qHash.sol";
 import "./utils/DataStorage.sol";
-import "./utils/Comments.sol";
 
-contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage, Comments {
+contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage {
     using qHash for string;
 
-    constructor() ERC721("Mumbai721", "MF") {}
+    constructor() ERC721("Katibeh721", "KF") {}
 
     function getId(
         string calldata _tokenURI,
@@ -22,24 +21,10 @@ contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable
         tokenId = _tokenURI.q(creator, expTime);
     }
 
-    function tokenInfo(uint256 tokenId) public view returns(
-        string memory uri,
-        address creator,
-        uint256 initTime,
-        uint256 expTime,
-        uint256 score
-    ) {
-        DS storage ds = idToDS[tokenId];
-        uri = ds.tokenURI;
-        creator = ds.creator;
-        initTime = ds.initTime;
-        expTime = ds.expTime;
-        score = tokenScore[tokenId];
-    }
-
     function safeMint(
         string calldata _tokenURI,
         uint256 expTime,
+        uint256 toTokenId,
         string[] calldata tags
     ) public {
         address creator = msg.sender;
@@ -48,7 +33,7 @@ contract Mumbai721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable
         _safeMint(creator, tokenId);
         _setTokenURI(tokenId, _tokenURI);
         _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, _tokenURI, creator, block.timestamp, expTime);
+        _setData(tokenId, _tokenURI, creator, toTokenId, block.timestamp, expTime);
         _emitTags(tokenId, tags);
     }
 
