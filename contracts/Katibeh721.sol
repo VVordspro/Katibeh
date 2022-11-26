@@ -7,8 +7,9 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "./utils/qHash.sol";
 import "./utils/DataStorage.sol";
+import "./utils/GlobalStorage.sol";
 
-contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage {
+contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage, GlobalStorage {
     using qHash for string;
 
     constructor() ERC721("Katibeh721", "KF") {}
@@ -35,6 +36,25 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
         _registerURI(_tokenURI, tokenId);
         _setData(tokenId, _tokenURI, creator, toTokenId, block.timestamp, expTime);
         _emitTags(tokenId, tags);
+    }
+
+    function safeMintGlobal(
+        string calldata _tokenURI,
+        uint256 expTime,
+        uint256 toTokenId,
+        string[] calldata tags
+    ) public {
+        address creator = msg.sender;
+        uint256 tokenId = getId(_tokenURI, creator, expTime);
+
+        _safeMint(creator, tokenId);
+        _setTokenURI(tokenId, _tokenURI);
+        _registerURI(_tokenURI, tokenId);
+        _setData(tokenId, _tokenURI, creator, toTokenId, block.timestamp, expTime);
+        _emitTags(tokenId, tags);
+
+        _setIdDetails(tokenId);
+        _registerTags(tokenId, tags);
     }
 
     // The following functions are overrides required by Solidity.
