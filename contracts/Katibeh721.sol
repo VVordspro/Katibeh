@@ -55,6 +55,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
 
         _setIdDetails(tokenId);
         _registerTags(tokenId, tags);
+        _setCreatorToken(creator, tokenId);
     }
 
     // The following functions are overrides required by Solidity.
