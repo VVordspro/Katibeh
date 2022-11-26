@@ -59,7 +59,7 @@ contract Katibeh1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
         if(totalSupply(tokenId) == 0){
             _mint(creator, tokenId, 10, "");
             _setURI(tokenId, tokenURI);
-            _setData(tokenId, tokenURI, creator, block.timestamp, expTime);
+            // _setData(tokenId, tokenURI, creator, block.timestamp, expTime);
         }
 
         _mint(buyer, tokenId, 1, "");
