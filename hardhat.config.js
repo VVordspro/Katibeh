@@ -50,34 +50,8 @@ module.exports = {
       accounts: [`0x${ACCOUNT}`],
     },
   },
-  // etherscan: {
-  //   apiKey: {
-  //     mainnet: `${ETHERSCAN_API_KEY}`,
-  //     ropsten: `${ETHERSCAN_API_KEY}`,
-  //     rinkeby: `${ETHERSCAN_API_KEY}`,
-  //     goerli: `${ETHERSCAN_API_KEY}`,
-  //     kovan: `${ETHERSCAN_API_KEY}`,
-
-  //     // binance smart chain
-  //     // bsc: "YOUR_BSCSCAN_API_KEY",
-  //     // bscTestnet: "YOUR_BSCSCAN_API_KEY",
 
 
-  //     // polygon
-  //     polygon: `${POLYGONSCAN_API_KEY}`,
-  //     polygonMumbai: `${POLYGONSCAN_API_KEY}`,
-
-      
-  //     // avalanche
-  //     avalanche: `${SNOWTRACE_API_KEY}`,
-  //     avalancheFujiTestnet: `${SNOWTRACE_API_KEY}`,
-      
-  //     // xdai and sokol don't need an API key, but you still need
-  //     // to specify one; any string placeholder will work
-  //     xdai: "api-key",
-  //     sokol: "api-key"
-  //   }
-  // },
   contractSizer: {
     alphaSort: true,
     disambiguatePaths: false,

@@ -8,8 +8,10 @@ abstract contract DataStorage {
     mapping(uint256 => DS) idToDS;
 
     struct DS {
+        uint256 toTokenId;
         string tokenURI;
         address creator;
+        uint256 mintTime;
         uint256 initTime;
         uint256 expTime;
     }
@@ -18,6 +20,7 @@ abstract contract DataStorage {
         uint256 indexed tokenId, 
         address indexed creator, 
         uint256 indexed toTokenId, 
+        uint256 mintTime,
         uint256 initTime,
         uint256 expTime
     );
@@ -34,16 +37,28 @@ abstract contract DataStorage {
         URIsRegistered[_uri] = tokenId;
     }
 
-    function _setData(
+    function _emitData(
         uint256 tokenId,
-        string memory tokenURI,
-        address creator,
         uint256 toTokenId,
+        address creator,
+        uint256 mintTime,
         uint256 initTime,
         uint256 expTime
     ) internal {
-        idToDS[tokenId] = DS(tokenURI, creator, initTime, expTime);
-        emit NewToken(tokenId, creator, toTokenId, initTime, expTime);
+        emit NewToken(tokenId, creator, toTokenId, mintTime, initTime, expTime);
+    }
+
+    function _setData(
+        uint256 tokenId,
+        uint256 toTokenId,
+        string memory tokenURI,
+        address creator,
+        uint256 mintTime,
+        uint256 initTime,
+        uint256 expTime
+    ) internal {
+        idToDS[tokenId] = DS(toTokenId, tokenURI, creator, mintTime, initTime, expTime);
+        emit NewToken(tokenId, creator, toTokenId, mintTime, initTime, expTime);
     }
 
     function _emitTags(uint256 tokenId, string[] calldata tags) internal {

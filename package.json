@@ -23,6 +23,7 @@
   "dependencies": {
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.7.3",
+    "@openzeppelin/contracts-upgradeable": "^4.8.0",
     "hardhat-contract-sizer": "^2.6.1"
   }
 }

@@ -8,8 +8,8 @@ describe('Test', async function () {
     let zero_address
     let ONE_MONTH_IN_SECS
     let deployer, user1, user2
-    let mum721
-    let main1155
+    let kat721
+    let kat1155
     let latestId
     let latestExpTime
 
@@ -18,28 +18,28 @@ describe('Test', async function () {
         ONE_MONTH_IN_SECS = 30 * 24 * 60 * 60;
         const accounts = await ethers.getSigners();
         [deployer, user1, user2] = accounts
-        let mumbai721 = await hre.ethers.getContractFactory("Mumbai721");
-        mum721 = await mumbai721.deploy();
-        let mainnet1155 = await hre.ethers.getContractFactory("Mainnet1155");
-        main1155 = await mainnet1155.deploy();
+        let mumbai721 = await hre.ethers.getContractFactory("Katibeh721");
+        kat721 = await mumbai721.deploy();
+        let mainnet1155 = await hre.ethers.getContractFactory("Katibeh1155");
+        kat1155 = await mainnet1155.deploy();
 
         latestExpTime = ((await time.latest()) + ONE_MONTH_IN_SECS)
     }) 
 
     it('should mint 721 freely for every user on mumbai', async () => {
-        await mum721.connect(deployer).safeMint("tokenURI", latestExpTime, ["tag1", "tag2", "tag3"])
+        await kat721.connect(deployer).safeMint("tokenURI", latestExpTime, 0, ["tag1", "tag2", "tag3"])
 
-        latestId = await mum721.getId("tokenURI", deployer.address, latestExpTime)
+        latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
         
         assert.equal(
-            await mum721.totalSupply(),
+            await kat721.totalSupply(),
             1
         )
     })
 
     it('should not mint 721 with same token id', async () => {
         await expect(
-            mum721.connect(deployer).safeMint("tokenURI", latestExpTime, ["tag1", "tag2", "tag3"])
+            kat721.connect(deployer).safeMint("tokenURI", latestExpTime, 0, ["tag1", "tag2", "tag3"])
         ).to.be.revertedWith(
             "ERC721: token already minted"
         );
@@ -47,7 +47,7 @@ describe('Test', async function () {
 
     it('should not mint 721 with same token uri', async () => {
         await expect(
-            mum721.connect(deployer).safeMint("tokenURI", latestExpTime + 1, ["tag1", "tag2", "tag3"])
+            kat721.connect(deployer).safeMint("tokenURI", latestExpTime + 1, 0, ["tag1", "tag2", "tag3"])
         ).to.be.revertedWith(
             "DataStorage: uri registered already"
         );
@@ -55,14 +55,14 @@ describe('Test', async function () {
 
     it('should check collecting fee', async () => {
         await expect(
-            main1155.connect(user1).collect(
+            kat1155.connect(user1).collect(
                 latestId,
                 "tokenURI",
                 deployer.address,
                 latestExpTime,
                 [user1.address, user2.address], 
                 [6000, 4000],
-                { value: (await main1155.fee(latestId) - 100).toString() }
+                { value: (await kat1155.fee(latestId) - 100).toString() }
             )
         ).to.be.revertedWith(
             "Mainnet Farsi: insufficient fee"
@@ -71,14 +71,14 @@ describe('Test', async function () {
 
     it('should not accept different length of address and fraction', async () => {
         await expect(
-            main1155.connect(user1).collect(
+            kat1155.connect(user1).collect(
                 latestId,
                 "tokenURI",
                 deployer.address,
                 latestExpTime,
                 [user1.address, user2.address], 
                 [10000],
-                { value: await main1155.fee(latestId) }
+                { value: await kat1155.fee(latestId) }
             )
         ).to.be.revertedWith(
             "FeeManager: receivers and fractions must be the same length"
@@ -88,35 +88,35 @@ describe('Test', async function () {
     it('check fee before collect 1', async () => {
         
         assert.equal(
-            await main1155.fee(latestId),
+            await kat1155.fee(latestId),
             10 ** 18
         )
     })
 
     it('should collect 1 correctly on mainnet', async () => {
         
-        await main1155.connect(user1).collect(
+        await kat1155.connect(user1).collect(
             latestId,
             "tokenURI",
             deployer.address,
             latestExpTime,
             [user1.address, user2.address], 
             [6000, 4000],
-            { value: await main1155.fee(latestId) }
+            { value: await kat1155.fee(latestId) }
         )
     })
 
     it('should not collect same token for same user', async () => {
         
         await expect(
-            main1155.connect(user1).collect(
+            kat1155.connect(user1).collect(
                 latestId,
                 "tokenURI",
                 deployer.address,
                 latestExpTime,
                 [user1.address, user2.address], 
                 [6000, 4000],
-                { value: await main1155.fee(latestId) }
+                { value: await kat1155.fee(latestId) }
             )
         ).to.be.revertedWith(
             "Mainnet Farsi: token collected already"
@@ -126,15 +126,15 @@ describe('Test', async function () {
     it('should have correct balances after collect 1', async () => {
         
         assert.equal(
-            await main1155.totalSupply(latestId),
+            await kat1155.totalSupply(latestId),
             11
         )
         assert.equal(
-            await main1155.balanceOf(deployer.address, latestId),
+            await kat1155.balanceOf(deployer.address, latestId),
             10
         )
         assert.equal(
-            await main1155.balanceOf(user1.address, latestId),
+            await kat1155.balanceOf(user1.address, latestId),
             1
         )
     })
@@ -142,28 +142,28 @@ describe('Test', async function () {
     it('check fee before collect 2', async () => {
         
         assert.equal(
-            await main1155.fee(latestId),
+            await kat1155.fee(latestId),
             1.275 * 10 ** 18 - 100
         )
     })
 
     it('should collect 2 correctly on mainnet', async () => {
         
-        await main1155.connect(user2).collect(
+        await kat1155.connect(user2).collect(
             latestId,
             "tokenURI",
             deployer.address,
             latestExpTime,
             [user1.address, user2.address], 
             [6000, 4000],
-            { value: await main1155.fee(latestId) }
+            { value: await kat1155.fee(latestId) }
         )
     })
 
     it('check fee before collect 3', async () => {
         
         assert.equal(
-            await main1155.fee(latestId),
+            await kat1155.fee(latestId),
             1.3 * 10 ** 18 
         )
     })
@@ -171,19 +171,19 @@ describe('Test', async function () {
     it('should have correct balances after collect 2', async () => {
         
         assert.equal(
-            await main1155.totalSupply(latestId),
+            await kat1155.totalSupply(latestId),
             12
         )
         assert.equal(
-            await main1155.balanceOf(deployer.address, latestId),
+            await kat1155.balanceOf(deployer.address, latestId),
             10
         )
         assert.equal(
-            await main1155.balanceOf(user1.address, latestId),
+            await kat1155.balanceOf(user1.address, latestId),
             1
         )
         assert.equal(
-            await main1155.balanceOf(user2.address, latestId),
+            await kat1155.balanceOf(user2.address, latestId),
             1
         )
     })
@@ -193,34 +193,26 @@ describe('Test', async function () {
         await time.increaseTo(latestExpTime + 1);
 
         await expect(
-            main1155.connect(user1).collect(
+            kat1155.connect(user1).collect(
                 latestId,
                 "tokenURI",
                 deployer.address,
                 latestExpTime,
                 [user1.address, user2.address], 
                 [10000],
-                { value: await main1155.fee(latestId) }
+                { value: await kat1155.fee(latestId) }
             )
         ).to.be.revertedWith(
             "Mainnet Farsi: token sale time is expired"
         );
     })
 
-    it('comment on the token', async () => {
-        await mum721.connect(user1).comment(
-            latestId, deployer.address, "+this is a posetive comment"
-        )
-        await mum721.connect(user1).comment(
-            latestId, deployer.address, "-this is a negative comment"
-        )
-        await mum721.connect(user1).comment(
-            latestId, deployer.address, "this is an abstentional comment"
-        )
-
-        assert.equal(
-            await mum721.tokenScore(latestId),
-            '1000000000000000001000000000000000001'
+    it('should safe mint global', async () => {
+        await kat721.safeMintGlobal(
+            "tokenURI2", 
+            latestExpTime,
+            0, 
+            ["tag1", "tag2", "tag3"]
         )
     })
 

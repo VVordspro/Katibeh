@@ -4,6 +4,13 @@ pragma solidity ^0.8.4;
 abstract contract FeeManager {
     
     address payable receiver1;
+    function setReceiver1(address payable newAddr) public {
+        require(
+            msg.sender == receiver1,
+            "FeeManager: only receiver1 can change its address"
+        );
+        receiver1 = newAddr;
+    }
 
     function _payFees(
         address creator,
