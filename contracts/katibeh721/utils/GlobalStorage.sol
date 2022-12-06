@@ -153,4 +153,9 @@ abstract contract GlobalStorage {
         _registerTag(id, string.concat(tags[0], '/', tags[1], '/', tags[2]));
     }
 
+
+// referrals --------------------------------------------------------------------
+
+
+
 }

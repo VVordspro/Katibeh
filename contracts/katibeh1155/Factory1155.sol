@@ -22,8 +22,8 @@ contract Factory1155 is FeeManager, DataStorage {
 
 
     function fee(uint256 tokenId) public view returns(uint256) {
-        return 10 ** 18 + (10 ** 18 * 
-        Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId) * 25/100);
+        uint256 supply = Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId);
+        return supply > 5 ? supply * 10 **18 : 0;
     }
 
     function uri(uint256 tokenId) public view returns(string memory) {
