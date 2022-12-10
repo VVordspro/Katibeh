@@ -18,8 +18,17 @@ abstract contract GlobalStorage {
         return idDetails.length();
     }
 
-    function idByIndex(uint256 i) public view returns(uint256 id) {
-        (id,) = idDetails.at(i);
+    function idByIndex(uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = index.length;
+        id = new uint256[](len);
+
+        for(uint256 i = 0; i < len; i++) {
+            id[i] = idByIndex(index[i]);
+        }
+    }
+
+    function idByIndex(uint256 index) public view returns(uint256 id) {
+        (id,) = idDetails.at(index);
     }
 
     function getAllIds() public view returns(uint256[] memory ids) {
@@ -78,12 +87,31 @@ abstract contract GlobalStorage {
 
     mapping(address => EnumerableMap.UintToUintMap) creatorTokens;
 
+    function countAllIds(address[] calldata creator) public view returns(uint256[] memory count) {
+        uint256 len = creator.length;
+        count = new uint256[](len);
+
+        for (uint256 i = 0; i < len; i++) {
+            count[i] = countAllIds(creator[i]);
+        }
+    }
+
     function countAllIds(address creator) public view returns(uint256) {
         return creatorTokens[creator].length();
     }
 
-    function idByIndex(address creator, uint256 i) public view returns(uint256 id) {
-        (id,) = creatorTokens[creator].at(i);
+    function idByIndex(address[] calldata creator, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = creator.length;
+        require(len == index.length, "input length difference");
+        id = new uint256[](len);
+
+        for (uint256 i; i < len; i++) {
+            id[i] = idByIndex(creator[i], index[i]);
+        }
+    }
+
+    function idByIndex(address creator, uint256 index) public view returns(uint256 id) {
+        (id,) = creatorTokens[creator].at(index);
     }
 
     function getAllIds(address creator) public view returns(uint256[] memory ids) {
@@ -94,6 +122,32 @@ abstract contract GlobalStorage {
 
         for(uint256 i; i < len; i++) {
             (ids[i],) = creatorIds.at(i);
+        }
+    }
+
+    function getIdDetails(address[] calldata creator, uint256[] calldata id) public view returns(
+        uint256[] memory numIdsBefore,
+        uint256[] memory numIdsAfter,
+        uint256[] memory idBefore,
+        uint256[] memory idAfter
+    ) {
+        uint256 len = creator.length;
+        require(len == id.length, "input length difference");
+
+        numIdsBefore = new uint256[](len);
+        numIdsAfter = new uint256[](len);
+        idBefore = new uint256[](len);
+        idAfter = new uint256[](len);
+
+
+        for(uint256 i = 0; i < len; i++){
+            (
+                numIdsBefore[i],
+                numIdsAfter[i],
+                idBefore[i],
+                idAfter[i]
+            ) 
+              = getIdDetails(creator[i], id[i]);
         }
     }
 
@@ -124,8 +178,17 @@ abstract contract GlobalStorage {
         return creators.length();
     }
 
-    function creatorByIndex(uint256 i) public view returns(address creator) {
-        creator = creators.at(i);
+    function creatorByIndex(uint256[] calldata index) public view returns(address[] memory creator) {
+        uint256 len = index.length;
+        creator = new address[](len);
+
+        for (uint256 i = 0; i < len; i++) {
+            creator[i] = creatorByIndex(index[i]);
+        }
+    }
+
+    function creatorByIndex(uint256 index) public view returns(address creator) {
+        creator = creators.at(index);
     }
 
     function getAllCreators() public view returns(address[] memory c){
@@ -140,12 +203,31 @@ abstract contract GlobalStorage {
 
     mapping(uint256 => EnumerableSet.UintSet) tokenReplyIds;
 
-    function countAllIds(uint256 toTokenId) public view returns(uint256) {
+    function countAllReplies(uint256[] calldata toTokenId) public view returns(uint256[] memory count) {
+        uint256 len = toTokenId.length;
+        count = new uint256[](len);
+
+        for(uint256 i = 0; i < len; i++) {
+            count[i] = countAllReplies(toTokenId[i]);
+        }
+    }
+
+    function countAllReplies(uint256 toTokenId) public view returns(uint256) {
         return tokenReplyIds[toTokenId].length();
     }
 
-    function idByIndex(uint256 toTokenId, uint256 i) public view returns(uint256 id) {
-        id = tokenReplyIds[toTokenId].at(i);
+    function replyByIndex(uint256[] calldata toTokenId, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = toTokenId.length;
+        require(len == index.length, "input length difference");
+        id = new uint256[](len);
+
+        for (uint256 i; i < len; i++) {
+            id[i] = replyByIndex(toTokenId[i], index[i]);
+        }
+    }
+
+    function replyByIndex(uint256 toTokenId, uint256 index) public view returns(uint256 id) {
+        id = tokenReplyIds[toTokenId].at(index);
     }
 
     function getAllReplies(uint256 toTokenId) public view returns(uint256[] memory ids) {
@@ -160,12 +242,31 @@ abstract contract GlobalStorage {
 // Creator replies -----------------------------------------------------------
     mapping(address => EnumerableSet.UintSet) creatorReplies;
 
+    function countAllReplies(address[] calldata creator) public view returns(uint256[] memory count) {
+        uint256 len = creator.length;
+        count = new uint256[](len);
+
+        for(uint256 i = 0; i < len; i++) {
+            count[i] = countAllReplies(creator[i]);
+        }
+    }
+
     function countAllReplies(address creator) public view returns(uint256) {
         return creatorReplies[creator].length();
     }
 
-    function replyByIndex(address creator, uint256 i) public view returns(uint256 id) {
-        id = creatorReplies[creator].at(i);
+    function replyByIndex(address[] calldata creator, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = creator.length;
+        require(len == index.length, "input length difference");
+        id = new uint256[](len);
+
+        for (uint256 i; i < len; i++) {
+            id[i] = replyByIndex(creator[i], index[i]);
+        }
+    }
+
+    function replyByIndex(address creator, uint256 index) public view returns(uint256 id) {
+        id = creatorReplies[creator].at(index);
     }
 
     function getAllReplies(address creator) public view returns(uint256[] memory ids) {
@@ -180,12 +281,31 @@ abstract contract GlobalStorage {
 
     mapping(bytes32 => EnumerableMap.UintToUintMap) tagsDetails;
 
+    function countAllIds(bytes32[] calldata tagHash) public view returns(uint256[] memory count) {
+        uint256 len = tagHash.length;
+        count = new uint256[](len);
+
+        for(uint256 i = 0; i < len; i++) {
+            count[i] = countAllIds(tagHash[i]);
+        }
+    }
+
     function countAllIds(bytes32 tagHash) public view returns(uint256) {
         return tagsDetails[tagHash].length();
     }
 
-    function idByIndex(bytes32 tagHash, uint256 i) public view returns(uint256 id) {
-        (id,) = tagsDetails[tagHash].at(i);
+    function idByIndex(bytes32[] calldata tagHash, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = tagHash.length;
+        require(len == index.length, "input length difference");
+        id = new uint256[](len);
+
+        for (uint256 i; i < len; i++) {
+            id[i] = idByIndex(tagHash[i], index[i]);
+        }
+    }
+
+    function idByIndex(bytes32 tagHash, uint256 index) public view returns(uint256 id) {
+        (id,) = tagsDetails[tagHash].at(index);
     }
 
     function getAllIds(bytes32 tagHash) public view returns(uint256[] memory ids) {
@@ -199,7 +319,33 @@ abstract contract GlobalStorage {
         }
     }
 
-    function getTagDetails(uint256 id, bytes32 tagHash) public view returns(
+    function getIdDetails(bytes32[] calldata tagHash, uint256[] calldata id) public view returns(
+        uint256[] memory numIdsBefore,
+        uint256[] memory numIdsAfter,
+        uint256[] memory idBefore,
+        uint256[] memory idAfter
+    ) {
+        uint256 len = tagHash.length;
+        require(len == id.length, "input length difference");
+
+        numIdsBefore = new uint256[](len);
+        numIdsAfter = new uint256[](len);
+        idBefore = new uint256[](len);
+        idAfter = new uint256[](len);
+
+
+        for(uint256 i = 0; i < len; i++){
+            (
+                numIdsBefore[i],
+                numIdsAfter[i],
+                idBefore[i],
+                idAfter[i]
+            ) 
+              = getIdDetails(tagHash[i], id[i]);
+        }
+    }
+
+    function getIdDetails(bytes32 tagHash, uint256 id) public view returns(
         uint256 numIdsBefore,
         uint256 numIdsAfter,
         uint256 idBefore,
