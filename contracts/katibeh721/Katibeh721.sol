@@ -17,12 +17,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
 
     constructor() ERC721("Katibeh721", "KF") {}
 
-    function getId(string calldata _tokenURI, uint256 mintTime) public pure returns(uint256 tokenId) {
-        tokenId = _tokenURI.q(mintTime);
+    function getId(string calldata tokenURI_, uint256 mintTime) public pure returns(uint256 tokenId) {
+        tokenId = tokenURI_.q(mintTime);
     }
 
     function mint(
-        string calldata _tokenURI,
+        string calldata tokenURI_,
         uint256 initTime,
         uint256 expTime,
         uint256 toTokenId,
@@ -31,12 +31,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     ) public {
         address creator = msg.sender;
         uint256 mintTime = block.timestamp;
-        uint256 tokenId = getId(_tokenURI, mintTime);
+        uint256 tokenId = getId(tokenURI_, mintTime);
         require(
             sig.verify(
                 creator, 
                 toTokenId.toString(),
-                _tokenURI, 
+                tokenURI_, 
                 initTime.toString(), 
                 expTime.toString(),
                 tags
@@ -44,13 +44,13 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
             "Katibeh721: Invalid signature"
         );
         _safeMint(creator, tokenId);
-        _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, toTokenId, _tokenURI, creator, mintTime, initTime, expTime, sig);
+        _registerURI(tokenURI_, tokenId);
+        _setData(tokenId, toTokenId, tokenURI_, creator, mintTime, initTime, expTime, sig);
         _emitTags(tokenId, tags);
     }
 
     function safeMint(
-        string calldata _tokenURI,
+        string calldata tokenURI_,
         uint256 initTime,
         uint256 expTime,
         uint256 toTokenId,
@@ -59,12 +59,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     ) public {
         address creator = msg.sender;
         uint256 mintTime = block.timestamp;
-        uint256 tokenId = getId(_tokenURI, mintTime);
+        uint256 tokenId = getId(tokenURI_, mintTime);
         require(
             sig.verify(
                 creator,
                 toTokenId.toString(),
-                _tokenURI, 
+                tokenURI_, 
                 initTime.toString(), 
                 expTime.toString(),
                 tags
@@ -72,8 +72,8 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
             "Katibeh721: Invalid signature"
         );
         _safeMint(creator, tokenId);
-        _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, toTokenId, _tokenURI, creator, mintTime, initTime, expTime, sig);
+        _registerURI(tokenURI_, tokenId);
+        _setData(tokenId, toTokenId, tokenURI_, creator, mintTime, initTime, expTime, sig);
         _emitTags(tokenId, tags);
 
         _setIdDetails(tokenId);
