@@ -233,14 +233,4 @@ abstract contract GlobalStorage {
         _registerTag(id, string.concat(tags[1], '/', tags[2]));
         _registerTag(id, string.concat(tags[0], '/', tags[1], '/', tags[2]));
     }
-
-
-// dappData --------------------------------------------------------------------
-
-    mapping(uint256 => bytes) tokenDappData;
-
-    function _setTokenDappData(uint256 id, bytes calldata data) internal {
-        tokenDappData[id] = data;
-    }
-
 }

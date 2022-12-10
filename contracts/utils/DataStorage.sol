@@ -10,12 +10,13 @@ abstract contract DataStorage {
     mapping(uint256 => bytes) tokenSig;
 
     struct DS {
-        uint256 toTokenId;
-        string tokenURI;
         address creator;
+        uint256 toTokenId;
         uint256 mintTime;
         uint256 initTime;
         uint256 expTime;
+        string tokenURI;
+        bytes dappData;
     }
 
     event NewToken(
@@ -64,9 +65,10 @@ abstract contract DataStorage {
         uint256 mintTime,
         uint256 initTime,
         uint256 expTime,
-        bytes calldata sig
+        bytes calldata sig,
+        bytes calldata dappData
     ) internal {
-        idToDS[tokenId] = DS(toTokenId, tokenURI, creator, mintTime, initTime, expTime);
+        idToDS[tokenId] = DS(creator, toTokenId, mintTime, initTime, expTime, tokenURI, dappData);
         tokenSig[tokenId] = sig;
         emit NewToken(tokenId, creator, toTokenId, mintTime, initTime, expTime);
     }

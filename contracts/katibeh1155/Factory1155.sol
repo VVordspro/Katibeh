@@ -49,11 +49,11 @@ contract Factory1155 is FeeManager, DataStorage {
     ) public payable {
         require(
             sig.verify(
-                creator, 
+                creator,
                 toTokenId.toString(),
-                tokenURI, 
                 initTime.toString(), 
                 expTime.toString(),
+                tokenURI, 
                 tags
             ),
             "Katibeh721: Invalid signature"
