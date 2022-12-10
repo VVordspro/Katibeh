@@ -66,7 +66,7 @@ contract Factory1155 is FeeManager, DataStorage {
             "Factory1155: token sale time is expired"
         );
         require(
-            block.timestamp >= initTime + 1 hours,
+            block.timestamp >= initTime,
             "Factory1155: token sale time has not started yet"
         );
 
