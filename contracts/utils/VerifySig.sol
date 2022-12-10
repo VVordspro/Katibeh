@@ -22,7 +22,7 @@ library VerifySig {
         string memory expTime
     ) private pure returns(bytes32) {
         return keccak256(abi.encodePacked(
-            "I verify the token uri: ", uri, " to be minted from: ", initTime, " until: ", expTime 
+            "I verify the token uri: ", uri, " to be minted on `Katibeh` from: ", initTime, " until: ", expTime 
         ));
     }
 

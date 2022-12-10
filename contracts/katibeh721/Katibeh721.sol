@@ -3,7 +3,6 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "../utils/qHash.sol";
@@ -11,7 +10,7 @@ import "../utils/VerifySig.sol";
 import "../utils/DataStorage.sol";
 import "./utils/GlobalStorage.sol";
 
-contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, DataStorage, GlobalStorage {
+contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, GlobalStorage {
     using Strings for uint256;
     using qHash for string;
     using VerifySig for bytes;
@@ -42,9 +41,8 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
         );
 
         _safeMint(creator, tokenId);
-        _setTokenURI(tokenId, _tokenURI);
         _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime);
+        _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime, sig);
         _emitTags(tokenId, tags);
     }
 
@@ -64,15 +62,25 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
         );
 
         _safeMint(creator, tokenId);
-        _setTokenURI(tokenId, _tokenURI);
         _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime);
+        _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime, sig);
         _emitTags(tokenId, tags);
 
         _setIdDetails(tokenId);
         _registerTags(tokenId, tags);
         _setCreatorToken(creator, tokenId);
         _setTokenReply(tokenId, toTokenId);
+    }
+
+    function _burn(uint256 tokenId) internal override {
+        super._burn(tokenId);
+        _burnData(tokenId);
+    }
+
+    function tokenURI(uint256 tokenId) public view override returns (string memory)
+    {
+        _requireMinted(tokenId);
+        return _tokenURI(tokenId);
     }
 
     // The following functions are overrides required by Solidity.
@@ -82,19 +90,6 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
         override(ERC721, ERC721Enumerable)
     {
         super._beforeTokenTransfer(from, to, tokenId);
-    }
-
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
-        super._burn(tokenId);
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
     }
 
     function supportsInterface(bytes4 interfaceId)

@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 abstract contract GlobalStorage {
     
     using EnumerableMap for EnumerableMap.UintToUintMap;
-    using EnumerableSet for EnumerableSet.UintSet;
+    using EnumerableSet for *;
 
 
 // id details -----------------------------------------------------------
@@ -16,6 +16,10 @@ abstract contract GlobalStorage {
 
     function countAllIds() public view returns(uint256) {
         return idDetails.length();
+    }
+
+    function idByIndex(uint256 i) public view returns(uint256 id) {
+        (id,) = idDetails.at(i);
     }
 
     function getAllIds() public view returns(uint256[] memory ids) {
@@ -54,6 +58,10 @@ abstract contract GlobalStorage {
         return creatorTokens[creator].length();
     }
 
+    function idByIndex(address creator, uint256 i) public view returns(uint256 id) {
+        (id,) = creatorTokens[creator].at(i);
+    }
+
     function getAllIds(address creator) public view returns(uint256[] memory ids) {
         EnumerableMap.UintToUintMap storage creatorIds = creatorTokens[creator];
         uint256 len = creatorIds.length();
@@ -84,12 +92,36 @@ abstract contract GlobalStorage {
     }
 
 
+// creators ------------------------------------------------------------------
+
+    EnumerableSet.AddressSet creators;
+
+    function countAllCreators() public view returns(uint256) {
+        return creators.length();
+    }
+
+    function creatorByIndex(uint256 i) public view returns(address creator) {
+        creator = creators.at(i);
+    }
+
+    function getAllCreators() public view returns(address[] memory c){
+        return creators.values();
+    }
+
+    function _addCreator(address creator) internal {
+        creators.add(creator);
+    }
+
 // toToken details -----------------------------------------------------------
 
     mapping(uint256 => EnumerableSet.UintSet) tokenReplyIds;
 
     function countAllIds(uint256 toTokenId) public view returns(uint256) {
         return tokenReplyIds[toTokenId].length();
+    }
+
+    function idByIndex(uint256 toTokenId, uint256 i) public view returns(uint256 id) {
+        id = tokenReplyIds[toTokenId].at(i);
     }
 
     function getAllIds(uint256 toTokenId) public view returns(uint256[] memory ids) {
@@ -108,6 +140,10 @@ abstract contract GlobalStorage {
 
     function countAllIds(bytes32 tagHash) public view returns(uint256) {
         return tagsDetails[tagHash].length();
+    }
+
+    function idByIndex(bytes32 tagHash, uint256 i) public view returns(uint256 id) {
+        (id,) = tagsDetails[tagHash].at(i);
     }
 
     function getAllIds(bytes32 tagHash) public view returns(uint256[] memory ids) {
@@ -154,8 +190,12 @@ abstract contract GlobalStorage {
     }
 
 
-// referrals --------------------------------------------------------------------
+// dappData --------------------------------------------------------------------
 
+    mapping(uint256 => bytes) tokenDappData;
 
+    function _setTokenDappData(uint256 id, bytes calldata data) internal {
+        tokenDappData[id] = data;
+    }
 
 }
