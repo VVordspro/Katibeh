@@ -42,6 +42,7 @@ contract Factory1155 is FeeManager, DataStorage {
         uint256 mintTime,
         uint256 initTime,
         uint256 expTime,
+        string[] calldata tags,
         bytes calldata sig,
         address[] calldata receivers, 
         uint16[] calldata fractions
@@ -51,7 +52,8 @@ contract Factory1155 is FeeManager, DataStorage {
                 creator, 
                 tokenURI, 
                 initTime.toString(), 
-                expTime.toString()
+                expTime.toString(),
+                tags
             ),
             "Katibeh721: Invalid signature"
         );

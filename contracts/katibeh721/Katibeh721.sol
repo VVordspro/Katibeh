@@ -32,10 +32,15 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         address creator = msg.sender;
         uint256 tokenId = getId(_tokenURI);
         require(
-            sig.verify(creator, _tokenURI, initTime.toString(), expTime.toString()),
+            sig.verify(
+                creator, 
+                _tokenURI, 
+                initTime.toString(), 
+                expTime.toString(),
+                tags
+            ),
             "Katibeh721: Invalid signature"
         );
-
         _safeMint(creator, tokenId);
         _registerURI(_tokenURI, tokenId);
         _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime, sig);
@@ -53,10 +58,15 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         address creator = msg.sender;
         uint256 tokenId = getId(_tokenURI);
         require(
-            sig.verify(creator, _tokenURI, initTime.toString(), expTime.toString()),
+            sig.verify(
+                creator,
+                _tokenURI, 
+                initTime.toString(), 
+                expTime.toString(),
+                tags
+            ),
             "Katibeh721: Invalid signature"
         );
-
         _safeMint(creator, tokenId);
         _registerURI(_tokenURI, tokenId);
         _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime, sig);
