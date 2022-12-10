@@ -30,12 +30,8 @@ contract Factory1155 is FeeManager, DataStorage {
         return Katibeh1155(_tokenCollection[tokenId]).uri(tokenId);
     }
 
-    function getId(
-        string calldata tokenURI,
-        address creator,
-        uint256 expTime
-    ) internal pure returns(uint256 tokenId) {
-        tokenId = tokenURI.q(creator, expTime);
+    function getId(string calldata tokenURI) internal pure returns(uint256 tokenId) {
+        tokenId = tokenURI.q();
     }
 
     function collect(
@@ -51,11 +47,16 @@ contract Factory1155 is FeeManager, DataStorage {
         uint16[] calldata fractions
     ) public payable {
         require(
-            sig.verify(creator, tokenURI, initTime.toString(), expTime.toString()),
+            sig.verify(
+                creator, 
+                tokenURI, 
+                initTime.toString(), 
+                expTime.toString()
+            ),
             "Katibeh721: Invalid signature"
         );
         require(
-            tokenId == getId(tokenURI, creator, expTime),
+            tokenId == getId(tokenURI),
             "Factory1155: wrong token id"
         );
         require(

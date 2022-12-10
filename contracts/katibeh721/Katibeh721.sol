@@ -17,12 +17,8 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
 
     constructor() ERC721("Katibeh721", "KF") {}
 
-    function getId(
-        string calldata _tokenURI,
-        address creator,
-        uint256 expTime
-    ) public pure returns(uint256 tokenId) {
-        tokenId = _tokenURI.q(creator, expTime);
+    function getId(string calldata _tokenURI) public pure returns(uint256 tokenId) {
+        tokenId = _tokenURI.q();
     }
 
     function mint(
@@ -34,7 +30,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         string[] calldata tags
     ) public {
         address creator = msg.sender;
-        uint256 tokenId = getId(_tokenURI, creator, expTime);
+        uint256 tokenId = getId(_tokenURI);
         require(
             sig.verify(creator, _tokenURI, initTime.toString(), expTime.toString()),
             "Katibeh721: Invalid signature"
@@ -55,7 +51,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         string[] calldata tags
     ) public {
         address creator = msg.sender;
-        uint256 tokenId = getId(_tokenURI, creator, expTime);
+        uint256 tokenId = getId(_tokenURI);
         require(
             sig.verify(creator, _tokenURI, initTime.toString(), expTime.toString()),
             "Katibeh721: Invalid signature"
