@@ -17,8 +17,8 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
 
     constructor() ERC721("Katibeh721", "KF") {}
 
-    function getId(string calldata _tokenURI) public pure returns(uint256 tokenId) {
-        tokenId = _tokenURI.q();
+    function getId(string calldata _tokenURI, uint256 mintTime) public pure returns(uint256 tokenId) {
+        tokenId = _tokenURI.q(mintTime);
     }
 
     function mint(
@@ -30,10 +30,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         string[] calldata tags
     ) public {
         address creator = msg.sender;
-        uint256 tokenId = getId(_tokenURI);
+        uint256 mintTime = block.timestamp;
+        uint256 tokenId = getId(_tokenURI, mintTime);
         require(
             sig.verify(
                 creator, 
+                toTokenId.toString(),
                 _tokenURI, 
                 initTime.toString(), 
                 expTime.toString(),
@@ -43,7 +45,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         );
         _safeMint(creator, tokenId);
         _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime, sig);
+        _setData(tokenId, toTokenId, _tokenURI, creator, mintTime, initTime, expTime, sig);
         _emitTags(tokenId, tags);
     }
 
@@ -56,10 +58,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         string[] calldata tags
     ) public {
         address creator = msg.sender;
-        uint256 tokenId = getId(_tokenURI);
+        uint256 mintTime = block.timestamp;
+        uint256 tokenId = getId(_tokenURI, mintTime);
         require(
             sig.verify(
                 creator,
+                toTokenId.toString(),
                 _tokenURI, 
                 initTime.toString(), 
                 expTime.toString(),
@@ -69,7 +73,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         );
         _safeMint(creator, tokenId);
         _registerURI(_tokenURI, tokenId);
-        _setData(tokenId, toTokenId, _tokenURI, creator, block.timestamp, initTime, expTime, sig);
+        _setData(tokenId, toTokenId, _tokenURI, creator, mintTime, initTime, expTime, sig);
         _emitTags(tokenId, tags);
 
         _setIdDetails(tokenId);

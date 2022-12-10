@@ -6,25 +6,27 @@ library VerifySig {
     function verify(
         bytes memory _sig,
         address _signer,
+        string memory toTokenId,
         string memory uri,
         string memory initTime,
         string memory expTime,
         string[] memory tags
     ) internal pure returns(bool) {
-        bytes32 messageHash = getMessageHash(uri, initTime, expTime, tags);
+        bytes32 messageHash = getMessageHash(toTokenId, uri, initTime, expTime, tags);
         bytes32 ethSignMessageHash = getEthSignedMessageHash(messageHash);
 
         return recover(ethSignMessageHash, _sig) == _signer;
     }
 
     function getMessageHash(
+        string memory toTokenId,
         string memory uri,
         string memory initTime,
         string memory expTime,
         string[] memory tags
     ) private pure returns(bytes32) {
         return keccak256(abi.encodePacked(
-            "I verify the token uri: ", uri, 
+            "I verify the token uri: ", uri, " reply to ", toTokenId,
             " to be minted on `Katibeh` from: ", initTime, " until: ", expTime,
             " on these categories: ", tags[1], tags[2], tags[3]
         ));
