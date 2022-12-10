@@ -33,6 +33,30 @@ abstract contract GlobalStorage {
         }
     }
 
+    function getIdDetails(uint256[] memory id) public view returns(
+        uint256[] memory numIdsBefore,
+        uint256[] memory numIdsAfter,
+        uint256[] memory idBefore,
+        uint256[] memory idAfter
+    ) {
+        uint256 len = id.length;
+        numIdsBefore = new uint256[](len);
+        numIdsAfter = new uint256[](len);
+        idBefore = new uint256[](len);
+        idAfter = new uint256[](len);
+
+        for(uint256 i = 0; i < len; i++){
+            (
+                numIdsBefore[i],
+                numIdsAfter[i],
+                idBefore[i],
+                idAfter[i]
+            ) 
+              = getIdDetails(id[i]);
+        }
+
+    }
+
     function getIdDetails(uint256 id) public view returns(
         uint256 numIdsBefore,
         uint256 numIdsAfter,
@@ -112,7 +136,7 @@ abstract contract GlobalStorage {
         creators.add(creator);
     }
 
-// toToken details -----------------------------------------------------------
+// Token replies -----------------------------------------------------------
 
     mapping(uint256 => EnumerableSet.UintSet) tokenReplyIds;
 
@@ -124,7 +148,7 @@ abstract contract GlobalStorage {
         id = tokenReplyIds[toTokenId].at(i);
     }
 
-    function getAllIds(uint256 toTokenId) public view returns(uint256[] memory ids) {
+    function getAllReplies(uint256 toTokenId) public view returns(uint256[] memory ids) {
         return tokenReplyIds[toTokenId].values();
     }
 
@@ -133,6 +157,24 @@ abstract contract GlobalStorage {
     }
 
 
+// Creator replies -----------------------------------------------------------
+    mapping(address => EnumerableSet.UintSet) creatorReplies;
+
+    function countAllReplies(address creator) public view returns(uint256) {
+        return creatorReplies[creator].length();
+    }
+
+    function replyByIndex(address creator, uint256 i) public view returns(uint256 id) {
+        id = creatorReplies[creator].at(i);
+    }
+
+    function getAllReplies(address creator) public view returns(uint256[] memory ids) {
+        return creatorReplies[creator].values();
+    }
+
+    function setCreatorReply(address creator, uint256 id) internal {
+        creatorReplies[creator].add(id);
+    }
 
 // tag details -----------------------------------------------------------
 
@@ -172,7 +214,10 @@ abstract contract GlobalStorage {
     }
 
     function _setTagDetails(uint256 id, bytes32 tagHash) private {
-        tagsDetails[tagHash].set(id, tagsDetails[tagHash].length());
+        EnumerableMap.UintToUintMap storage tagDetails = tagsDetails[tagHash];
+        if(!tagDetails.contains(id)){
+            tagDetails.set(id, tagsDetails[tagHash].length());
+        }
     }
 
     function _registerTag(uint256 id, string memory tag) private {

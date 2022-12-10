@@ -26,9 +26,10 @@ library VerifySig {
         string[] memory tags
     ) private pure returns(bytes32) {
         return keccak256(abi.encodePacked(
-            "I verify the token uri: ", uri, " reply to ", toTokenId,
+            "I verify a token reply to ", toTokenId,
             " to be minted on `Katibeh` from: ", initTime, " until: ", expTime,
-            " on these categories: ", tags[1], tags[2], tags[3]
+            " on these categories: ", tags[1], tags[2], tags[3],
+            " with the tokenURI: ",  uri
         ));
     }
 
