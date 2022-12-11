@@ -273,7 +273,7 @@ abstract contract GlobalStorage {
         return creatorReplies[creator].values();
     }
 
-    function setCreatorReply(address creator, uint256 id) internal {
+    function _setCreatorReply(address creator, uint256 id) internal {
         creatorReplies[creator].add(id);
     }
 
