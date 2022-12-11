@@ -203,35 +203,35 @@ abstract contract GlobalStorage {
 
     mapping(uint256 => EnumerableSet.UintSet) tokenReplyIds;
 
-    function countAllReplies(uint256[] calldata toTokenId) public view returns(uint256[] memory count) {
-        uint256 len = toTokenId.length;
+    function countAllReplies(uint256[] calldata toId) public view returns(uint256[] memory count) {
+        uint256 len = toId.length;
         count = new uint256[](len);
 
         for(uint256 i = 0; i < len; i++) {
-            count[i] = countAllReplies(toTokenId[i]);
+            count[i] = countAllReplies(toId[i]);
         }
     }
 
-    function countAllReplies(uint256 toTokenId) public view returns(uint256) {
-        return tokenReplyIds[toTokenId].length();
+    function countAllReplies(uint256 toId) public view returns(uint256) {
+        return tokenReplyIds[toId].length();
     }
 
-    function replyByIndex(uint256[] calldata toTokenId, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = toTokenId.length;
+    function replyByIndex(uint256[] calldata toId, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = toId.length;
         require(len == index.length, "input length difference");
         id = new uint256[](len);
 
         for (uint256 i; i < len; i++) {
-            id[i] = replyByIndex(toTokenId[i], index[i]);
+            id[i] = replyByIndex(toId[i], index[i]);
         }
     }
 
-    function replyByIndex(uint256 toTokenId, uint256 index) public view returns(uint256 id) {
-        id = tokenReplyIds[toTokenId].at(index);
+    function replyByIndex(uint256 toId, uint256 index) public view returns(uint256 id) {
+        id = tokenReplyIds[toId].at(index);
     }
 
-    function getAllReplies(uint256 toTokenId) public view returns(uint256[] memory ids) {
-        return tokenReplyIds[toTokenId].values();
+    function getAllReplies(uint256 toId) public view returns(uint256[] memory ids) {
+        return tokenReplyIds[toId].values();
     }
 
     function _setTokenReply(uint256 id, uint256 toId) internal {
