@@ -74,8 +74,8 @@ abstract contract GlobalStorage {
     ) {
         numIdsBefore = idDetails.get(id);
         numIdsAfter = idDetails.length() - numIdsBefore - 1;
-        (idBefore,) = idDetails.at(numIdsBefore-1);
-        (idAfter,) = idDetails.at(numIdsBefore+1);
+        if(numIdsBefore != 0) (idBefore,) = idDetails.at(numIdsBefore-1);
+        if(numIdsAfter != 0) (idAfter,) = idDetails.at(numIdsBefore+1);
     }
 
     function _setIdDetails(uint256 id) internal {
@@ -161,8 +161,8 @@ abstract contract GlobalStorage {
 
         numIdsBefore = creatorIds.get(id);
         numIdsAfter = creatorIds.length() - numIdsBefore - 1;
-        (idBefore,) = creatorIds.at(numIdsBefore-1);
-        (idAfter,) = creatorIds.at(numIdsBefore+1);
+        if(numIdsBefore != 0) (idBefore,) = creatorIds.at(numIdsBefore-1);
+        if(numIdsAfter != 0) (idAfter,) = creatorIds.at(numIdsBefore+1);
     }
 
     function _setCreatorToken(address creator, uint256 id) internal {
@@ -355,8 +355,8 @@ abstract contract GlobalStorage {
 
         numIdsBefore = tagDetails.get(id);
         numIdsAfter = tagDetails.length() - numIdsBefore - 1;
-        (idBefore,) = tagDetails.at(numIdsBefore-1);
-        (idAfter,) = tagDetails.at(numIdsBefore+1);
+        if(numIdsBefore != 0) (idBefore,) = tagDetails.at(numIdsBefore-1);
+        if(numIdsAfter != 0) (idAfter,) = tagDetails.at(numIdsBefore+1);
     }
 
     function _setTagDetails(uint256 id, bytes32 tagHash) private {
