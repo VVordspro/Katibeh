@@ -70,6 +70,14 @@ contract Factory1155 is FeeManager, DataStorage {
             block.timestamp >= initTime,
             "Factory1155: token sale time has not started yet"
         );
+        require(
+            block.timestamp >= initTime,
+            "Factory1155: token sale time has not started yet"
+        );
+        require(
+            Katibeh1155(_tokenCollection[toTokenId]).totalSupply(toTokenId) > 0,
+            "Factory1155: to token id has not minted on current chain"
+        );
 
         address collectionAddr;
         uint256 _fee;

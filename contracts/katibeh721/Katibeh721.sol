@@ -17,6 +17,10 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
 
     constructor() ERC721("Katibeh721", "KF") {}
 
+    function moment() public view returns(uint256) {
+        return block.timestamp;
+    }
+
     function getId(string calldata uri, uint256 mintTime) public pure returns(uint256 tokenId) {
         tokenId = uri.q(mintTime);
     }
