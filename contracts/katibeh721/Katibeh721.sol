@@ -21,8 +21,14 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         return block.timestamp;
     }
 
-    function getId(string calldata uri, uint256 mintTime) public pure returns(uint256 tokenId) {
-        tokenId = uri.q(mintTime);
+    function getId(
+        string calldata uri, 
+        address creator,
+        uint256 mintTime,
+        uint256 initTime,
+        uint256 expTime
+    ) public pure returns(uint256 tokenId) {
+        tokenId = uri.q(creator, mintTime, initTime, expTime);
     }
 
     function mint(
@@ -36,7 +42,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     ) public {
         address creator = msg.sender;
         uint256 mintTime = block.timestamp;
-        uint256 tokenId = getId(uri, mintTime);
+        uint256 tokenId = getId(uri, creator, mintTime, initTime, expTime);
         require(
             sig.verify(
                 creator,
@@ -65,7 +71,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     ) public {
         address creator = msg.sender;
         uint256 mintTime = block.timestamp;
-        uint256 tokenId = getId(uri, mintTime);
+        uint256 tokenId = getId(uri, creator, mintTime, initTime, expTime);
         require(
             sig.verify(
                 creator,
