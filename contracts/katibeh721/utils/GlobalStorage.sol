@@ -14,7 +14,7 @@ abstract contract GlobalStorage {
 
     EnumerableMap.UintToUintMap idDetails;
 
-    function countAllIds() public view returns(uint256) {
+    function countAllIds() public view returns(uint256 count) {
         return idDetails.length();
     }
 
@@ -191,7 +191,7 @@ abstract contract GlobalStorage {
         creator = creators.at(index);
     }
 
-    function getAllCreators() public view returns(address[] memory c){
+    function getAllCreators() public view returns(address[] memory creator){
         return creators.values();
     }
 
