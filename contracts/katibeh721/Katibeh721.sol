@@ -60,7 +60,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         _emitTags(tokenId, tags);
     }
 
-    function safeMint(
+    function globalMint(
         uint256 initTime,
         uint256 expTime,
         uint256 toTokenId,
