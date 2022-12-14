@@ -91,8 +91,10 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         _setIdDetails(tokenId);
         _setCreatorToken(creator, tokenId);
         _addCreator(creator);
-        _setTokenReply(tokenId, toTokenId);
-        _setCreatorReply(idToDS[toTokenId].creator, tokenId);
+        if(toTokenId != 0){
+            _setTokenReply(tokenId, toTokenId);
+            _setCreatorReply(idToDS[toTokenId].creator, tokenId);
+        }
         _registerTags(tokenId, tags);
     }
 
