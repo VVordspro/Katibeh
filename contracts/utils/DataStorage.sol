@@ -86,7 +86,7 @@ abstract contract DataStorage {
 
     function getData(uint256 tokenId) public view returns(DS memory ds) {
         ds = idToDS[tokenId];
-        if(block.timestamp >= ds.initTime) {
+        if(block.timestamp <= ds.initTime) {
             delete ds.sig;
         }
     }
