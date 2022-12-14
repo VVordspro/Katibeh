@@ -7,8 +7,6 @@ abstract contract DataStorage {
 
     mapping(uint256 => DS) idToDS;
 
-    mapping(uint256 => bytes) tokenSig;
-
     struct DS {
         address creator;
         uint256 toTokenId;
@@ -16,6 +14,7 @@ abstract contract DataStorage {
         uint256 initTime;
         uint256 expTime;
         string tokenURI;
+        bytes sig;
         bytes dappData;
     }
 
@@ -53,7 +52,7 @@ abstract contract DataStorage {
 
     function _burnData(uint256 tokenId) internal {
         DS storage ds = idToDS[tokenId];
-        delete tokenSig[tokenId];
+        delete ds.sig;
         ds.tokenURI = "data:application/json;base64,eyJuYW1lIjoiVGhpcyB0b2tlbiBpcyBidXJuZWQuIiwiZGVzY3JpcHRpb24iOiJZb3UgbWF5IGZpbmQgdGhpcyB0b2tlbiBvbiBvdGhlciBuZXR3b3Jrcy4iLCJpbWFnZSI6ImlwZnM6Ly9RbWNjWW5BSHV6c3NBZm0yVUI0QXd3UEp2RFpKM0RmNkhHM3lQUkZ0Qm1pZTYxIn0=";
     }
 
@@ -68,8 +67,7 @@ abstract contract DataStorage {
         bytes calldata sig,
         bytes calldata dappData
     ) internal {
-        idToDS[tokenId] = DS(creator, toTokenId, mintTime, initTime, expTime, tokenURI, dappData);
-        tokenSig[tokenId] = sig;
+        idToDS[tokenId] = DS(creator, toTokenId, mintTime, initTime, expTime, tokenURI, sig, dappData);
         emit NewToken(tokenId, creator, toTokenId, mintTime, initTime, expTime);
     }
 
@@ -86,10 +84,10 @@ abstract contract DataStorage {
         return URIsRegistered[_uri];
     }
 
-    function getData(uint256 tokenId) public view returns(DS memory ds, bytes memory sig) {
+    function getData(uint256 tokenId) public view returns(DS memory ds) {
         ds = idToDS[tokenId];
         if(block.timestamp >= ds.initTime) {
-            sig = tokenSig[tokenId];
+            delete ds.sig;
         }
     }
 }
