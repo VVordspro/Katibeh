@@ -242,39 +242,39 @@ abstract contract GlobalStorage {
 // Creator replies -----------------------------------------------------------
     mapping(address => EnumerableSet.UintSet) creatorReplies;
 
-    function countAllReplies(address[] calldata creator) public view returns(uint256[] memory count) {
-        uint256 len = creator.length;
+    function countAllReplies(address[] calldata toCreator) public view returns(uint256[] memory count) {
+        uint256 len = toCreator.length;
         count = new uint256[](len);
 
         for(uint256 i = 0; i < len; i++) {
-            count[i] = countAllReplies(creator[i]);
+            count[i] = countAllReplies(toCreator[i]);
         }
     }
 
-    function countAllReplies(address creator) public view returns(uint256) {
-        return creatorReplies[creator].length();
+    function countAllReplies(address toCreator) public view returns(uint256) {
+        return creatorReplies[toCreator].length();
     }
 
-    function replyByIndex(address[] calldata creator, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = creator.length;
+    function replyByIndex(address[] calldata toCreator, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = toCreator.length;
         require(len == index.length, "input length difference");
         id = new uint256[](len);
 
         for (uint256 i; i < len; i++) {
-            id[i] = replyByIndex(creator[i], index[i]);
+            id[i] = replyByIndex(toCreator[i], index[i]);
         }
     }
 
-    function replyByIndex(address creator, uint256 index) public view returns(uint256 id) {
-        id = creatorReplies[creator].at(index);
+    function replyByIndex(address toCreator, uint256 index) public view returns(uint256 id) {
+        id = creatorReplies[toCreator].at(index);
     }
 
-    function getAllReplies(address creator) public view returns(uint256[] memory ids) {
-        return creatorReplies[creator].values();
+    function getAllReplies(address toCreator) public view returns(uint256[] memory ids) {
+        return creatorReplies[toCreator].values();
     }
 
-    function _setCreatorReply(address creator, uint256 id) internal {
-        creatorReplies[creator].add(id);
+    function _setCreatorReply(address toCreator, uint256 id) internal {
+        creatorReplies[toCreator].add(id);
     }
 
 // tag details -----------------------------------------------------------
