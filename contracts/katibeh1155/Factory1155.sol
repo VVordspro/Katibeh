@@ -21,6 +21,8 @@ contract Factory1155 is FeeManager, DataStorage {
     Katibeh1155 public implementation = new Katibeh1155();
 
 
+    event TokenData(uint256 indexed tokenId, bytes data);
+
     function fee(uint256 tokenId) public view returns(uint256) {
         uint256 supply = Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId);
         return supply > 5 ? supply * 10 ** 18 - 5 : 0;
@@ -50,6 +52,7 @@ contract Factory1155 is FeeManager, DataStorage {
         uint256 expTime,
         string[] calldata tags,
         bytes calldata sig,
+        bytes calldata data,
         address[] calldata receivers, 
         uint16[] calldata fractions
     ) public payable {
@@ -120,6 +123,9 @@ contract Factory1155 is FeeManager, DataStorage {
         }
 
         k1155.mint(msg.sender, tokenId, 1, "");
+        if(data.length != 0) {
+            emit TokenData(tokenId, data);
+        }
     }
 
     function predictCollectionAddr(
