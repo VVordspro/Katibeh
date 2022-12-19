@@ -28,7 +28,7 @@ library VerifySig {
         return keccak256(abi.encodePacked(
             "I verify a token reply to ", toTokenId,
             " to be minted on 'Katibeh' from: ", initTime, " until: ", expTime,
-            " on these categories: ", tags[1], tags[2], tags[3],
+            " on these categories: ", tags[0], tags[1], tags[2],
             " with the tokenURI: ",  uri
         ));
     }
