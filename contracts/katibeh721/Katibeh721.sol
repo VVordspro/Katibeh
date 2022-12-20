@@ -21,6 +21,22 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         return block.timestamp;
     }
 
+    function getMessageHash(
+        uint256 toTokenId,
+        uint256 initTime,
+        uint256 expTime,
+        string calldata uri,
+        string[] calldata tags
+    ) public pure returns(bytes32) {
+        return VerifySig.getMessageHash(
+            toTokenId,
+            initTime,
+            expTime,
+            uri,
+            tags
+        );
+    }
+
     function getId(
         string calldata uri, 
         address creator,
@@ -30,6 +46,10 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     ) public pure returns(uint256 tokenId) {
         tokenId = uri.q(creator, mintTime, initTime, expTime);
     }
+
+
+    //ye doone function public e get message hash bezaram dapp ono bar midare sign mikone
+    // verify ro ham sade konam text haye bi fayde ro pak konam
 
     function mint(
         uint256 initTime,
@@ -46,11 +66,13 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         require(
             sig.verify(
                 creator,
-                toTokenId.toString(),
-                initTime.toString(), 
-                expTime.toString(),
-                uri, 
-                tags
+                getMessageHash(
+                    toTokenId,
+                    initTime,
+                    expTime,
+                    uri,
+                    tags
+                )
             ),
             "Katibeh721: Invalid signature"
         );
@@ -75,11 +97,13 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         require(
             sig.verify(
                 creator,
-                toTokenId.toString(),
-                initTime.toString(), 
-                expTime.toString(),
-                uri, 
-                tags
+                getMessageHash(
+                    toTokenId,
+                    initTime,
+                    expTime,
+                    uri,
+                    tags
+                )
             ),
             "Katibeh721: Invalid signature"
         );
