@@ -56,118 +56,47 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         tokenId = sig.q(creator);
     }
 
-
-    function mint(
-        uint256 mintTime,
-        uint256 initTime,
-        uint256 expTime,
-        uint256[] calldata toTokenId,
-        string calldata uri,
-        bytes32[] calldata tags,
-        address[] calldata payableAddresses,
-        uint16[] calldata payableShares,
-        bytes calldata sig,
-        bytes calldata data
-    ) public {
-        address creator = msg.sender;
-        require(mintTime < block.timestamp + 1 hours);
+// ye voroodi be esme dapp data begiram
+    function mint(Katibeh calldata katibeh) public returns(uint256 tokenId) {
+        require(katibeh.mintTime < block.timestamp + 1 hours);
         
-        uint256 tokenId = getId(sig, creator);
+        tokenId = getId(katibeh.sig, katibeh.creator);
         require(
-            sig.verify(
-                creator,
+            katibeh.sig.verify(
+                katibeh.creator,
                 getMessageHash(
-                    toTokenId,
-                    mintTime,
-                    initTime,
-                    expTime,
-                    uri,
-                    tags,
-                    payableAddresses,
-                    payableShares
+                    katibeh.toTokenId,
+                    katibeh.mintTime,
+                    katibeh.initTime,
+                    katibeh.expTime,
+                    katibeh.tokenURI,
+                    katibeh.tags,
+                    katibeh.payableAddresses,
+                    katibeh.payableShares
                 )
             ),
             "Katibeh721: Invalid signature"
         );
-        _safeMint(creator, tokenId);
-        _registerURI(uri, tokenId);
-        // _setData(
-        //     tokenId, 
-        //     toTokenId, 
-        //     uri, 
-        //     creator, 
-        //     mintTime, 
-        //     initTime, 
-        //     expTime, 
-        //     tags, 
-        //     payableAddresses, 
-        //     payableShares, 
-        //     sig, 
-        //     data
-        // );
-        _emitTags(tokenId, tags);
+        _safeMint(katibeh.creator, tokenId);
+        _registerURI(katibeh.tokenURI, tokenId);
+        _setData(tokenId, katibeh);
+        _emitTags(tokenId, katibeh.tags);
     }
 
-    // function globalMint(
-    //     uint256 mintTime,
-    //     uint256 initTime,
-    //     uint256 expTime,
-    //     uint256[] calldata toTokenId,
-    //     string calldata uri,
-    //     bytes32[] calldata tags,
-    //     address[] calldata payableAddresses,
-    //     uint16[] calldata payableShares,
-    //     bytes calldata sig,
-    //     bytes calldata data
-    // ) public {
-    //     address creator = msg.sender;
-    //     require(mintTime < block.timestamp + 1 hours);
-    //     uint256 tokenId = getId(sig, creator);
-    //     require(
-    //         sig.verify(
-    //             creator,
-    //             getMessageHash(
-    //                 toTokenId,
-    //                 mintTime,
-    //                 initTime,
-    //                 expTime,
-    //                 uri,
-    //                 tags,
-    //                 payableAddresses,
-    //                 payableShares
-    //             )
-    //         ),
 
-    //         "Katibeh721: Invalid signature"
-    //     );
-    //     _safeMint(creator, tokenId);
-    //     _registerURI(uri, tokenId);
-    //     // _setData(
-    //     //     tokenId, 
-    //     //     toTokenId, 
-    //     //     uri, 
-    //     //     creator, 
-    //     //     mintTime, 
-    //     //     initTime, 
-    //     //     expTime, 
-    //     //     tags, 
-    //     //     payableAddresses, 
-    //     //     payableShares, 
-    //     //     sig, 
-    //     //     data
-    //     // );
-    //     _emitTags(tokenId, tags);
+    function globalMint(Katibeh calldata katibeh) public {
+        uint256 tokenId = mint(katibeh);
 
-    //     _setIdDetails(tokenId);
-    //     _setCreatorToken(creator, tokenId);
-    //     _addCreator(creator);
-    //     uint256 toIdLen = toTokenId.length;
-    //     for (uint256 i; i < toIdLen; i++){
-    //         _setTokenReply(tokenId, toTokenId[i]);
-    //         _setCreatorReply(idToDS[toTokenId[i]].creator, tokenId);
-    //     }
-    //     _registerTags(tokenId, tags);
-    // }
+        _setIdDetails(tokenId);
+        _setCreatorToken(katibeh.creator, tokenId);
+        _addCreator(katibeh.creator);
+        uint256 toIdLen = katibeh.toTokenId.length;
+        for (uint256 i; i < toIdLen; i++){
+            _setTokenReply(tokenId, katibeh.toTokenId[i]);
+            _setCreatorReply(idToToken[katibeh.toTokenId[i]].creator, tokenId);
+        }
+        _registerTags(tokenId, katibeh.tags);
+    }
 
     function _burn(uint256 tokenId) internal override {
         super._burn(tokenId);
