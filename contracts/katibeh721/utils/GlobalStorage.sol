@@ -281,35 +281,35 @@ abstract contract GlobalStorage {
 
     mapping(bytes32 => EnumerableMap.UintToUintMap) tagsDetails;
 
-    function countAllIds(bytes32[] calldata tagHash) public view returns(uint256[] memory count) {
-        uint256 len = tagHash.length;
+    function countAllIds(bytes32[] calldata tag) public view returns(uint256[] memory count) {
+        uint256 len = tag.length;
         count = new uint256[](len);
 
         for(uint256 i = 0; i < len; i++) {
-            count[i] = countAllIds(tagHash[i]);
+            count[i] = countAllIds(tag[i]);
         }
     }
 
-    function countAllIds(bytes32 tagHash) public view returns(uint256) {
-        return tagsDetails[tagHash].length();
+    function countAllIds(bytes32 tag) public view returns(uint256) {
+        return tagsDetails[tag].length();
     }
 
-    function idByIndex(bytes32[] calldata tagHash, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = tagHash.length;
+    function idByIndex(bytes32[] calldata tag, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = tag.length;
         require(len == index.length, "input length difference");
         id = new uint256[](len);
 
         for (uint256 i; i < len; i++) {
-            id[i] = idByIndex(tagHash[i], index[i]);
+            id[i] = idByIndex(tag[i], index[i]);
         }
     }
 
-    function idByIndex(bytes32 tagHash, uint256 index) public view returns(uint256 id) {
-        (id,) = tagsDetails[tagHash].at(index);
+    function idByIndex(bytes32 tag, uint256 index) public view returns(uint256 id) {
+        (id,) = tagsDetails[tag].at(index);
     }
 
-    function getAllIds(bytes32 tagHash) public view returns(uint256[] memory ids) {
-        EnumerableMap.UintToUintMap storage tagIds = tagsDetails[tagHash];
+    function getAllIds(bytes32 tag) public view returns(uint256[] memory ids) {
+        EnumerableMap.UintToUintMap storage tagIds = tagsDetails[tag];
         uint256 len = tagIds.length();
 
         ids = new uint256[](len);
@@ -319,13 +319,13 @@ abstract contract GlobalStorage {
         }
     }
 
-    function getIdDetails(bytes32[] calldata tagHash, uint256[] calldata id) public view returns(
+    function getIdDetails(bytes32[] calldata tag, uint256[] calldata id) public view returns(
         uint256[] memory numIdsBefore,
         uint256[] memory numIdsAfter,
         uint256[] memory idBefore,
         uint256[] memory idAfter
     ) {
-        uint256 len = tagHash.length;
+        uint256 len = tag.length;
         require(len == id.length, "input length difference");
 
         numIdsBefore = new uint256[](len);
@@ -341,17 +341,17 @@ abstract contract GlobalStorage {
                 idBefore[i],
                 idAfter[i]
             ) 
-              = getIdDetails(tagHash[i], id[i]);
+              = getIdDetails(tag[i], id[i]);
         }
     }
 
-    function getIdDetails(bytes32 tagHash, uint256 id) public view returns(
+    function getIdDetails(bytes32 tag, uint256 id) public view returns(
         uint256 numIdsBefore,
         uint256 numIdsAfter,
         uint256 idBefore,
         uint256 idAfter
     ) {
-        EnumerableMap.UintToUintMap storage tagDetails = tagsDetails[tagHash];
+        EnumerableMap.UintToUintMap storage tagDetails = tagsDetails[tag];
 
         numIdsBefore = tagDetails.get(id);
         numIdsAfter = tagDetails.length() - numIdsBefore - 1;
@@ -359,24 +359,20 @@ abstract contract GlobalStorage {
         if(numIdsAfter != 0) (idAfter,) = tagDetails.at(numIdsBefore+1);
     }
 
-    function _setTagDetails(uint256 id, bytes32 tagHash) private {
-        EnumerableMap.UintToUintMap storage tagDetails = tagsDetails[tagHash];
+    function _setTagDetails(uint256 id, bytes32 tag) private {
+        EnumerableMap.UintToUintMap storage tagDetails = tagsDetails[tag];
         if(!tagDetails.contains(id)){
-            tagDetails.set(id, tagsDetails[tagHash].length());
+            tagDetails.set(id, tagsDetails[tag].length());
         }
     }
 
-    function _registerTag(uint256 id, string memory tag) private {
-        _setTagDetails(id, keccak256(abi.encodePacked(tag)));
-    }
-
-    function _registerTags(uint256 id, string[] calldata tags) internal {
+    function _registerTags(uint256 id, bytes32[] calldata tags) internal {
         require(tags.length == 3, "DataStorage: tags length must be 3");
-        _registerTag(id, tags[0]);
-        _registerTag(id, tags[1]);
-        _registerTag(id, tags[2]);
-        _registerTag(id, string.concat(tags[0], '/', tags[1]));
-        _registerTag(id, string.concat(tags[1], '/', tags[2]));
-        _registerTag(id, string.concat(tags[0], '/', tags[1], '/', tags[2]));
+        _setTagDetails(id, tags[0]);
+        _setTagDetails(id, tags[1]);
+        _setTagDetails(id, tags[2]);
+        _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1])));
+        _setTagDetails(id, keccak256(abi.encodePacked(tags[1], tags[2])));
+        _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1], tags[2])));
     }
 }

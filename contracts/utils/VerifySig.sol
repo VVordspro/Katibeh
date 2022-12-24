@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 library VerifySig {
 
     function verify(
-        bytes memory _sig,
+        bytes calldata _sig,
         address _signer,
         bytes32 messageHash
     ) internal pure returns(bool) {
@@ -12,15 +12,21 @@ library VerifySig {
         return recover(ethSignMessageHash, _sig) == _signer;
     }
 
+// dota voroodi dige miad payableAddressList, payableShares
+// dota abi.encodePacked be hash ezafe mikonam.
     function getMessageHash(
-        uint256 toTokenId,
+        uint256[] calldata toTokenId,
+        uint256 mintTime,
         uint256 initTime,
         uint256 expTime,
-        string memory uri,
-        string[] memory tags
+        string calldata uri,
+        bytes32[] calldata tags,
+        address[] calldata payableAddresses,
+        uint16[] calldata payableShares
     ) internal pure returns(bytes32) {
         return keccak256(abi.encodePacked(
-            toTokenId, initTime, expTime, uri, tags[0], tags[1], tags[2] 
+            toTokenId, mintTime, initTime, expTime, uri, 
+            tags[0], tags[1], tags[2], payableAddresses, payableShares
         ));
     }
 

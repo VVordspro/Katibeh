@@ -10,9 +10,11 @@ import "../utils/VerifySig.sol";
 import "../utils/DataStorage.sol";
 import "./utils/GlobalStorage.sol";
 
+// bad az taqirat check konam bebinam stack too deep mide ya na
+// makhraje fraction haye hame array ha ro bardaram az majmoo e ona be dast biad
 contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, GlobalStorage {
     using Strings for uint256;
-    using qHash for string;
+    using qHash for bytes;
     using VerifySig for bytes;
 
     constructor() ERC721("Katibeh721", "KF") {}
@@ -22,105 +24,150 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     }
 
     function getMessageHash(
-        uint256 toTokenId,
+        uint256[] calldata toTokenId,
+        uint256 mintTime,
         uint256 initTime,
         uint256 expTime,
         string calldata uri,
-        string[] calldata tags
+        bytes32[] calldata tags,
+        address[] calldata payableAddresses,
+        uint16[] calldata payableShares
     ) public pure returns(bytes32) {
+        require(
+            payableAddresses.length == payableShares.length,
+            "payable arrays must be the same lenght"
+        );
         return VerifySig.getMessageHash(
             toTokenId,
+            mintTime,
             initTime,
             expTime,
             uri,
-            tags
+            tags,
+            payableAddresses,
+            payableShares
         );
     }
 
     function getId(
-        string calldata uri, 
-        address creator,
-        uint256 mintTime,
-        uint256 initTime,
-        uint256 expTime
+        bytes calldata sig, 
+        address creator
     ) public pure returns(uint256 tokenId) {
-        tokenId = uri.q(creator, mintTime, initTime, expTime);
+        tokenId = sig.q(creator);
     }
 
-
-    //ye doone function public e get message hash bezaram dapp ono bar midare sign mikone
-    // verify ro ham sade konam text haye bi fayde ro pak konam
 
     function mint(
+        uint256 mintTime,
         uint256 initTime,
         uint256 expTime,
-        uint256 toTokenId,
+        uint256[] calldata toTokenId,
         string calldata uri,
-        string[] calldata tags,
+        bytes32[] calldata tags,
+        address[] calldata payableAddresses,
+        uint16[] calldata payableShares,
         bytes calldata sig,
         bytes calldata data
     ) public {
         address creator = msg.sender;
-        uint256 mintTime = block.timestamp;
-        uint256 tokenId = getId(uri, creator, mintTime, initTime, expTime);
+        require(mintTime < block.timestamp + 1 hours);
+        
+        uint256 tokenId = getId(sig, creator);
         require(
             sig.verify(
                 creator,
                 getMessageHash(
                     toTokenId,
+                    mintTime,
                     initTime,
                     expTime,
                     uri,
-                    tags
+                    tags,
+                    payableAddresses,
+                    payableShares
                 )
             ),
             "Katibeh721: Invalid signature"
         );
         _safeMint(creator, tokenId);
         _registerURI(uri, tokenId);
-        _setData(tokenId, toTokenId, uri, creator, mintTime, initTime, expTime, sig, data);
+        // _setData(
+        //     tokenId, 
+        //     toTokenId, 
+        //     uri, 
+        //     creator, 
+        //     mintTime, 
+        //     initTime, 
+        //     expTime, 
+        //     tags, 
+        //     payableAddresses, 
+        //     payableShares, 
+        //     sig, 
+        //     data
+        // );
         _emitTags(tokenId, tags);
     }
 
-    function globalMint(
-        uint256 initTime,
-        uint256 expTime,
-        uint256 toTokenId,
-        string calldata uri,
-        string[] calldata tags,
-        bytes calldata sig,
-        bytes calldata data
-    ) public {
-        address creator = msg.sender;
-        uint256 mintTime = block.timestamp;
-        uint256 tokenId = getId(uri, creator, mintTime, initTime, expTime);
-        require(
-            sig.verify(
-                creator,
-                getMessageHash(
-                    toTokenId,
-                    initTime,
-                    expTime,
-                    uri,
-                    tags
-                )
-            ),
-            "Katibeh721: Invalid signature"
-        );
-        _safeMint(creator, tokenId);
-        _registerURI(uri, tokenId);
-        _setData(tokenId, toTokenId, uri, creator, mintTime, initTime, expTime, sig, data);
-        _emitTags(tokenId, tags);
+    // function globalMint(
+    //     uint256 mintTime,
+    //     uint256 initTime,
+    //     uint256 expTime,
+    //     uint256[] calldata toTokenId,
+    //     string calldata uri,
+    //     bytes32[] calldata tags,
+    //     address[] calldata payableAddresses,
+    //     uint16[] calldata payableShares,
+    //     bytes calldata sig,
+    //     bytes calldata data
+    // ) public {
+    //     address creator = msg.sender;
+    //     require(mintTime < block.timestamp + 1 hours);
+    //     uint256 tokenId = getId(sig, creator);
+    //     require(
+    //         sig.verify(
+    //             creator,
+    //             getMessageHash(
+    //                 toTokenId,
+    //                 mintTime,
+    //                 initTime,
+    //                 expTime,
+    //                 uri,
+    //                 tags,
+    //                 payableAddresses,
+    //                 payableShares
+    //             )
+    //         ),
 
-        _setIdDetails(tokenId);
-        _setCreatorToken(creator, tokenId);
-        _addCreator(creator);
-        if(toTokenId != 0){
-            _setTokenReply(tokenId, toTokenId);
-            _setCreatorReply(idToDS[toTokenId].creator, tokenId);
-        }
-        _registerTags(tokenId, tags);
-    }
+    //         "Katibeh721: Invalid signature"
+    //     );
+    //     _safeMint(creator, tokenId);
+    //     _registerURI(uri, tokenId);
+    //     // _setData(
+    //     //     tokenId, 
+    //     //     toTokenId, 
+    //     //     uri, 
+    //     //     creator, 
+    //     //     mintTime, 
+    //     //     initTime, 
+    //     //     expTime, 
+    //     //     tags, 
+    //     //     payableAddresses, 
+    //     //     payableShares, 
+    //     //     sig, 
+    //     //     data
+    //     // );
+    //     _emitTags(tokenId, tags);
+
+    //     _setIdDetails(tokenId);
+    //     _setCreatorToken(creator, tokenId);
+    //     _addCreator(creator);
+    //     uint256 toIdLen = toTokenId.length;
+    //     for (uint256 i; i < toIdLen; i++){
+    //         _setTokenReply(tokenId, toTokenId[i]);
+    //         _setCreatorReply(idToDS[toTokenId[i]].creator, tokenId);
+    //     }
+    //     _registerTags(tokenId, tags);
+    // }
 
     function _burn(uint256 tokenId) internal override {
         super._burn(tokenId);

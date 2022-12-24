@@ -5,20 +5,10 @@ pragma solidity ^0.8.7;
 library qHash {
     
     function q(
-        string calldata tokenURI,
-        address creator,
-        uint256 mintTime,
-        uint256 initTime,
-        uint256 expTime
+        bytes calldata sig,
+        address creator
     ) internal pure returns(uint256 tokenId) {
-        return uint256(keccak256(abi.encodePacked(
-            tokenURI,
-            creator,
-            mintTime,
-            initTime,
-            expTime,
-            "saman wilson"
-        )));
+        return uint256(keccak256(abi.encodePacked(sig, creator, "saman wilson")));
     }
 
 }
