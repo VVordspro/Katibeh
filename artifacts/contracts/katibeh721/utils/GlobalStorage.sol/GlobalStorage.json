@@ -1,0 +1,783 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "GlobalStorage",
+  "sourceName": "contracts/katibeh721/utils/GlobalStorage.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "countAllCreators",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "tag",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "countAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "creator",
+          "type": "address[]"
+        }
+      ],
+      "name": "countAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "name": "countAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
+        }
+      ],
+      "name": "countAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "countAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "toId",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "countAllReplies",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "toId",
+          "type": "uint256"
+        }
+      ],
+      "name": "countAllReplies",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "toCreator",
+          "type": "address[]"
+        }
+      ],
+      "name": "countAllReplies",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "toCreator",
+          "type": "address"
+        }
+      ],
+      "name": "countAllReplies",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "creatorByIndex",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "creator",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "creatorByIndex",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllCreators",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "creator",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "name": "getAllIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "toCreator",
+          "type": "address"
+        }
+      ],
+      "name": "getAllReplies",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "toId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAllReplies",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "creator",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "getIdDetails",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "numIdsBefore",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "numIdsAfter",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "idBefore",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "idAfter",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "getIdDetails",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "numIdsBefore",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "numIdsAfter",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "idBefore",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "idAfter",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getIdDetails",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "numIdsBefore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numIdsAfter",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "idBefore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "idAfter",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getIdDetails",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "numIdsBefore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numIdsAfter",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "idBefore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "idAfter",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getIdDetails",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "numIdsBefore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numIdsAfter",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "idBefore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "idAfter",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "tag",
+          "type": "bytes32[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "getIdDetails",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "numIdsBefore",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "numIdsAfter",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "idBefore",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "idAfter",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "idByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "idByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "idByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "creator",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "idByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "tag",
+          "type": "bytes32[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "idByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "idByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "toCreator",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "replyByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "toCreator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "replyByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "toId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "replyByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "toId",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "replyByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

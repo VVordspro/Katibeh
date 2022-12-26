@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "EnumerableMap",
+  "sourceName": "@openzeppelin/contracts/utils/structs/EnumerableMap.sol",
+  "abi": [],
+  "bytecode": "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea2646970667358221220849b81bb9ef6dc11e083f9610d1ed5b67e425f41e9a05b276d1074a8841198dd64736f6c63430008110033",
+  "deployedBytecode": "0x600080fdfea2646970667358221220849b81bb9ef6dc11e083f9610d1ed5b67e425f41e9a05b276d1074a8841198dd64736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

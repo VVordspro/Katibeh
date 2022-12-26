@@ -7,7 +7,13 @@ const { ethers } = require("hardhat");
     const KF = await Katibeh721.deploy();
     await KF.deployed();
     console.log("Katibeh721 Contract Address:", KF.address); 
-
   }
     
-  deployKatibeh721();
+  if (require.main === module) {
+    deployKatibeh721()
+      .then(() => process.exit(0))
+      .catch(error => {
+        console.error(error)
+        process.exit(1)
+      })
+  }

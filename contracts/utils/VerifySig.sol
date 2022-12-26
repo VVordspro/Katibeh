@@ -12,24 +12,6 @@ library VerifySig {
         return recover(ethSignMessageHash, _sig) == _signer;
     }
 
-// dota voroodi dige miad payableAddressList, payableShares
-// dota abi.encodePacked be hash ezafe mikonam.
-    function getMessageHash(
-        uint256[] calldata toTokenId,
-        uint256 mintTime,
-        uint256 initTime,
-        uint256 expTime,
-        string calldata uri,
-        bytes32[] calldata tags,
-        address[] calldata payableAddresses,
-        uint16[] calldata payableShares
-    ) internal pure returns(bytes32) {
-        return keccak256(abi.encodePacked(
-            toTokenId, mintTime, initTime, expTime, uri, 
-            tags[0], tags[1], tags[2], payableAddresses, payableShares
-        ));
-    }
-
     function getEthSignedMessageHash(bytes32 _messageHash) private pure returns(bytes32) {
         return keccak256(abi.encodePacked(
             "\x19Ethereum Signed Message:\n32",

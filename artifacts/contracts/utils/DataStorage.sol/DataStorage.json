@@ -1,0 +1,285 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "DataStorage",
+  "sourceName": "contracts/utils/DataStorage.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "toTokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewReply",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "mintTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "initTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "expTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewToken",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "tag1",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "tag2",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "tag3",
+          "type": "bytes32"
+        }
+      ],
+      "name": "Tags",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "mintTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "initTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "expTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "toTokenId",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "tags",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "address[]",
+              "name": "payableAddresses",
+              "type": "address[]"
+            },
+            {
+              "internalType": "uint16[]",
+              "name": "payableShares",
+              "type": "uint16[]"
+            }
+          ],
+          "internalType": "struct DataStorage.Katibeh",
+          "name": "katibeh",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "sig",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "dappData",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "tokenId",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "getData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "mintTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "initTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "expTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "toTokenId",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "tags",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "address[]",
+              "name": "payableAddresses",
+              "type": "address[]"
+            },
+            {
+              "internalType": "uint16[]",
+              "name": "payableShares",
+              "type": "uint16[]"
+            }
+          ],
+          "internalType": "struct DataStorage.Katibeh[]",
+          "name": "katibeh",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "sig",
+          "type": "bytes[]"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "dappData",
+          "type": "bytes[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "uriHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getUriId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

@@ -3,10 +3,10 @@ pragma solidity ^0.8.4;
 
 abstract contract DataStorage {
 
-    mapping(string => uint256) URIsRegistered;
-
     mapping(uint256 => Katibeh) idToToken;
+    mapping(bytes32 => uint256) URIsRegistered;
     mapping(uint256 => bytes) _dappData;
+    mapping(uint256 => bytes) _signatures;
 
     struct Katibeh {
         address creator;
@@ -14,7 +14,6 @@ abstract contract DataStorage {
         uint256 initTime;
         uint256 expTime;
         string tokenURI;
-        bytes sig;
         bytes data;
         uint256[] toTokenId;
         bytes32[] tags;
@@ -25,6 +24,7 @@ abstract contract DataStorage {
     event NewToken(
         uint256 indexed tokenId, 
         address indexed creator, 
+        bytes indexed data, 
         uint256 mintTime,
         uint256 initTime,
         uint256 expTime
@@ -43,19 +43,21 @@ abstract contract DataStorage {
     );
 
     function _registerURI(string calldata _uri, uint256 tokenId) internal {
-        require(getUriId(_uri) == 0, "DataStorage: uri registered already");
-        URIsRegistered[_uri] = tokenId;
+        bytes32 uriHash = keccak256(abi.encodePacked(_uri));
+        require(getUriId(uriHash) == 0, "DataStorage: uri registered already");
+        URIsRegistered[uriHash] = tokenId;
     }
 
     function _emitData(
         uint256 tokenId,
         uint256[] calldata toTokenId,
         address creator,
+        bytes calldata data,
         uint256 mintTime,
         uint256 initTime,
         uint256 expTime
     ) internal {
-        emit NewToken(tokenId, creator, mintTime, initTime, expTime);
+        emit NewToken(tokenId, creator, data, mintTime, initTime, expTime);
         uint256 toIdLen = toTokenId.length;
         for (uint256 i; i < toIdLen; i++){
             emit NewReply(tokenId, toTokenId[i]);
@@ -64,7 +66,7 @@ abstract contract DataStorage {
 
     function _burnData(uint256 tokenId) internal {
         Katibeh storage katibeh = idToToken[tokenId];
-        delete katibeh.sig;
+        delete _signatures[tokenId];
         katibeh.tokenURI = "data:application/json;base64,eyJuYW1lIjoiVGhpcyB0b2tlbiBpcyBidXJuZWQuIiwiZGVzY3JpcHRpb24iOiJZb3UgbWF5IGZpbmQgdGhpcyB0b2tlbiBvbiBvdGhlciBuZXR3b3Jrcy4iLCJpbWFnZSI6ImlwZnM6Ly9RbWNjWW5BSHV6c3NBZm0yVUI0QXd3UEp2RFpKM0RmNkhHM3lQUkZ0Qm1pZTYxIn0=";
     }
 
@@ -73,11 +75,19 @@ abstract contract DataStorage {
         Katibeh calldata katibeh
     ) internal {
         idToToken[tokenId] = katibeh;
-        emit NewToken(tokenId, katibeh.creator, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
+        emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
         uint256 toIdLen = katibeh.toTokenId.length;
         for (uint256 i; i < toIdLen; i++){
             emit NewReply(tokenId, katibeh.toTokenId[i]);
         }
+    }
+
+    function _setDappData(uint256 tokenId, bytes calldata data) internal {
+        _dappData[tokenId] = data;
+    }
+
+    function _setSignature(uint256 tokenId, bytes calldata sig) internal {
+        _signatures[tokenId] = sig;
     }
 
     function _tokenURI(uint256 tokenId) internal view returns(string memory) {
@@ -89,18 +99,30 @@ abstract contract DataStorage {
         emit Tags(tokenId, tags[0], tags[1], tags[2]);
     }
 
-    function getUriId(string calldata _uri) public view returns(uint256) {
-        return URIsRegistered[_uri];
+    function getUriId(bytes32 uriHash) public view returns(uint256) {
+        return URIsRegistered[uriHash];
     }
 
-    function dappData(uint256 tokenId) public view returns(bytes memory) {
-        return _dappData[tokenId];
-    }
+    function getData(uint256[] calldata tokenId) public view returns(
+        Katibeh[] memory katibeh, bytes[] memory sig, bytes[] memory dappData
+    ) {
+        uint256 len = tokenId.length;
+        katibeh = new Katibeh[](len);
+        sig = new bytes[](len);
+        dappData = new bytes[](len);
 
-    function getData(uint256 tokenId) public view returns(Katibeh memory katibeh) {
-        katibeh = idToToken[tokenId];
-        if(block.timestamp <= katibeh.initTime) {
-            delete katibeh.sig;
+        for(uint256 i; i < len; i++) {
+            (katibeh[i], sig[i], dappData[i]) = getData(tokenId[i]);
         }
+    }
+
+    function getData(uint256 tokenId) public view returns(
+        Katibeh memory katibeh, bytes memory sig, bytes memory dappData
+    ) {
+        katibeh = idToToken[tokenId];
+        if(block.timestamp >= katibeh.initTime) {
+            sig = _signatures[tokenId];
+        }
+        dappData = _dappData[tokenId];
     }
 }
