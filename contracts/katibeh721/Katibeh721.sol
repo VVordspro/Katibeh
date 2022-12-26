@@ -10,7 +10,6 @@ import "../utils/VerifySig.sol";
 import "../utils/DataStorage.sol";
 import "./utils/GlobalStorage.sol";
 
-// be verifySig, kole struct ro pass bedam
 contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, GlobalStorage {
     using Strings for uint256;
     using qHash for bytes;
