@@ -39,7 +39,6 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
         tokenId = sig.q();
     }
 
-// ye voroodi be esme dapp data begiram
     function mint(
         Katibeh calldata katibeh,
         bytes calldata sig,
