@@ -37,7 +37,7 @@
         "../utils/qHash.sol",
         "../utils/VerifySig.sol",
         "../utils/DataStorage.sol",
-        "./utils/GlobalStorage.sol"
+        "./utils/TraceStorage.sol"
       ],
       "versionPragmas": [
         "^0.8.4"
@@ -154,10 +154,10 @@
         "DataStorage"
       ]
     },
-    "/home/vvords/solidity/FarsiNFT/contracts/katibeh721/utils/GlobalStorage.sol": {
+    "/home/vvords/solidity/FarsiNFT/contracts/katibeh721/utils/TraceStorage.sol": {
       "lastModificationDate": 1671889829892,
       "contentHash": "d50f0fa1dc68a04023057dfe608ae0cf",
-      "sourceName": "contracts/katibeh721/utils/GlobalStorage.sol",
+      "sourceName": "contracts/katibeh721/utils/TraceStorage.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -190,7 +190,7 @@
         "^0.8.4"
       ],
       "artifacts": [
-        "GlobalStorage"
+        "TraceStorage"
       ]
     },
     "/home/vvords/solidity/FarsiNFT/node_modules/@openzeppelin/contracts/utils/Strings.sol": {

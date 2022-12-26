@@ -67,7 +67,7 @@ abstract contract DataStorage {
     function _burnData(uint256 tokenId) internal {
         Katibeh storage katibeh = idToToken[tokenId];
         delete _signatures[tokenId];
-        katibeh.tokenURI = "data:application/json;base64,eyJuYW1lIjoiVGhpcyB0b2tlbiBpcyBidXJuZWQuIiwiZGVzY3JpcHRpb24iOiJZb3UgbWF5IGZpbmQgdGhpcyB0b2tlbiBvbiBvdGhlciBuZXR3b3Jrcy4iLCJpbWFnZSI6ImlwZnM6Ly9RbWNjWW5BSHV6c3NBZm0yVUI0QXd3UEp2RFpKM0RmNkhHM3lQUkZ0Qm1pZTYxIn0=";
+        katibeh.tokenURI = "data:application/json;base64,eyJuYW1lIjogIlRoaXMgdG9rZW4gaXMgYnVybmVkLiIsImRlc2NyaXB0aW9uIjogIlRva2VuIGlzIG5vdCBjb2xsZWN0aWJsZSBvbiB0aGlzIG5ldHdvcmsuIn0";
     }
 
     function _setData(
@@ -95,15 +95,22 @@ abstract contract DataStorage {
     }
 
     function _emitTags(uint256 tokenId, bytes32[] calldata tags) internal {
-        require(tags.length == 3, "DataStorage: tags length must be 3");
-        emit Tags(tokenId, tags[0], tags[1], tags[2]);
+        uint256 len = tags.length;
+        require(len <= 3, "DataStorage: tags length must be 3");
+        bytes32 empty;
+        emit Tags(
+            tokenId, 
+            len > 0 ? tags[0] : empty,
+            len > 1 ? tags[1] : empty, 
+            len > 2 ? tags[2] : empty
+        );
     }
 
     function getUriId(bytes32 uriHash) public view returns(uint256) {
         return URIsRegistered[uriHash];
     }
 
-    function getData(uint256[] calldata tokenId) public view returns(
+    function tokenInfoBatch(uint256[] calldata tokenId) public view returns(
         Katibeh[] memory katibeh, bytes[] memory sig, bytes[] memory dappData
     ) {
         uint256 len = tokenId.length;
@@ -112,11 +119,11 @@ abstract contract DataStorage {
         dappData = new bytes[](len);
 
         for(uint256 i; i < len; i++) {
-            (katibeh[i], sig[i], dappData[i]) = getData(tokenId[i]);
+            (katibeh[i], sig[i], dappData[i]) = tokenInfo(tokenId[i]);
         }
     }
 
-    function getData(uint256 tokenId) public view returns(
+    function tokenInfo(uint256 tokenId) public view returns(
         Katibeh memory katibeh, bytes memory sig, bytes memory dappData
     ) {
         katibeh = idToToken[tokenId];

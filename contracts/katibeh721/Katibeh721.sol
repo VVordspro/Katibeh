@@ -8,47 +8,47 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "../utils/qHash.sol";
 import "../utils/VerifySig.sol";
 import "../utils/DataStorage.sol";
-import "./utils/GlobalStorage.sol";
+import "./utils/TraceStorage.sol";
 
-contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, GlobalStorage {
+contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, TraceStorage {
     using Strings for uint256;
     using qHash for bytes;
     using VerifySig for bytes;
 
     constructor() ERC721("Katibeh721", "KATIBEH") {}
 
-    function moment() public view returns(uint256) {
+    function timeStamp() public view returns(uint256) {
         return block.timestamp;
     }
 
-    function getMessageHash(Katibeh calldata katibeh) public view returns(bytes32) {
+    function getHash(Katibeh calldata katibeh) public view returns(bytes32) {
         require(
             katibeh.mintTime < block.timestamp + 1 hours &&
-            katibeh.mintTime > block.timestamp - 1 hours
-            );
+            katibeh.mintTime > block.timestamp - 1 hours,
+            "Katibeh721: more than one hour mint time difference."
+        );
+        require(
+            katibeh.mintTime <= katibeh.initTime &&
+            katibeh.initTime <= katibeh.expTime,
+            "Katibeh721: mint time must be less than init time & init time must be less than expire time."
+        );
         require(
             katibeh.payableAddresses.length == katibeh.payableShares.length,
-            "payable arrays must be the same lenght"
+            "Katibeh721: payable arrays must be the same lenght"
         );
         return keccak256(abi.encode(katibeh));
     }
 
-    function getId(
-        bytes calldata sig 
-    ) public pure returns(uint256 tokenId) {
-        tokenId = sig.q();
-    }
-
-    function mint(
+    function safeMint(
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata dappData
     ) public returns(uint256 tokenId) {
-        tokenId = getId(sig);
+        tokenId = sig.q();
         require(
             sig.verify(
                 katibeh.creator,
-                getMessageHash(katibeh)
+                getHash(katibeh)
             ),
             "Katibeh721: Invalid signature"
         );
@@ -61,14 +61,14 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Gl
     }
 
 
-    function globalMint(
+    function easyTraceableMint( 
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata dappData
     ) public {
-        uint256 tokenId = mint(katibeh, sig, dappData);
+        uint256 tokenId = safeMint(katibeh, sig, dappData);
 
-        _setIdDetails(tokenId);
+        _setTokenTraceable(tokenId);
         _setCreatorToken(katibeh.creator, tokenId);
         _addCreator(katibeh.creator);
         uint256 toIdLen = katibeh.toTokenId.length;
