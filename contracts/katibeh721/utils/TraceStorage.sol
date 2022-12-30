@@ -14,11 +14,11 @@ abstract contract TraceStorage {
 
     EnumerableMap.UintToUintMap idDetails;
 
-    function totalSupplyTraceable() public view returns(uint256 count) {
+    function numberOfTokensTraceable() public view returns(uint256 count) {
         return idDetails.length();
     }
 
-    function tokenByIndexTraceableBatch(uint256[] calldata index) public view returns(uint256[] memory id) {
+    function tokensByIndexTraceableBatch(uint256[] calldata index) public view returns(uint256[] memory id) {
         uint256 len = index.length;
         id = new uint256[](len);
 
@@ -31,16 +31,16 @@ abstract contract TraceStorage {
         (id,) = idDetails.at(index);
     }
 
-    function traceTokenByTime(uint256 id) public view returns(
-        uint256 numIdsBefore,
-        uint256 numIdsAfter,
-        uint256 idBefore,
-        uint256 idAfter
+    function traceTokenById(uint256 id) public view returns(
+        uint256 numberOfPreviousIds,
+        uint256 numberOfNextIds,
+        uint256 previousId,
+        uint256 nextId
     ) {
-        numIdsBefore = idDetails.get(id);
-        numIdsAfter = idDetails.length() - numIdsBefore - 1;
-        if(numIdsBefore != 0) (idBefore,) = idDetails.at(numIdsBefore-1);
-        if(numIdsAfter != 0) (idAfter,) = idDetails.at(numIdsBefore+1);
+        numberOfPreviousIds = idDetails.get(id);
+        numberOfNextIds = idDetails.length() - numberOfPreviousIds - 1;
+        if(numberOfPreviousIds != 0) (previousId,) = idDetails.at(numberOfPreviousIds-1);
+        if(numberOfNextIds != 0) (nextId,) = idDetails.at(numberOfPreviousIds+1);
     }
 
     function _setTokenTraceable(uint256 id) internal {
@@ -52,26 +52,26 @@ abstract contract TraceStorage {
 
     mapping(address => EnumerableMap.UintToUintMap) creatorTokens;
 
-    function totalSupplyOfCreatorBatch(address[] calldata creator) public view returns(uint256[] memory count) {
+    function numberOfTokensOfCreatorBatch(address[] calldata creator) public view returns(uint256[] memory count) {
         uint256 len = creator.length;
         count = new uint256[](len);
 
         for (uint256 i = 0; i < len; i++) {
-            count[i] = totalSupplyOfCreator(creator[i]);
+            count[i] = numberOfTokensOfCreator(creator[i]);
         }
     }
 
-    function totalSupplyOfCreator(address creator) public view returns(uint256) {
+    function numberOfTokensOfCreator(address creator) public view returns(uint256) {
         return creatorTokens[creator].length();
     }
 
-    function tokenOfCreatorByIndexBatch(address[] calldata creator, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = creator.length;
-        require(len == index.length, "input length difference");
+    function tokensOfCreatorByIndexBatch(address creator, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = index.length;
+
         id = new uint256[](len);
 
         for (uint256 i; i < len; i++) {
-            id[i] = tokenOfCreatorByIndex(creator[i], index[i]);
+            id[i] = tokenOfCreatorByIndex(creator, index[i]);
         }
     }
 
@@ -91,17 +91,17 @@ abstract contract TraceStorage {
     }
 
     function traceTokenByCreator(address creator, uint256 id) public view returns(
-        uint256 numIdsBefore,
-        uint256 numIdsAfter,
-        uint256 idBefore,
-        uint256 idAfter
+        uint256 numberOfPreviousIds,
+        uint256 numberOfNextIds,
+        uint256 previousId,
+        uint256 nextId
     ) {
         EnumerableMap.UintToUintMap storage creatorIds = creatorTokens[creator];
 
-        numIdsBefore = creatorIds.get(id);
-        numIdsAfter = creatorIds.length() - numIdsBefore - 1;
-        if(numIdsBefore != 0) (idBefore,) = creatorIds.at(numIdsBefore-1);
-        if(numIdsAfter != 0) (idAfter,) = creatorIds.at(numIdsBefore+1);
+        numberOfPreviousIds = creatorIds.get(id);
+        numberOfNextIds = creatorIds.length() - numberOfPreviousIds - 1;
+        if(numberOfPreviousIds != 0) (previousId,) = creatorIds.at(numberOfPreviousIds-1);
+        if(numberOfNextIds != 0) (nextId,) = creatorIds.at(numberOfPreviousIds+1);
     }
 
     function _setCreatorToken(address creator, uint256 id) internal {
@@ -113,11 +113,11 @@ abstract contract TraceStorage {
 
     EnumerableSet.AddressSet creators;
 
-    function countCreators() public view returns(uint256) {
+    function numberOfCreators() public view returns(uint256) {
         return creators.length();
     }
 
-    function creatorByIndexBatch(uint256[] calldata index) public view returns(address[] memory creator) {
+    function creatorsByIndexBatch(uint256[] calldata index) public view returns(address[] memory creator) {
         uint256 len = index.length;
         creator = new address[](len);
 
@@ -142,26 +142,25 @@ abstract contract TraceStorage {
 
     mapping(uint256 => EnumerableSet.UintSet) tokenReplyIds;
 
-    function countTokenRepliesBatch(uint256[] calldata tokenId) public view returns(uint256[] memory count) {
+    function numberOfTokenRepliesBatch(uint256[] calldata tokenId) public view returns(uint256[] memory count) {
         uint256 len = tokenId.length;
         count = new uint256[](len);
 
         for(uint256 i = 0; i < len; i++) {
-            count[i] = countTokenReplies(tokenId[i]);
+            count[i] = numberOfTokenReplies(tokenId[i]);
         }
     }
 
-    function countTokenReplies(uint256 tokenId) public view returns(uint256) {
+    function numberOfTokenReplies(uint256 tokenId) public view returns(uint256) {
         return tokenReplyIds[tokenId].length();
     }
 
-    function tokenReplyByIndexBatch(uint256[] calldata tokenId, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = tokenId.length;
-        require(len == index.length, "input length difference");
+    function tokenRepliesByIndexBatch(uint256 tokenId, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = index.length;
         id = new uint256[](len);
 
         for (uint256 i; i < len; i++) {
-            id[i] = tokenReplyByIndex(tokenId[i], index[i]);
+            id[i] = tokenReplyByIndex(tokenId, index[i]);
         }
     }
 
@@ -169,7 +168,7 @@ abstract contract TraceStorage {
         id = tokenReplyIds[tokenId].at(index);
     }
 
-    function tokenReplys(uint256 tokenId) public view returns(uint256[] memory ids) {
+    function tokenReplies(uint256 tokenId) public view returns(uint256[] memory ids) {
         return tokenReplyIds[tokenId].values();
     }
 
@@ -181,34 +180,32 @@ abstract contract TraceStorage {
 // Creator replies -----------------------------------------------------------
     mapping(address => EnumerableSet.UintSet) creatorReplies;
 
-    function countCreatorReplies(address[] calldata toCreator) public view returns(uint256[] memory count) {
+    function numberOfRepliesToCreatorBatch(address[] calldata toCreator) public view returns(uint256[] memory count) {
         uint256 len = toCreator.length;
         count = new uint256[](len);
 
         for(uint256 i = 0; i < len; i++) {
-            count[i] = countCreatorReplies(toCreator[i]);
+            count[i] = numberOfRepliesToCreator(toCreator[i]);
         }
     }
 
-    function countCreatorReplies(address toCreator) public view returns(uint256) {
+    function numberOfRepliesToCreator(address toCreator) public view returns(uint256) {
         return creatorReplies[toCreator].length();
     }
 
-    function replyByIndex(address[] calldata toCreator, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = toCreator.length;
-        require(len == index.length, "input length difference");
+    function repliesToCreatorByIndexBatch(address toCreator, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = index.length;
         id = new uint256[](len);
-
         for (uint256 i; i < len; i++) {
-            id[i] = replyByIndex(toCreator[i], index[i]);
+            id[i] = repliesToCreatorByIndex(toCreator, index[i]);
         }
     }
 
-    function replyByIndex(address toCreator, uint256 index) public view returns(uint256 id) {
+    function repliesToCreatorByIndex(address toCreator, uint256 index) public view returns(uint256 id) {
         id = creatorReplies[toCreator].at(index);
     }
 
-    function getAllReplies(address toCreator) public view returns(uint256[] memory ids) {
+    function repliesToCreator(address toCreator) public view returns(uint256[] memory ids) {
         return creatorReplies[toCreator].values();
     }
 
@@ -220,34 +217,33 @@ abstract contract TraceStorage {
 
     mapping(bytes32 => EnumerableMap.UintToUintMap) tagsDetails;
 
-    function totalSupplyOfCreatorBatch(bytes32[] calldata tag) public view returns(uint256[] memory count) {
+    function numberOfTokensByTagBatch(bytes32[] calldata tag) public view returns(uint256[] memory count) {
         uint256 len = tag.length;
         count = new uint256[](len);
 
         for(uint256 i = 0; i < len; i++) {
-            count[i] = totalSupplyOfCreatorBatch(tag[i]);
+            count[i] = numberOfTokensByTag(tag[i]);
         }
     }
 
-    function totalSupplyOfCreatorBatch(bytes32 tag) public view returns(uint256) {
+    function numberOfTokensByTag(bytes32 tag) public view returns(uint256) {
         return tagsDetails[tag].length();
     }
 
-    function tokenByIndexTraceable(bytes32[] calldata tag, uint256[] calldata index) public view returns(uint256[] memory id) {
-        uint256 len = tag.length;
-        require(len == index.length, "input length difference");
+    function tokensOfTagByIndexBatch(bytes32 tag, uint256[] calldata index) public view returns(uint256[] memory id) {
+        uint256 len = index.length;
         id = new uint256[](len);
 
         for (uint256 i; i < len; i++) {
-            id[i] = tokenByIndexTraceable(tag[i], index[i]);
+            id[i] = tokenOfTagByIndex(tag, index[i]);
         }
     }
 
-    function tokenByIndexTraceable(bytes32 tag, uint256 index) public view returns(uint256 id) {
+    function tokenOfTagByIndex(bytes32 tag, uint256 index) public view returns(uint256 id) {
         (id,) = tagsDetails[tag].at(index);
     }
 
-    function getAllIds(bytes32 tag) public view returns(uint256[] memory ids) {
+    function tokensOfTag(bytes32 tag) public view returns(uint256[] memory ids) {
         EnumerableMap.UintToUintMap storage tagIds = tagsDetails[tag];
         uint256 len = tagIds.length();
 
@@ -258,44 +254,18 @@ abstract contract TraceStorage {
         }
     }
 
-    function traceTokenByIndex(bytes32[] calldata tag, uint256[] calldata id) public view returns(
-        uint256[] memory numIdsBefore,
-        uint256[] memory numIdsAfter,
-        uint256[] memory idBefore,
-        uint256[] memory idAfter
-    ) {
-        uint256 len = tag.length;
-        require(len == id.length, "input length difference");
-
-        numIdsBefore = new uint256[](len);
-        numIdsAfter = new uint256[](len);
-        idBefore = new uint256[](len);
-        idAfter = new uint256[](len);
-
-
-        for(uint256 i = 0; i < len; i++){
-            (
-                numIdsBefore[i],
-                numIdsAfter[i],
-                idBefore[i],
-                idAfter[i]
-            ) 
-              = traceTokenByIndex(tag[i], id[i]);
-        }
-    }
-
-    function traceTokenByIndex(bytes32 tag, uint256 id) public view returns(
-        uint256 numIdsBefore,
-        uint256 numIdsAfter,
-        uint256 idBefore,
-        uint256 idAfter
+    function traceTokenByTag(bytes32 tag, uint256 id) public view returns(
+        uint256 numberOfPreviousIds,
+        uint256 numberOfNextIds,
+        uint256 previousId,
+        uint256 nextId
     ) {
         EnumerableMap.UintToUintMap storage tagDetails = tagsDetails[tag];
 
-        numIdsBefore = tagDetails.get(id);
-        numIdsAfter = tagDetails.length() - numIdsBefore - 1;
-        if(numIdsBefore != 0) (idBefore,) = tagDetails.at(numIdsBefore-1);
-        if(numIdsAfter != 0) (idAfter,) = tagDetails.at(numIdsBefore+1);
+        numberOfPreviousIds = tagDetails.get(id);
+        numberOfNextIds = tagDetails.length() - numberOfPreviousIds - 1;
+        if(numberOfPreviousIds != 0) (previousId,) = tagDetails.at(numberOfPreviousIds-1);
+        if(numberOfNextIds != 0) (nextId,) = tagDetails.at(numberOfPreviousIds+1);
     }
 
     function _setTagDetails(uint256 id, bytes32 tag) private {

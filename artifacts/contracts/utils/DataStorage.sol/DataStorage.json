@@ -99,12 +99,31 @@
     {
       "inputs": [
         {
+          "internalType": "bytes32",
+          "name": "uriHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getUriId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         }
       ],
-      "name": "getData",
+      "name": "tokenInfo",
       "outputs": [
         {
           "components": [
@@ -185,7 +204,7 @@
           "type": "uint256[]"
         }
       ],
-      "name": "getData",
+      "name": "tokensInfoBatch",
       "outputs": [
         {
           "components": [
@@ -253,25 +272,6 @@
           "internalType": "bytes[]",
           "name": "dappData",
           "type": "bytes[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "uriHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getUriId",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
         }
       ],
       "stateMutability": "view",

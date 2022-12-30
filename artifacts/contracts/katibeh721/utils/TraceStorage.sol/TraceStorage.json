@@ -5,191 +5,7 @@
   "abi": [
     {
       "inputs": [],
-      "name": "countAllCreators",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32[]",
-          "name": "tag",
-          "type": "bytes32[]"
-        }
-      ],
-      "name": "countAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "count",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "creator",
-          "type": "address[]"
-        }
-      ],
-      "name": "countAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "count",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
-        }
-      ],
-      "name": "countAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "tag",
-          "type": "bytes32"
-        }
-      ],
-      "name": "countAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "countAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "count",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "toId",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "countAllReplies",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "count",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "toId",
-          "type": "uint256"
-        }
-      ],
-      "name": "countAllReplies",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "toCreator",
-          "type": "address[]"
-        }
-      ],
-      "name": "countAllReplies",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "count",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "toCreator",
-          "type": "address"
-        }
-      ],
-      "name": "countAllReplies",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "index",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "creatorByIndex",
+      "name": "creatorAddresses",
       "outputs": [
         {
           "internalType": "address[]",
@@ -220,8 +36,14 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "getAllCreators",
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "creatorsByIndexBatch",
       "outputs": [
         {
           "internalType": "address[]",
@@ -233,51 +55,13 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "tag",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [],
-      "name": "getAllIds",
+      "name": "numberOfCreators",
       "outputs": [
         {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
-        }
-      ],
-      "name": "getAllIds",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -291,31 +75,12 @@
           "type": "address"
         }
       ],
-      "name": "getAllReplies",
+      "name": "numberOfRepliesToCreator",
       "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
         {
           "internalType": "uint256",
-          "name": "toId",
+          "name": "",
           "type": "uint256"
-        }
-      ],
-      "name": "getAllReplies",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
         }
       ],
       "stateMutability": "view",
@@ -325,35 +90,15 @@
       "inputs": [
         {
           "internalType": "address[]",
-          "name": "creator",
+          "name": "toCreator",
           "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "id",
-          "type": "uint256[]"
         }
       ],
-      "name": "getIdDetails",
+      "name": "numberOfRepliesToCreatorBatch",
       "outputs": [
         {
           "internalType": "uint256[]",
-          "name": "numIdsBefore",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "numIdsAfter",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "idBefore",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "idAfter",
+          "name": "count",
           "type": "uint256[]"
         }
       ],
@@ -363,32 +108,17 @@
     {
       "inputs": [
         {
-          "internalType": "uint256[]",
-          "name": "id",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
         }
       ],
-      "name": "getIdDetails",
+      "name": "numberOfTokenReplies",
       "outputs": [
         {
-          "internalType": "uint256[]",
-          "name": "numIdsBefore",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "numIdsAfter",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "idBefore",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "idAfter",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -397,37 +127,17 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
+          "internalType": "uint256[]",
+          "name": "tokenId",
+          "type": "uint256[]"
         }
       ],
-      "name": "getIdDetails",
+      "name": "numberOfTokenRepliesBatch",
       "outputs": [
         {
-          "internalType": "uint256",
-          "name": "numIdsBefore",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "numIdsAfter",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "idBefore",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "idAfter",
-          "type": "uint256"
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
         }
       ],
       "stateMutability": "view",
@@ -439,67 +149,13 @@
           "internalType": "bytes32",
           "name": "tag",
           "type": "bytes32"
-        },
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
         }
       ],
-      "name": "getIdDetails",
+      "name": "numberOfTokensByTag",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "numIdsBefore",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "numIdsAfter",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "idBefore",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "idAfter",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "getIdDetails",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "numIdsBefore",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "numIdsAfter",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "idBefore",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "idAfter",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -512,34 +168,151 @@
           "internalType": "bytes32[]",
           "name": "tag",
           "type": "bytes32[]"
+        }
+      ],
+      "name": "numberOfTokensByTagBatch",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "name": "numberOfTokensOfCreator",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "creator",
+          "type": "address[]"
+        }
+      ],
+      "name": "numberOfTokensOfCreatorBatch",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "count",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "numberOfTokensTraceable",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "toCreator",
+          "type": "address"
+        }
+      ],
+      "name": "repliesToCreator",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "toCreator",
+          "type": "address"
         },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "repliesToCreatorByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "toCreator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "repliesToCreatorByIndexBatch",
+      "outputs": [
         {
           "internalType": "uint256[]",
           "name": "id",
           "type": "uint256[]"
         }
       ],
-      "name": "getIdDetails",
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenByIndexTraceable",
       "outputs": [
         {
-          "internalType": "uint256[]",
-          "name": "numIdsBefore",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "numIdsAfter",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "idBefore",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "idAfter",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -558,7 +331,7 @@
           "type": "uint256"
         }
       ],
-      "name": "idByIndex",
+      "name": "tokenOfCreatorByIndex",
       "outputs": [
         {
           "internalType": "uint256",
@@ -582,7 +355,74 @@
           "type": "uint256"
         }
       ],
-      "name": "idByIndex",
+      "name": "tokenOfTagByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenReplies",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "tokenRepliesByIndexBatch",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenReplyByIndex",
       "outputs": [
         {
           "internalType": "uint256",
@@ -601,98 +441,7 @@
           "type": "uint256[]"
         }
       ],
-      "name": "idByIndex",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "id",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "creator",
-          "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "index",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "idByIndex",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "id",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32[]",
-          "name": "tag",
-          "type": "bytes32[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "index",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "idByIndex",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "id",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "idByIndex",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "toCreator",
-          "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "index",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "replyByIndex",
+      "name": "tokensByIndexTraceableBatch",
       "outputs": [
         {
           "internalType": "uint256[]",
@@ -707,20 +456,121 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "toCreator",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "name": "tokensOfCreator",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "tokensOfCreatorByIndexBatch",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
+        }
+      ],
+      "name": "tokensOfTag",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "index",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "tokensOfTagByIndexBatch",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "id",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator",
           "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "index",
+          "name": "id",
           "type": "uint256"
         }
       ],
-      "name": "replyByIndex",
+      "name": "traceTokenByCreator",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "numberOfPreviousIds",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfNextIds",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "previousId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "nextId",
           "type": "uint256"
         }
       ],
@@ -731,20 +581,30 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "toId",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "traceTokenById",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "numberOfPreviousIds",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "index",
+          "name": "numberOfNextIds",
           "type": "uint256"
-        }
-      ],
-      "name": "replyByIndex",
-      "outputs": [
+        },
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "previousId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "nextId",
           "type": "uint256"
         }
       ],
@@ -754,22 +614,37 @@
     {
       "inputs": [
         {
-          "internalType": "uint256[]",
-          "name": "toId",
-          "type": "uint256[]"
+          "internalType": "bytes32",
+          "name": "tag",
+          "type": "bytes32"
         },
         {
-          "internalType": "uint256[]",
-          "name": "index",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         }
       ],
-      "name": "replyByIndex",
+      "name": "traceTokenByTag",
       "outputs": [
         {
-          "internalType": "uint256[]",
-          "name": "id",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "numberOfPreviousIds",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfNextIds",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "previousId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "nextId",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",

@@ -61,7 +61,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
     }
 
 
-    function easyTraceableMint( 
+    function safeMintAndSetTraceStorage( 
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata dappData

@@ -110,7 +110,7 @@ abstract contract DataStorage {
         return URIsRegistered[uriHash];
     }
 
-    function tokenInfoBatch(uint256[] calldata tokenId) public view returns(
+    function tokensInfoBatch(uint256[] calldata tokenId) public view returns(
         Katibeh[] memory katibeh, bytes[] memory sig, bytes[] memory dappData
     ) {
         uint256 len = tokenId.length;
