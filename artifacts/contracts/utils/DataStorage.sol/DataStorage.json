@@ -168,14 +168,21 @@
               "type": "bytes32[]"
             },
             {
-              "internalType": "address[]",
-              "name": "payableAddresses",
-              "type": "address[]"
-            },
-            {
-              "internalType": "uint16[]",
-              "name": "payableShares",
-              "type": "uint16[]"
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "addr",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "share",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct DataStorage.Payee[]",
+              "name": "owners",
+              "type": "tuple[]"
             }
           ],
           "internalType": "struct DataStorage.Katibeh",
@@ -249,14 +256,21 @@
               "type": "bytes32[]"
             },
             {
-              "internalType": "address[]",
-              "name": "payableAddresses",
-              "type": "address[]"
-            },
-            {
-              "internalType": "uint16[]",
-              "name": "payableShares",
-              "type": "uint16[]"
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "addr",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "share",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct DataStorage.Payee[]",
+              "name": "owners",
+              "type": "tuple[]"
             }
           ],
           "internalType": "struct DataStorage.Katibeh[]",

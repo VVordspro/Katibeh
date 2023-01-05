@@ -4,6 +4,8 @@ pragma solidity ^0.8.4;
 abstract contract FeeManager {
     
     address payable receiver1;
+    uint256 constant baseFee = 10 ** 18;
+
     function setReceiver1(address payable newAddr) public {
         require(
             msg.sender == receiver1,

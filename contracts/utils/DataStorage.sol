@@ -4,9 +4,15 @@ pragma solidity ^0.8.4;
 abstract contract DataStorage {
 
     mapping(uint256 => Katibeh) idToToken;
+    mapping(uint256 => KatibehData) idToTokenData;
     mapping(bytes32 => uint256) URIsRegistered;
     mapping(uint256 => bytes) _dappData;
     mapping(uint256 => bytes) _signatures;
+
+    struct Payee {
+        address addr;
+        uint16 share;
+    }
 
     struct Katibeh {
         address creator;
@@ -17,8 +23,13 @@ abstract contract DataStorage {
         bytes data;
         uint256[] toTokenId;
         bytes32[] tags;
-        address[] payableAddresses;
-        uint16[] payableShares;
+        Payee[] owners;
+    }
+
+    struct KatibehData {
+        uint256 expTime;
+        bytes data;
+        Payee[] owners;
     }
 
     event NewToken(
@@ -48,15 +59,17 @@ abstract contract DataStorage {
         URIsRegistered[uriHash] = tokenId;
     }
 
-    function _emitData(
+    function _setCollectData(
         uint256 tokenId,
         uint256[] calldata toTokenId,
         address creator,
         bytes calldata data,
         uint256 mintTime,
         uint256 initTime,
-        uint256 expTime
+        uint256 expTime,
+        Payee[] calldata owners
     ) internal {
+        idToTokenData[tokenId] = KatibehData(expTime, data, owners);
         emit NewToken(tokenId, creator, data, mintTime, initTime, expTime);
         uint256 toIdLen = toTokenId.length;
         for (uint256 i; i < toIdLen; i++){
@@ -70,7 +83,7 @@ abstract contract DataStorage {
         katibeh.tokenURI = "data:application/json;base64,eyJuYW1lIjogIlRoaXMgdG9rZW4gaXMgYnVybmVkLiIsImRlc2NyaXB0aW9uIjogIlRva2VuIGlzIG5vdCBjb2xsZWN0aWJsZSBvbiB0aGlzIG5ldHdvcmsuIn0";
     }
 
-    function _setData(
+    function _setMintData(
         uint256 tokenId,
         Katibeh calldata katibeh
     ) internal {

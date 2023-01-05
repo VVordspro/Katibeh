@@ -32,10 +32,6 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
             katibeh.initTime <= katibeh.expTime,
             "Katibeh721: mint time must be less than init time & init time must be less than expire time."
         );
-        require(
-            katibeh.payableAddresses.length == katibeh.payableShares.length,
-            "Katibeh721: payable arrays must be the same lenght"
-        );
         return keccak256(abi.encode(katibeh));
     }
 
@@ -54,7 +50,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
         );
         _safeMint(katibeh.creator, tokenId);
         _registerURI(katibeh.tokenURI, tokenId);
-        _setData(tokenId, katibeh);
+        _setMintData(tokenId, katibeh);
         _emitTags(tokenId, katibeh.tags);
         _setDappData(tokenId, dappData);
         _setSignature(tokenId, sig);
