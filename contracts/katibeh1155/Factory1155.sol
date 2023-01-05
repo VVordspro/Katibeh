@@ -5,18 +5,10 @@ import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Katibeh1155.sol";
 import "./utils/FeeManager.sol";
-import "../utils/DataStorage.sol";
 import "../utils/VerifySig.sol";
 import "../utils/qHash.sol";
 
-// data haye struct ro emit mikonim, payable address ha o share ha o exprire time ina ro store mikonim
-
-// tooye faqat tokenId ro migiram o do ta array payment e dapp
-
-// dapp data age por bood emitesh konim.
-
-// do ta array ro ke male payable e dapp bood, ye array az struct mikonim.
-contract Factory1155 is FeeManager, DataStorage {
+contract Factory1155 is FeeManager {
     using qHash for bytes;
     using VerifySig for bytes;
     using Clones for address;
@@ -26,7 +18,6 @@ contract Factory1155 is FeeManager, DataStorage {
     mapping(uint256 => address) public _tokenCollection;
 
     Katibeh1155 public implementation = new Katibeh1155();
-
 
     event TokenData(uint256 indexed tokenId, bytes data);
 
@@ -96,37 +87,37 @@ contract Factory1155 is FeeManager, DataStorage {
         _tokenCollection[tokenId] = collectionAddr;
         k1155.mint(katibeh.creator, tokenId, 5, "");
         k1155.setURI(tokenId, katibeh.tokenURI);
-        _setCollectData(tokenId, katibeh.toTokenId, katibeh.creator, katibeh.data, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
+        _setCollectData(tokenId, katibeh);
+        if(data.length != 0) {
+            emit TokenData(tokenId, data);
+        }
     }
 
     function collect2(
         uint256 tokenId,
-        bytes calldata dappData
+        bytes calldata data,
+        Payee[] calldata dapps
     ) public payable {
-
+        Katibeh1155 k1155 = Katibeh1155(_tokenCollection[tokenId]);
         require(
-
-        )
-
+            k1155.totalSupply(tokenId) != 0,
+            "Factory1155: this collection has not collected before"
+        );
         uint256 _fee = fee(tokenId);
         require(
             msg.value >= _fee,
             "Factory1155: insufficient fee"
         );
-            
-        require(
-            k1155.totalSupply(tokenId) == 0,
-            "Factory1155: this collection has been already collected"
-        );
-        _payFees(katibeh.creator, _fee, katibeh.payableAddresses, katibeh.payableShares);
+        _payFees(_fee, idToTokenData[tokenId].owners, dapps);
 
         if(msg.value > _fee) {
             payable(msg.sender).transfer(msg.value - _fee);
         }
 
         k1155.mint(msg.sender, tokenId, 1, "");
-        if(katibeh.data.length != 0) {
-            emit TokenData(tokenId, katibeh.data);
+        
+        if(data.length != 0) {
+            emit TokenData(tokenId, data);
         }
     }
 

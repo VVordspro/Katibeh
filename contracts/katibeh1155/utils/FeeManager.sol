@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-abstract contract FeeManager {
+import "../../utils/DataStorage.sol";
+
+abstract contract FeeManager is DataStorage {
     
     address payable receiver1;
     uint256 constant baseFee = 10 ** 18;
@@ -15,25 +17,28 @@ abstract contract FeeManager {
     }
 
     function _payFees(
-        address creator,
         uint256 paidAmount,
-        address[] calldata receivers, 
-        uint16[] calldata fractions
+        Payee[] memory owners,
+        Payee[] calldata dapps
     ) internal {
-        _pay(creator, paidAmount * 750/1000);
         _pay(receiver1, paidAmount * 25/1000);
 
-        require(
-            receivers.length == fractions.length,
-            "FeeManager: receivers and fractions must be the same length"
-        );
-
-        uint256 dappShare = paidAmount - (paidAmount * 25/1000 + paidAmount * 750/1000);
+        uint256 dappShare = paidAmount * 750/1000;
+        uint256 ownerShare = paidAmount - (paidAmount * 25/1000 + paidAmount * 750/1000);
         
-        uint16 totalFractions;
-        for(uint8 i; i < fractions.length; i++) {
-            totalFractions += fractions[i];
-            _pay(receivers[i], dappShare * fractions[i]/10000);
+        uint256 len = owners.length;
+        uint256 totalFractions;
+
+        for(uint256 i; i < len; i++) {
+            totalFractions += owners[i].share;
+            _pay(owners[i].addr, ownerShare * owners[i].share/10000);
+        }
+
+        len = dapps.length;
+        totalFractions = 0;
+        for(uint256 i; i < len; i++) {
+            totalFractions += dapps[i].share;
+            _pay(dapps[i].addr, dappShare * dapps[i].share/10000);
         }
 
         require(

@@ -61,19 +61,13 @@ abstract contract DataStorage {
 
     function _setCollectData(
         uint256 tokenId,
-        uint256[] calldata toTokenId,
-        address creator,
-        bytes calldata data,
-        uint256 mintTime,
-        uint256 initTime,
-        uint256 expTime,
-        Payee[] calldata owners
+        Katibeh calldata katibeh
     ) internal {
-        idToTokenData[tokenId] = KatibehData(expTime, data, owners);
-        emit NewToken(tokenId, creator, data, mintTime, initTime, expTime);
-        uint256 toIdLen = toTokenId.length;
+        idToTokenData[tokenId] = KatibehData(katibeh.expTime, katibeh.data, katibeh.owners);
+        emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
+        uint256 toIdLen = katibeh.toTokenId.length;
         for (uint256 i; i < toIdLen; i++){
-            emit NewReply(tokenId, toTokenId[i]);
+            emit NewReply(tokenId, katibeh.toTokenId[i]);
         }
     }
 
