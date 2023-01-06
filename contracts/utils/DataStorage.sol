@@ -28,7 +28,6 @@ abstract contract DataStorage {
 
     struct KatibehData {
         uint256 expTime;
-        bytes data;
         Payee[] owners;
     }
 
@@ -63,7 +62,7 @@ abstract contract DataStorage {
         uint256 tokenId,
         Katibeh calldata katibeh
     ) internal {
-        idToTokenData[tokenId] = KatibehData(katibeh.expTime, katibeh.data, katibeh.owners);
+        idToTokenData[tokenId] = KatibehData(katibeh.expTime, katibeh.owners);
         emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
         uint256 toIdLen = katibeh.toTokenId.length;
         for (uint256 i; i < toIdLen; i++){

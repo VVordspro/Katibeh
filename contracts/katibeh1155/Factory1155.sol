@@ -30,11 +30,11 @@ contract Factory1155 is FeeManager {
         return Katibeh1155(_tokenCollection[tokenId]).uri(tokenId);
     }
 
-    function getHash(Katibeh calldata katibeh) public pure returns(bytes32) {
+    function getHash(Katibeh calldata katibeh) internal pure returns(bytes32) {
         return keccak256(abi.encode(katibeh));
     }
     
-    function collect1(
+    function firstFreeCollect(
         uint256 tokenId,
         Katibeh calldata katibeh,
         bytes calldata sig,
@@ -85,15 +85,16 @@ contract Factory1155 is FeeManager {
             "Factory1155: this collection has been already collected"
         );
         _tokenCollection[tokenId] = collectionAddr;
-        k1155.mint(katibeh.creator, tokenId, 5, "");
         k1155.setURI(tokenId, katibeh.tokenURI);
         _setCollectData(tokenId, katibeh);
         if(data.length != 0) {
             emit TokenData(tokenId, data);
         }
+        k1155.mint(katibeh.creator, tokenId, 5, "");
+        k1155.mint(msg.sender, tokenId, 1, "");
     }
 
-    function collect2(
+    function collect(
         uint256 tokenId,
         bytes calldata data,
         Payee[] calldata dapps
@@ -105,20 +106,21 @@ contract Factory1155 is FeeManager {
         );
         uint256 _fee = fee(tokenId);
         require(
+            block.timestamp <= idToTokenData[tokenId].expTime,
+            "Factory1155: token sale time is expired"
+        );
+        require(
             msg.value >= _fee,
             "Factory1155: insufficient fee"
         );
-        _payFees(_fee, idToTokenData[tokenId].owners, dapps);
-
         if(msg.value > _fee) {
             payable(msg.sender).transfer(msg.value - _fee);
         }
-
         k1155.mint(msg.sender, tokenId, 1, "");
-        
         if(data.length != 0) {
             emit TokenData(tokenId, data);
         }
+        _payFees(_fee, k1155.owner(), idToTokenData[tokenId].owners, dapps);
     }
 
     function predictCollectionAddr(

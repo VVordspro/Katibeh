@@ -6,7 +6,7 @@ import "../../utils/DataStorage.sol";
 abstract contract FeeManager is DataStorage {
     
     address payable receiver1;
-    uint256 constant baseFee = 10 ** 18;
+    uint256 constant baseFee = 10 ** 17;
 
     function setReceiver1(address payable newAddr) public {
         require(
@@ -16,35 +16,42 @@ abstract contract FeeManager is DataStorage {
         receiver1 = newAddr;
     }
 
+// receiver1 bayad 2 darsad begire o akhare kar harchi baqi moond ro daryaft mikone
     function _payFees(
         uint256 paidAmount,
+        address creator,
         Payee[] memory owners,
         Payee[] calldata dapps
     ) internal {
-        _pay(receiver1, paidAmount * 25/1000);
+        uint256 receiver1Share = paidAmount * 20/1000;
+        uint256 dappShare = paidAmount * 350/1000;
 
-        uint256 dappShare = paidAmount * 750/1000;
-        uint256 ownerShare = paidAmount - (paidAmount * 25/1000 + paidAmount * 750/1000);
-        
-        uint256 len = owners.length;
-        uint256 totalFractions;
+        _pay(receiver1, receiver1Share);
 
+        uint256 len = dapps.length;
+        uint256 denom;
         for(uint256 i; i < len; i++) {
-            totalFractions += owners[i].share;
-            _pay(owners[i].addr, ownerShare * owners[i].share/10000);
+            denom += dapps[i].share;
+        }
+        for(uint256 i; i < len; i++) {
+            _pay(dapps[i].addr, dappShare * dapps[i].share/denom);
         }
 
-        len = dapps.length;
-        totalFractions = 0;
-        for(uint256 i; i < len; i++) {
-            totalFractions += dapps[i].share;
-            _pay(dapps[i].addr, dappShare * dapps[i].share/10000);
+        uint256 ownerShare = address(this).balance;
+        len = owners.length;
+        if(len == 0) {
+            _pay(creator, ownerShare);
+        } else {
+            denom = 0;
+            for(uint256 i; i < len; i++) {
+                denom += owners[i].share;
+            }
+            for(uint256 i; i < len-1; i++) {
+                _pay(owners[i].addr, ownerShare * owners[i].share/denom);
+            }
+            _pay(owners[len-1].addr, address(this).balance);
         }
 
-        require(
-            totalFractions == 10000, 
-            "FeeManager: total fractions number must equal 10000"
-        );
     }
 
     function _pay(address receiver, uint256 amount) internal {
