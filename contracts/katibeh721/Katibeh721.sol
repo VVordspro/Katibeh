@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "../utils/qHash.sol";
 import "../utils/VerifySig.sol";
-import "../utils/DataStorage.sol";
+import "./utils/DataStorage.sol";
 import "./utils/TraceStorage.sol";
 
 contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, TraceStorage {

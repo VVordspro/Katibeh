@@ -4,7 +4,6 @@ pragma solidity ^0.8.4;
 abstract contract DataStorage {
 
     mapping(uint256 => Katibeh) idToToken;
-    mapping(uint256 => KatibehData) idToTokenData;
     mapping(bytes32 => uint256) URIsRegistered;
     mapping(uint256 => bytes) _dappData;
     mapping(uint256 => bytes) _signatures;
@@ -23,11 +22,6 @@ abstract contract DataStorage {
         bytes data;
         uint256[] toTokenId;
         bytes32[] tags;
-        Payee[] owners;
-    }
-
-    struct KatibehData {
-        uint256 expTime;
         Payee[] owners;
     }
 
@@ -56,18 +50,6 @@ abstract contract DataStorage {
         bytes32 uriHash = keccak256(abi.encodePacked(_uri));
         require(getUriId(uriHash) == 0, "DataStorage: uri registered already");
         URIsRegistered[uriHash] = tokenId;
-    }
-
-    function _setCollectData(
-        uint256 tokenId,
-        Katibeh calldata katibeh
-    ) internal {
-        idToTokenData[tokenId] = KatibehData(katibeh.expTime, katibeh.owners);
-        emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
-        uint256 toIdLen = katibeh.toTokenId.length;
-        for (uint256 i; i < toIdLen; i++){
-            emit NewReply(tokenId, katibeh.toTokenId[i]);
-        }
     }
 
     function _burnData(uint256 tokenId) internal {

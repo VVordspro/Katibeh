@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "FeeManager",
-  "sourceName": "contracts/katibeh1155/utils/FeeManager.sol",
+  "contractName": "DataStorage",
+  "sourceName": "contracts/katibeh1155/utils/DataStorage.sol",
   "abi": [
     {
       "anonymous": false,
@@ -64,19 +64,6 @@
       ],
       "name": "NewToken",
       "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address payable",
-          "name": "newAddr",
-          "type": "address"
-        }
-      ],
-      "name": "setReceiver1",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
     }
   ],
   "bytecode": "0x",
