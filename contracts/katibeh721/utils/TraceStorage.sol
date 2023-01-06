@@ -276,12 +276,16 @@ abstract contract TraceStorage {
     }
 
     function _registerTags(uint256 id, bytes32[] calldata tags) internal {
-        require(tags.length == 3, "DataStorage: tags length must be 3");
-        _setTagDetails(id, tags[0]);
-        _setTagDetails(id, tags[1]);
-        _setTagDetails(id, tags[2]);
-        _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1])));
-        _setTagDetails(id, keccak256(abi.encodePacked(tags[1], tags[2])));
-        _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1], tags[2])));
+        uint256 len = tags.length;
+        if(len > 0) {
+            _setTagDetails(id, tags[0]);
+        } else if (len > 1) {
+            _setTagDetails(id, tags[1]);
+            _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1])));
+        } else {
+            _setTagDetails(id, tags[2]);
+            _setTagDetails(id, keccak256(abi.encodePacked(tags[1], tags[2])));
+            _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1], tags[2])));
+        }
     }
 }

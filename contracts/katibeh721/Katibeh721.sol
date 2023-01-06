@@ -23,14 +23,14 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
 
     function getHash(Katibeh calldata katibeh) public view returns(bytes32) {
         require(
-            katibeh.mintTime < block.timestamp + 1 hours &&
-            katibeh.mintTime > block.timestamp - 1 hours,
-            "Katibeh721: more than one hour mint time difference."
+            block.timestamp >= katibeh.signTime &&
+            block.timestamp < katibeh.signTime + 10 minutes,
+            "Katibeh721: more than 10 minutes sign time difference."
         );
         require(
-            katibeh.mintTime <= katibeh.initTime &&
+            katibeh.signTime <= katibeh.initTime &&
             katibeh.initTime <= katibeh.expTime,
-            "Katibeh721: mint time must be less than init time & init time must be less than expire time."
+            "Katibeh721: sign time must be less than init time & init time must be less than expire time."
         );
         return keccak256(abi.encode(katibeh));
     }
@@ -48,6 +48,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
             ),
             "Katibeh721: Invalid signature"
         );
+        tokenMintTime[tokenId] = block.timestamp;
         _safeMint(katibeh.creator, tokenId);
         _registerURI(katibeh.tokenURI, tokenId);
         _setMintData(tokenId, katibeh);

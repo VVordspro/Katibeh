@@ -12,7 +12,7 @@ abstract contract DataStorage {
 
     struct Katibeh {
         address creator;
-        uint256 mintTime;
+        uint256 signTime;
         uint256 initTime;
         uint256 expTime;
         string tokenURI;
@@ -31,7 +31,7 @@ abstract contract DataStorage {
         uint256 indexed tokenId, 
         address indexed creator, 
         bytes indexed data, 
-        uint256 mintTime,
+        uint256 signTime,
         uint256 initTime,
         uint256 expTime
     );
@@ -46,7 +46,7 @@ abstract contract DataStorage {
         Katibeh calldata katibeh
     ) internal {
         idToTokenData[tokenId] = KatibehData(katibeh.expTime, katibeh.owners);
-        emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.mintTime, katibeh.initTime, katibeh.expTime);
+        emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.signTime, katibeh.initTime, katibeh.expTime);
         uint256 toIdLen = katibeh.toTokenId.length;
         for (uint256 i; i < toIdLen; i++){
             emit NewReply(tokenId, katibeh.toTokenId[i]);
