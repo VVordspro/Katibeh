@@ -722,8 +722,8 @@
       ]
     },
     "/home/vvords/solidity/FarsiNFT/contracts/katibeh1155/Factory1155.sol": {
-      "lastModificationDate": 1672994845212,
-      "contentHash": "2c8d2f2060970e0e721568de0f60d125",
+      "lastModificationDate": 1672995037233,
+      "contentHash": "34e565013115a882418d4ada11bc15a3",
       "sourceName": "contracts/katibeh1155/Factory1155.sol",
       "solcConfig": {
         "version": "0.8.17",
