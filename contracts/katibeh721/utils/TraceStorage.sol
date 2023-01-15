@@ -279,13 +279,15 @@ abstract contract TraceStorage {
         uint256 len = tags.length;
         if(len > 0) {
             _setTagDetails(id, tags[0]);
-        } else if (len > 1) {
-            _setTagDetails(id, tags[1]);
-            _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1])));
-        } else {
-            _setTagDetails(id, tags[2]);
-            _setTagDetails(id, keccak256(abi.encodePacked(tags[1], tags[2])));
-            _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1], tags[2])));
+            if (len > 1) {
+                _setTagDetails(id, tags[1]);
+                _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1])));
+                if(len > 2) {
+                    _setTagDetails(id, tags[2]);
+                    _setTagDetails(id, keccak256(abi.encodePacked(tags[1], tags[2])));
+                    _setTagDetails(id, keccak256(abi.encodePacked(tags[0], tags[1], tags[2])));
+                }
+            }
         }
     }
 }
