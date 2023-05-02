@@ -23,7 +23,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
 
     function getHash(Katibeh calldata katibeh) public view returns(bytes32) {
         require(
-            block.timestamp >= katibeh.signTime - 1 &&
+            block.timestamp >= katibeh.signTime - 1 hours &&
             block.timestamp < katibeh.signTime + 1 hours,
             "Katibeh721: more than 1 hours sign time difference."
         );

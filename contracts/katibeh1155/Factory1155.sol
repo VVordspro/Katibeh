@@ -22,7 +22,10 @@ contract Factory1155 is FeeManager {
     event TokenData(uint256 indexed tokenId, bytes data);
 
     function fee(uint256 tokenId) public view returns(uint256) {
-        uint256 supply = Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId);
+        uint256 supply;
+        if(_tokenCollection[tokenId] != address(0)){
+            supply = Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId);
+        }
         return supply > 5 ? (supply - 5) * baseFee : 0;
     }
 
@@ -60,8 +63,10 @@ contract Factory1155 is FeeManager {
             "Factory1155: token sale time has not started yet"
         );
         for(uint256 i; i < katibeh.toTokenId.length; i++) {
+            address colAddr = _tokenCollection[katibeh.toTokenId[i]];
             require(
-                Katibeh1155(_tokenCollection[katibeh.toTokenId[i]]).totalSupply(katibeh.toTokenId[i]) > 0,
+                colAddr != address(0) &&
+                Katibeh1155(colAddr).totalSupply(katibeh.toTokenId[i]) > 0,
                 "Factory1155: to token id has not minted on current chain"
             );
         }
@@ -79,7 +84,7 @@ contract Factory1155 is FeeManager {
             collectionAddr = _userCollection[katibeh.creator];
             k1155 = Katibeh1155(collectionAddr);
         }
-            
+
         require(
             k1155.totalSupply(tokenId) == 0,
             "Factory1155: this collection has been already collected"
@@ -131,4 +136,4 @@ contract Factory1155 is FeeManager {
             address(this)
         );
     }
-}
+} 

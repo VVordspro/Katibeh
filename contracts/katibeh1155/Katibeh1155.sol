@@ -23,7 +23,7 @@ contract Katibeh1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
         address owner_, 
         string memory name_, 
         string memory symbol_
-    ) public onlyInitializing {
+    ) public initializer {
         name = name_;
         symbol = symbol_;
         Factory = msg.sender;
@@ -36,10 +36,6 @@ contract Katibeh1155 is ERC1155, ERC1155Burnable, ERC1155Supply, ERC1155URIStora
         uint256 amount,
         bytes memory data
     ) public onlyFactory {
-        require(
-            balanceOf(addr, id) == 0,
-            "Mainnet Farsi: token collected already"
-        );
         _mint(addr, id, amount, data);
     }
 
