@@ -54,14 +54,15 @@ contract Factory1155 is FeeManager {
             tokenId == sig.q(),
             "Factory1155: wrong token id"
         );
+
+        address collectionAddr;
+        Katibeh1155 k1155;
+
         require(
-            block.timestamp <= katibeh.expTime,
-            "Factory1155: token sale time is expired"
+            k1155.totalSupply(tokenId) == 0,
+            "Factory1155: this collection has been already collected"
         );
-        require(
-            block.timestamp >= katibeh.initTime,
-            "Factory1155: token sale time has not started yet"
-        );
+
         for(uint256 i; i < katibeh.toTokenId.length; i++) {
             address colAddr = _tokenCollection[katibeh.toTokenId[i]];
             require(
@@ -70,9 +71,6 @@ contract Factory1155 is FeeManager {
                 "Factory1155: to token id has not minted on current chain"
             );
         }
-        address collectionAddr;
-        Katibeh1155 k1155;
-
         if(_userCollection[katibeh.creator] == address(0)){
             collectionAddr = address(implementation).cloneDeterministic(
                 bytes32(abi.encodePacked(katibeh.creator))
@@ -85,17 +83,26 @@ contract Factory1155 is FeeManager {
             k1155 = Katibeh1155(collectionAddr);
         }
 
-        require(
-            k1155.totalSupply(tokenId) == 0,
-            "Factory1155: this collection has been already collected"
-        );
+        if(msg.sender == katibeh.creator){
+
+        } else {
+            require(
+                block.timestamp <= katibeh.expTime,
+                "Factory1155: token sale time is expired"
+            );
+            require(
+                block.timestamp >= katibeh.initTime,
+                "Factory1155: token sale time has not started yet"
+            );
+            k1155.mint(katibeh.creator, tokenId, 5, "");
+        }
+
         _tokenCollection[tokenId] = collectionAddr;
         k1155.setURI(tokenId, katibeh.tokenURI);
         _setCollectData(tokenId, katibeh);
         if(data.length != 0) {
             emit TokenData(tokenId, data);
         }
-        k1155.mint(katibeh.creator, tokenId, 5, "");
         k1155.mint(msg.sender, tokenId, 1, "");
     }
 
