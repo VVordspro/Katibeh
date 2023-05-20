@@ -51,7 +51,6 @@ abstract contract FeeManager is DataStorage {
             }
             _pay(owners[len-1].addr, address(this).balance);
         }
-
     }
 
     function _pay(address receiver, uint256 amount) internal {

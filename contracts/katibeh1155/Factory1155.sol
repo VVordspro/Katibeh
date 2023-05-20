@@ -94,7 +94,7 @@ contract Factory1155 is FeeManager {
                 block.timestamp >= katibeh.initTime,
                 "Factory1155: token sale time has not started yet"
             );
-            k1155.mint(katibeh.creator, tokenId, 5, "");
+            k1155.mint(katibeh.creator, tokenId, 1, "");
         }
 
         _tokenCollection[tokenId] = collectionAddr;
