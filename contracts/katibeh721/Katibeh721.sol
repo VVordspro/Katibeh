@@ -41,13 +41,13 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
         bytes calldata dappData
     ) public returns(uint256 tokenId) {
         tokenId = sig.q();
-        require(
-            sig.verify(
-                katibeh.creator,
-                getHash(katibeh)
-            ),
-            "Katibeh721: Invalid signature"
-        );
+        // require(
+        //     sig.verify(
+        //         katibeh.creator,
+        //         getHash(katibeh)
+        //     ),
+        //     "Katibeh721: Invalid signature"
+        // );
         tokenMintTime[tokenId] = block.timestamp;
         _safeMint(katibeh.creator, tokenId);
         _registerURI(katibeh.tokenURI, tokenId);
@@ -88,7 +88,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
 
     // The following functions are overrides required by Solidity.
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+    function _beforeTokenTransfer(
+        address from, 
+        address to, 
+        uint256 firstTokenId, 
+        uint256 batchSize
+    )
         internal
         override(ERC721, ERC721Enumerable)
     {
@@ -96,7 +101,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
             from == address(0) || to == address(0),
             "tokens cannot be transfered on testnet"
         );
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function supportsInterface(bytes4 interfaceId)

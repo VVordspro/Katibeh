@@ -7,12 +7,12 @@ const { ACCOUNT, POLYGONSCAN_API_KEY, ETHERSCAN_API_KEY } = require('./secret.js
 
 module.exports = {
   solidity: {
-    version: "0.8.17",
+    version: "0.8.19",
     settings: {
       viaIR: true,
       optimizer: {
         enabled: true,
-        runs: 200,
+        runs: 1000000,
       },
     },
   },

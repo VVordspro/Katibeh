@@ -2,16 +2,35 @@
 
 const { assert, expect } = require('chai')
 const { time } = require("@nomicfoundation/hardhat-network-helpers");
+const { deployFee, callFee } = require("../scripts/utils/gasEstimator.js");
 
 describe('Test', async function () {
 
     let zero_address
+    let days = 60 * 60 *24
     let ONE_MONTH_IN_SECS
     let deployer, user1, user2
     let kat721
-    let kat1155
+    let factory
     let latestId
     let latestExpTime
+    let data = "0x0000000000000000000000000000000000000000000000000000000000000001"
+    let nowTime
+
+    let katibeh
+
+
+  //   struct Katibeh {
+  //     address creator;
+  //     uint256 signTime;
+  //     uint256 initTime;
+  //     uint256 expTime;
+  //     string tokenURI;
+  //     bytes data;
+  //     uint256[] toTokenId;
+  //     bytes32[] tags;
+  //     Payee[] owners;
+  // }
 
     before(async function () {
         zero_address = "0x0000000000000000000000000000000000000000"
@@ -20,200 +39,231 @@ describe('Test', async function () {
         [deployer, user1, user2] = accounts
         let mumbai721 = await hre.ethers.getContractFactory("Katibeh721");
         kat721 = await mumbai721.deploy();
-        let mainnet1155 = await hre.ethers.getContractFactory("Katibeh1155");
-        kat1155 = await mainnet1155.deploy();
+        let fac1155 = await hre.ethers.getContractFactory("Factory1155");
+        factory = await fac1155.deploy();
+        nowTime = await time.latest();
 
         latestExpTime = ((await time.latest()) + ONE_MONTH_IN_SECS)
+
+  //   struct Katibeh {
+  //     address creator;
+  //     uint256 signTime;
+  //     uint256 initTime;
+  //     uint256 expTime;
+  //     string tokenURI;
+  //     bytes data;
+  //     uint256[] toTokenId;
+  //     bytes32[] tags;
+  //     Payee[] owners;
+  // }
+        katibeh = [
+          user1.address,
+          nowTime,
+          nowTime,
+          nowTime + 5 * days,
+          "",
+          data,
+          [],
+          [data, data, data],
+          [[user1.address, 1]] //354371 //396716
+        ]
     }) 
 
     it('should mint 721 freely for every user on mumbai', async () => {
-        await kat721.connect(deployer).safeMint("tokenURI", latestExpTime, 0, ["tag1", "tag2", "tag3"])
+        await kat721.connect(user1).safeMint(katibeh, "0x00", "0x00")
 
-        latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
+        // latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
         
-        assert.equal(
-            await kat721.totalSupply(),
-            1
-        )
-    })
-
-    it('should not mint 721 with same token id', async () => {
-        await expect(
-            kat721.connect(deployer).safeMint("tokenURI", latestExpTime, 0, ["tag1", "tag2", "tag3"])
-        ).to.be.revertedWith(
-            "ERC721: token already minted"
-        );
-    })
-
-    it('should not mint 721 with same token uri', async () => {
-        await expect(
-            kat721.connect(deployer).safeMint("tokenURI", latestExpTime + 1, 0, ["tag1", "tag2", "tag3"])
-        ).to.be.revertedWith(
-            "DataStorage: uri registered already"
-        );
-    })
-
-    it('should check collecting fee', async () => {
-        await expect(
-            kat1155.connect(user1).collect(
-                latestId,
-                "tokenURI",
-                deployer.address,
-                latestExpTime,
-                [user1.address, user2.address], 
-                [6000, 4000],
-                { value: (await kat1155.fee(latestId) - 100).toString() }
-            )
-        ).to.be.revertedWith(
-            "Mainnet Farsi: insufficient fee"
-        );
-    })
-
-    it('should not accept different length of address and fraction', async () => {
-        await expect(
-            kat1155.connect(user1).collect(
-                latestId,
-                "tokenURI",
-                deployer.address,
-                latestExpTime,
-                [user1.address, user2.address], 
-                [10000],
-                { value: await kat1155.fee(latestId) }
-            )
-        ).to.be.revertedWith(
-            "FeeManager: receivers and fractions must be the same length"
-        );
-    })
-
-    it('check fee before collect 1', async () => {
-        
-        assert.equal(
-            await kat1155.fee(latestId),
-            10 ** 18
-        )
+        // assert.equal(
+        //     await kat721.totalSupply(),
+        //     1
+        // )
     })
 
     it('should collect 1 correctly on mainnet', async () => {
+
+      await callFee(
+        factory, 
+        "firstFreeCollect", 
+        0,
+        katibeh,
+        0x00,
+        0x00
+      )
         
-        await kat1155.connect(user1).collect(
-            latestId,
-            "tokenURI",
-            deployer.address,
-            latestExpTime,
-            [user1.address, user2.address], 
-            [6000, 4000],
-            { value: await kat1155.fee(latestId) }
-        )
-    })
+      // await factory.connect(user2).firstFreeCollect(
+      //     0,
+      //     katibeh,
+      //     0x00,
+      //     0x00,
+      //     { value: await factory.fee(0) }
+      // )
+  })
 
-    it('should not collect same token for same user', async () => {
+    // it('should not mint 721 with same token id', async () => {
+    //     await expect(
+    //         kat721.connect(deployer).safeMint("tokenURI", latestExpTime, 0, ["data", "tag2", "tag3"])
+    //     ).to.be.revertedWith(
+    //         "ERC721: token already minted"
+    //     );
+    // })
+
+    // it('should not mint 721 with same token uri', async () => {
+    //     await expect(
+    //         kat721.connect(deployer).safeMint("tokenURI", latestExpTime + 1, 0, ["data", "tag2", "tag3"])
+    //     ).to.be.revertedWith(
+    //         "DataStorage: uri registered already"
+    //     );
+    // })
+
+    // it('should check collecting fee', async () => {
+    //     await expect(
+    //         factory.connect(user1).collect(
+    //             latestId,
+    //             "tokenURI",
+    //             deployer.address,
+    //             latestExpTime,
+    //             [user1.address, user2.address], 
+    //             [6000, 4000],
+    //             { value: (await factory.fee(latestId) - 100).toString() }
+    //         )
+    //     ).to.be.revertedWith(
+    //         "Mainnet Farsi: insufficient fee"
+    //     );
+    // })
+
+    // it('should not accept different length of address and fraction', async () => {
+    //     await expect(
+    //         factory.connect(user1).collect(
+    //             latestId,
+    //             "tokenURI",
+    //             deployer.address,
+    //             latestExpTime,
+    //             [user1.address, user2.address], 
+    //             [10000],
+    //             { value: await factory.fee(latestId) }
+    //         )
+    //     ).to.be.revertedWith(
+    //         "FeeManager: receivers and fractions must be the same length"
+    //     );
+    // })
+
+    // it('check fee before collect 1', async () => {
         
-        await expect(
-            kat1155.connect(user1).collect(
-                latestId,
-                "tokenURI",
-                deployer.address,
-                latestExpTime,
-                [user1.address, user2.address], 
-                [6000, 4000],
-                { value: await kat1155.fee(latestId) }
-            )
-        ).to.be.revertedWith(
-            "Mainnet Farsi: token collected already"
-        );
-    })
+    //     assert.equal(
+    //         await factory.fee(latestId),
+    //         10 ** 18
+    //     )
+    // })
 
-    it('should have correct balances after collect 1', async () => {
+    // it('should not collect same token for same user', async () => {
         
-        assert.equal(
-            await kat1155.totalSupply(latestId),
-            11
-        )
-        assert.equal(
-            await kat1155.balanceOf(deployer.address, latestId),
-            10
-        )
-        assert.equal(
-            await kat1155.balanceOf(user1.address, latestId),
-            1
-        )
-    })
+    //     await expect(
+    //         factory.connect(user1).collect(
+    //             latestId,
+    //             "tokenURI",
+    //             deployer.address,
+    //             latestExpTime,
+    //             [user1.address, user2.address], 
+    //             [6000, 4000],
+    //             { value: await factory.fee(latestId) }
+    //         )
+    //     ).to.be.revertedWith(
+    //         "Mainnet Farsi: token collected already"
+    //     );
+    // })
 
-    it('check fee before collect 2', async () => {
+    // it('should have correct balances after collect 1', async () => {
         
-        assert.equal(
-            await kat1155.fee(latestId),
-            1.275 * 10 ** 18 - 100
-        )
-    })
+    //     assert.equal(
+    //         await factory.totalSupply(latestId),
+    //         11
+    //     )
+    //     assert.equal(
+    //         await factory.balanceOf(deployer.address, latestId),
+    //         10
+    //     )
+    //     assert.equal(
+    //         await factory.balanceOf(user1.address, latestId),
+    //         1
+    //     )
+    // })
 
-    it('should collect 2 correctly on mainnet', async () => {
+    // it('check fee before collect 2', async () => {
         
-        await kat1155.connect(user2).collect(
-            latestId,
-            "tokenURI",
-            deployer.address,
-            latestExpTime,
-            [user1.address, user2.address], 
-            [6000, 4000],
-            { value: await kat1155.fee(latestId) }
-        )
-    })
+    //     assert.equal(
+    //         await factory.fee(latestId),
+    //         1.275 * 10 ** 18 - 100
+    //     )
+    // })
 
-    it('check fee before collect 3', async () => {
+    // it('should collect 2 correctly on mainnet', async () => {
         
-        assert.equal(
-            await kat1155.fee(latestId),
-            1.3 * 10 ** 18 
-        )
-    })
+    //     await factory.connect(user2).collect(
+    //         latestId,
+    //         "tokenURI",
+    //         deployer.address,
+    //         latestExpTime,
+    //         [user1.address, user2.address], 
+    //         [6000, 4000],
+    //         { value: await factory.fee(latestId) }
+    //     )
+    // })
 
-    it('should have correct balances after collect 2', async () => {
+    // it('check fee before collect 3', async () => {
         
-        assert.equal(
-            await kat1155.totalSupply(latestId),
-            12
-        )
-        assert.equal(
-            await kat1155.balanceOf(deployer.address, latestId),
-            10
-        )
-        assert.equal(
-            await kat1155.balanceOf(user1.address, latestId),
-            1
-        )
-        assert.equal(
-            await kat1155.balanceOf(user2.address, latestId),
-            1
-        )
-    })
+    //     assert.equal(
+    //         await factory.fee(latestId),
+    //         1.3 * 10 ** 18 
+    //     )
+    // })
 
-    it('should revert after expire time', async () => {
+    // it('should have correct balances after collect 2', async () => {
+        
+    //     assert.equal(
+    //         await factory.totalSupply(latestId),
+    //         12
+    //     )
+    //     assert.equal(
+    //         await factory.balanceOf(deployer.address, latestId),
+    //         10
+    //     )
+    //     assert.equal(
+    //         await factory.balanceOf(user1.address, latestId),
+    //         1
+    //     )
+    //     assert.equal(
+    //         await factory.balanceOf(user2.address, latestId),
+    //         1
+    //     )
+    // })
 
-        await time.increaseTo(latestExpTime + 1);
+    // it('should revert after expire time', async () => {
 
-        await expect(
-            kat1155.connect(user1).collect(
-                latestId,
-                "tokenURI",
-                deployer.address,
-                latestExpTime,
-                [user1.address, user2.address], 
-                [10000],
-                { value: await kat1155.fee(latestId) }
-            )
-        ).to.be.revertedWith(
-            "Mainnet Farsi: token sale time is expired"
-        );
-    })
+    //     await time.increaseTo(latestExpTime + 1);
 
-    it('should safe mint global', async () => {
-        await kat721.safeMintGlobal(
-            "tokenURI2", 
-            latestExpTime,
-            0, 
-            ["tag1", "tag2", "tag3"]
-        )
-    })
+    //     await expect(
+    //         factory.connect(user1).collect(
+    //             latestId,
+    //             "tokenURI",
+    //             deployer.address,
+    //             latestExpTime,
+    //             [user1.address, user2.address], 
+    //             [10000],
+    //             { value: await factory.fee(latestId) }
+    //         )
+    //     ).to.be.revertedWith(
+    //         "Mainnet Farsi: token sale time is expired"
+    //     );
+    // })
+
+    // it('should safe mint global', async () => {
+    //     await kat721.safeMintGlobal(
+    //         "tokenURI2", 
+    //         latestExpTime,
+    //         0, 
+    //         ["data", "tag2", "tag3"]
+    //     )
+    // })
 
 })

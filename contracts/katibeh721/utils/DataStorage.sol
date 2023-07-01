@@ -123,4 +123,14 @@ abstract contract DataStorage {
         }
         dappData = _dappData[tokenId];
     }
+
+    function tokenShareholders(uint256 tokenId) public view returns(Payee[] memory _owners_) {
+        Katibeh memory token = idToToken[tokenId];
+        if(token.owners.length == 0) {
+            _owners_ = new Payee[](1);
+            _owners_[0] = Payee(token.creator, 1);
+        } else {
+            return token.owners;
+        }
+    }
 }

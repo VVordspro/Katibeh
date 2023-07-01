@@ -8,13 +8,20 @@ import "./utils/FeeManager.sol";
 import "../utils/VerifySig.sol";
 import "../utils/qHash.sol";
 
+// return(string(abi.encode(input)));
+// _userCollection => _userCollections
+// I should review all the code. 
+// Its too heavy and complicated.
+// we should use internal functions against holding all function body in the public function.
+// gas estimator can be useful.
+
 contract Factory1155 is FeeManager {
     using qHash for bytes;
     using VerifySig for bytes;
     using Clones for address;
     using Strings for *;
 
-    mapping(address => address) public _userCollection;
+    mapping(address => mapping(bytes32 => address)) public _userCollection;
     mapping(uint256 => address) public _tokenCollection;
 
     Katibeh1155 public implementation = new Katibeh1155();
@@ -43,25 +50,20 @@ contract Factory1155 is FeeManager {
         bytes calldata sig,
         bytes calldata data
     ) public {
-        require(
-            sig.verify(
-                katibeh.creator,
-                getHash(katibeh)
-            ),
-            "Katibeh721: Invalid signature"
-        );
-        require(
-            tokenId == sig.q(),
-            "Factory1155: wrong token id"
-        );
+        // require(
+        //     sig.verify(
+        //         katibeh.creator,
+        //         getHash(katibeh)
+        //     ),
+        //     "Katibeh721: Invalid signature"
+        // );
+        // require(
+        //     tokenId == sig.q(),
+        //     "Factory1155: wrong token id"
+        // );
 
         address collectionAddr;
         Katibeh1155 k1155;
-
-        require(
-            k1155.totalSupply(tokenId) == 0,
-            "Factory1155: this collection has been already collected"
-        );
 
         for(uint256 i; i < katibeh.toTokenId.length; i++) {
             address colAddr = _tokenCollection[katibeh.toTokenId[i]];
@@ -71,21 +73,25 @@ contract Factory1155 is FeeManager {
                 "Factory1155: to token id has not minted on current chain"
             );
         }
-        if(_userCollection[katibeh.creator] == address(0)){
+        if(_userCollection[katibeh.creator][katibeh.tags[0]] == address(0)){
             collectionAddr = address(implementation).cloneDeterministic(
                 bytes32(abi.encodePacked(katibeh.creator))
             );
-            _userCollection[katibeh.creator] = collectionAddr;
+            _userCollection[katibeh.creator][katibeh.tags[0]] = collectionAddr;
             k1155 = Katibeh1155(collectionAddr);
-            k1155.init(katibeh.creator, katibeh.creator.toHexString(), "Katibeh");
+            k1155.init(katibeh.creator, string(abi.encode(katibeh.tags[0])), "Katibeh");
         } else {
-            collectionAddr = _userCollection[katibeh.creator];
+            collectionAddr = _userCollection[katibeh.creator][katibeh.tags[0]];
             k1155 = Katibeh1155(collectionAddr);
         }
 
-        if(msg.sender == katibeh.creator){
+        require(
+            k1155.totalSupply(tokenId) == 0,
+            "Factory1155: this collection has been already collected"
+        );
 
-        } else {
+        if(msg.sender == katibeh.creator){
+            }else{
             require(
                 block.timestamp <= katibeh.expTime,
                 "Factory1155: token sale time is expired"

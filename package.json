@@ -1,8 +1,12 @@
-  {
-  "name": "farsinft",
+{
+  "name": "katibeh",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "hardhat.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,13 +21,14 @@
   },
   "homepage": "https://github.com/VVordspro/FarsiNFT#readme",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "hardhat": "^2.12.0"
+    "hardhat": "^2.16.0"
   },
   "dependencies": {
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@openzeppelin/contracts": "^4.7.3",
-    "@openzeppelin/contracts-upgradeable": "^4.8.0",
-    "hardhat-contract-sizer": "^2.6.1"
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/contracts": "^4.9.2",
+    "chai": "^4.3.7",
+    "hardhat-contract-sizer": "^2.10.0"
   }
 }
