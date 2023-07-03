@@ -66,7 +66,7 @@ abstract contract DataStorage {
         idToToken[tokenId] = katibeh;
         emit NewToken(tokenId, katibeh.creator, katibeh.data, katibeh.signTime, katibeh.initTime, katibeh.expTime);
         uint256 toIdLen = katibeh.toTokenId.length;
-        for (uint256 i; i < toIdLen; i++){
+        for (uint256 i; i < toIdLen; ++i){
             emit NewReply(tokenId, katibeh.toTokenId[i]);
         }
     }
@@ -108,7 +108,7 @@ abstract contract DataStorage {
         sig = new bytes[](len);
         dappData = new bytes[](len);
 
-        for(uint256 i; i < len; i++) {
+        for(uint256 i; i < len; ++i) {
             (katibeh[i], mintTime[i], sig[i], dappData[i]) = tokenInfo(tokenId[i]);
         }
     }

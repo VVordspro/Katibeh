@@ -230,6 +230,37 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenShareholders",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "addr",
+              "type": "address"
+            },
+            {
+              "internalType": "uint16",
+              "name": "share",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct DataStorage.Payee[]",
+          "name": "_owners_",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256[]",
           "name": "tokenId",
           "type": "uint256[]"

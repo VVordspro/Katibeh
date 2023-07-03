@@ -69,7 +69,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
         _setCreatorToken(katibeh.creator, tokenId);
         _addCreator(katibeh.creator);
         uint256 toIdLen = katibeh.toTokenId.length;
-        for (uint256 i; i < toIdLen; i++){
+        for (uint256 i; i < toIdLen; ++i){
             _setTokenReply(tokenId, katibeh.toTokenId[i]);
             _setCreatorReply(idToToken[katibeh.toTokenId[i]].creator, tokenId);
         }

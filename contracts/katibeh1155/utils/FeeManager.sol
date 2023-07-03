@@ -30,10 +30,10 @@ abstract contract FeeManager is DataStorage {
 
         uint256 len = dapps.length;
         uint256 denom;
-        for(uint256 i; i < len; i++) {
+        for(uint256 i; i < len; ++i) {
             denom += dapps[i].share;
         }
-        for(uint256 i; i < len; i++) {
+        for(uint256 i; i < len; ++i) {
             _pay(dapps[i].addr, dappShare * dapps[i].share/denom);
         }
 
@@ -43,10 +43,10 @@ abstract contract FeeManager is DataStorage {
             _pay(creator, ownerShare);
         } else {
             denom = 0;
-            for(uint256 i; i < len; i++) {
+            for(uint256 i; i < len; ++i) {
                 denom += owners[i].share;
             }
-            for(uint256 i; i < len-1; i++) {
+            for(uint256 i; i < len-1; ++i) {
                 _pay(owners[i].addr, ownerShare * owners[i].share/denom);
             }
             _pay(owners[len-1].addr, address(this).balance);

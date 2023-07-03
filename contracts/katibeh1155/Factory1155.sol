@@ -65,7 +65,8 @@ contract Factory1155 is FeeManager {
         address collectionAddr;
         Katibeh1155 k1155;
 
-        for(uint256 i; i < katibeh.toTokenId.length; i++) {
+        uint256 len = katibeh.toTokenId.length;
+        for(uint256 i; i < len; ++i) {
             address colAddr = _tokenCollection[katibeh.toTokenId[i]];
             require(
                 colAddr != address(0) &&

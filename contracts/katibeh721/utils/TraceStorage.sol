@@ -22,7 +22,7 @@ abstract contract TraceStorage {
         uint256 len = index.length;
         id = new uint256[](len);
 
-        for(uint256 i = 0; i < len; i++) {
+        for(uint256 i = 0; i < len; ++i) {
             id[i] = tokenByIndexTraceable(index[i]);
         }
     }
@@ -56,7 +56,7 @@ abstract contract TraceStorage {
         uint256 len = creator.length;
         count = new uint256[](len);
 
-        for (uint256 i = 0; i < len; i++) {
+        for (uint256 i = 0; i < len; ++i) {
             count[i] = numberOfTokensOfCreator(creator[i]);
         }
     }
@@ -70,7 +70,7 @@ abstract contract TraceStorage {
 
         id = new uint256[](len);
 
-        for (uint256 i; i < len; i++) {
+        for (uint256 i; i < len; ++i) {
             id[i] = tokenOfCreatorByIndex(creator, index[i]);
         }
     }
@@ -85,7 +85,7 @@ abstract contract TraceStorage {
 
         ids = new uint256[](len);
 
-        for(uint256 i; i < len; i++) {
+        for(uint256 i; i < len; ++i) {
             (ids[i],) = creatorIds.at(i);
         }
     }
@@ -121,7 +121,7 @@ abstract contract TraceStorage {
         uint256 len = index.length;
         creator = new address[](len);
 
-        for (uint256 i = 0; i < len; i++) {
+        for (uint256 i = 0; i < len; ++i) {
             creator[i] = creatorByIndex(index[i]);
         }
     }
@@ -146,7 +146,7 @@ abstract contract TraceStorage {
         uint256 len = tokenId.length;
         count = new uint256[](len);
 
-        for(uint256 i = 0; i < len; i++) {
+        for(uint256 i = 0; i < len; ++i) {
             count[i] = numberOfTokenReplies(tokenId[i]);
         }
     }
@@ -159,7 +159,7 @@ abstract contract TraceStorage {
         uint256 len = index.length;
         id = new uint256[](len);
 
-        for (uint256 i; i < len; i++) {
+        for (uint256 i; i < len; ++i) {
             id[i] = tokenReplyByIndex(tokenId, index[i]);
         }
     }
@@ -184,7 +184,7 @@ abstract contract TraceStorage {
         uint256 len = toCreator.length;
         count = new uint256[](len);
 
-        for(uint256 i = 0; i < len; i++) {
+        for(uint256 i = 0; i < len; ++i) {
             count[i] = numberOfRepliesToCreator(toCreator[i]);
         }
     }
@@ -196,7 +196,7 @@ abstract contract TraceStorage {
     function repliesToCreatorByIndexBatch(address toCreator, uint256[] calldata index) public view returns(uint256[] memory id) {
         uint256 len = index.length;
         id = new uint256[](len);
-        for (uint256 i; i < len; i++) {
+        for (uint256 i; i < len; ++i) {
             id[i] = repliesToCreatorByIndex(toCreator, index[i]);
         }
     }
@@ -221,7 +221,7 @@ abstract contract TraceStorage {
         uint256 len = tag.length;
         count = new uint256[](len);
 
-        for(uint256 i = 0; i < len; i++) {
+        for(uint256 i = 0; i < len; ++i) {
             count[i] = numberOfTokensByTag(tag[i]);
         }
     }
@@ -234,7 +234,7 @@ abstract contract TraceStorage {
         uint256 len = index.length;
         id = new uint256[](len);
 
-        for (uint256 i; i < len; i++) {
+        for (uint256 i; i < len; ++i) {
             id[i] = tokenOfTagByIndex(tag, index[i]);
         }
     }
@@ -249,7 +249,7 @@ abstract contract TraceStorage {
 
         ids = new uint256[](len);
 
-        for(uint256 i; i < len; i++) {
+        for(uint256 i; i < len; ++i) {
             (ids[i],) = tagIds.at(i);
         }
     }
