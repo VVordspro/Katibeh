@@ -17,6 +17,10 @@ module.exports = {
     },
   },
   networks: {
+    mainnet: {
+      url: `https://eth.llamarpc.com`,
+      accounts: [`0x${ACCOUNT}`],
+    },
     polygon: {
       url: `https://polygon-rpc.com/`,
       accounts: [`0x${ACCOUNT}`],

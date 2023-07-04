@@ -12,7 +12,7 @@ async function deployFee(contractName, ...arguments) {
     const gasFeeInEth = hre.ethers.utils.formatEther(gasFee);
   
     console.log("Estimated gas:", gasEstimate.toString());
-    console.log("Gas price:", (gasPrice).toString());
+    console.log("Gas price (Gwei):", (gasPrice / 10 ** 9).toString());
     console.log("Gas fee (ETH):", gasFeeInEth.toString());
   }
   
@@ -32,7 +32,7 @@ async function deployFee(contractName, ...arguments) {
   
     console.log("function call: ", functionName, "(", ...arguments, ")");
     console.log("Estimated gas:", gasEstimate.toString());
-    console.log("Gas price:", gasPrice.toString());
+    console.log("Gas price (Gwei):", (gasPrice / 10 ** 9).toString());
     console.log("Gas fee (ETH):", gasFeeInEth.toString());
   }
   
