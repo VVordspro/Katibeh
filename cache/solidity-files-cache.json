@@ -38,8 +38,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/Factory1155.sol": {
-      "lastModificationDate": 1688276683808,
-      "contentHash": "8268e9f2d0770f6fd2668aa657f07c22",
+      "lastModificationDate": 1688454146545,
+      "contentHash": "998ee135c7cdf663cdeea8528fbb1fec",
       "sourceName": "contracts/katibeh1155/Factory1155.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -70,14 +70,14 @@
         "@openzeppelin/contracts/utils/Strings.sol",
         "./Katibeh1155.sol",
         "./utils/FeeManager.sol",
-        "../utils/VerifySig.sol",
-        "../utils/qHash.sol"
+        "../utils/VerifySig.sol"
       ],
       "versionPragmas": [
         "^0.8.7"
       ],
       "artifacts": [
-        "Factory1155"
+        "Factory1155",
+        "IQHash"
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/utils/VerifySig.sol": {

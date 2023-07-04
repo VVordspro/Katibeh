@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Katibeh1155.sol";
 import "./utils/FeeManager.sol";
 import "../utils/VerifySig.sol";
-import "../utils/qHash.sol";
 
 // return(string(abi.encode(input)));
 // _userCollection => _userCollections
@@ -15,8 +14,14 @@ import "../utils/qHash.sol";
 // we should use internal functions against holding all function body in the public function.
 // gas estimator can be useful.
 
+interface IQHash {
+      function checkHash(
+        bytes calldata sig,
+        uint256 hash
+    ) external pure returns(bool);
+}
+
 contract Factory1155 is FeeManager {
-    using qHash for bytes;
     using VerifySig for bytes;
     using Clones for address;
     using Strings for *;
@@ -25,8 +30,14 @@ contract Factory1155 is FeeManager {
     mapping(uint256 => address) public _tokenCollection;
 
     Katibeh1155 public implementation = new Katibeh1155();
+    IQHash QH;
 
     event TokenData(uint256 indexed tokenId, bytes data);
+
+
+    constructor(address qhAddr) {
+        QH = IQHash(qhAddr);
+    }
 
     function fee(uint256 tokenId) public view returns(uint256) {
         uint256 supply;
@@ -57,10 +68,10 @@ contract Factory1155 is FeeManager {
         //     ),
         //     "Katibeh721: Invalid signature"
         // );
-        // require(
-        //     tokenId == sig.q(),
-        //     "Factory1155: wrong token id"
-        // );
+        require(
+            QH.checkHash(sig, tokenId),
+            "Factory1155: wrong token id"
+        );
 
         address collectionAddr;
         Katibeh1155 k1155;
