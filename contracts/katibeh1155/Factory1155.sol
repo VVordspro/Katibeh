@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Katibeh1155.sol";
 import "./utils/FeeManager.sol";
-import "../utils/VerifySig.sol";
+import "../QHash/utils/VerifySig.sol";
 
 // return(string(abi.encode(input)));
 // _userCollection => _userCollections
@@ -30,10 +30,9 @@ contract Factory1155 is FeeManager {
     mapping(uint256 => address) public _tokenCollection;
 
     Katibeh1155 public implementation = new Katibeh1155();
-    IQHash QH;
+    IQHash public QH;
 
     event TokenData(uint256 indexed tokenId, bytes data);
-
 
     constructor(address qhAddr) {
         QH = IQHash(qhAddr);
@@ -61,13 +60,13 @@ contract Factory1155 is FeeManager {
         bytes calldata sig,
         bytes calldata data
     ) public {
-        // require(
-        //     sig.verify(
-        //         katibeh.creator,
-        //         getHash(katibeh)
-        //     ),
-        //     "Katibeh721: Invalid signature"
-        // );
+        require(
+            sig.verify(
+                katibeh.creator,
+                getHash(katibeh)
+            ),
+            "Katibeh721: Invalid signature"
+        );
         require(
             QH.checkHash(sig, tokenId),
             "Factory1155: wrong token id"

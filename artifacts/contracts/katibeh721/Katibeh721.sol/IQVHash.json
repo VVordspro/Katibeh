@@ -1,0 +1,94 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IQVHash",
+  "sourceName": "contracts/katibeh721/Katibeh721.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "signTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "initTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "expTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "toTokenId",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "tags",
+              "type": "bytes32[]"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "addr",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "share",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct DataStorage.Payee[]",
+              "name": "owners",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct DataStorage.Katibeh",
+          "name": "katibeh",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "sig",
+          "type": "bytes"
+        }
+      ],
+      "name": "hash",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

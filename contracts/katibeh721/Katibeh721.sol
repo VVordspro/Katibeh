@@ -5,34 +5,27 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "../utils/qHash.sol";
-import "../utils/VerifySig.sol";
 import "./utils/DataStorage.sol";
 import "./utils/TraceStorage.sol";
 
+interface IQVHash {
+    function hash(
+        DataStorage.Katibeh calldata katibeh,
+        bytes calldata sig
+    ) external view returns(uint256);
+}
+
 contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, TraceStorage {
     using Strings for uint256;
-    using qHash for bytes;
-    using VerifySig for bytes;
 
-    constructor() ERC721("Katibeh721", "KATIBEH") {}
+    IQVHash public QVH;
+
+    constructor(address qvhAddr) ERC721("Katibeh721", "KATIBEH") {
+        QVH = IQVHash(qvhAddr);
+    }
 
     function timeStamp() public view returns(uint256) {
         return block.timestamp;
-    }
-
-    function getHash(Katibeh calldata katibeh) public view returns(bytes32) {
-        require(
-            block.timestamp >= katibeh.signTime - 1 hours &&
-            block.timestamp < katibeh.signTime + 1 hours,
-            "Katibeh721: more than 1 hours sign time difference."
-        );
-        require(
-            katibeh.signTime <= katibeh.initTime &&
-            katibeh.initTime <= katibeh.expTime,
-            "Katibeh721: sign time must be less than init time & init time must be less than expire time."
-        );
-        return keccak256(abi.encode(katibeh));
     }
 
     function safeMint(
@@ -40,14 +33,7 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, Tr
         bytes calldata sig,
         bytes calldata dappData
     ) public returns(uint256 tokenId) {
-        tokenId = sig.q();
-        // require(
-        //     sig.verify(
-        //         katibeh.creator,
-        //         getHash(katibeh)
-        //     ),
-        //     "Katibeh721: Invalid signature"
-        // );
+        tokenId = QVH.hash(katibeh, sig);
         tokenMintTime[tokenId] = block.timestamp;
         _safeMint(katibeh.creator, tokenId);
         _registerURI(katibeh.tokenURI, tokenId);

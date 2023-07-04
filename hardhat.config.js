@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-ethers");
 require('hardhat-contract-sizer');
 
-const { ACCOUNT, POLYGONSCAN_API_KEY, ETHERSCAN_API_KEY } = require('./secret.json');
+const { ACCOUNT, POLYGONSCAN_API_KEY } = require('./secret.json');
 
 module.exports = {
   solidity: {
@@ -20,14 +20,17 @@ module.exports = {
     mainnet: {
       url: `https://eth.llamarpc.com`,
       accounts: [`0x${ACCOUNT}`],
+      chainId : 1
     },
     polygon: {
       url: `https://polygon-rpc.com/`,
       accounts: [`0x${ACCOUNT}`],
+      chainId : 137
     },
     polygonMumbai: {
       url: `https://rpc-mumbai.maticvigil.com/`,
       accounts: [`0x${ACCOUNT}`],
+      chainId : 80001
     },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`,
@@ -54,12 +57,17 @@ module.exports = {
       accounts: [`0x${ACCOUNT}`],
     },
   },
-
+  etherscan: {
+      apiKey: {
+        polygon: `${POLYGONSCAN_API_KEY}`,
+        polygonMumbai: `${POLYGONSCAN_API_KEY}`,
+      }
+    },
 
   contractSizer: {
-    alphaSort: true,
+    alphaSort: false,
     disambiguatePaths: false,
-    runOnCompile: true,
-    strict: true,
+    runOnCompile: false,
+    strict: false,
   },
 };
