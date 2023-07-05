@@ -86,7 +86,7 @@ contract Factory1155 is FeeManager {
         }
         if(_userCollection[katibeh.creator][katibeh.tags[0]] == address(0)){
             collectionAddr = address(implementation).cloneDeterministic(
-                bytes32(abi.encodePacked(katibeh.creator))
+                bytes32(abi.encodePacked(katibeh.creator, katibeh.tags[0]))
             );
             _userCollection[katibeh.creator][katibeh.tags[0]] = collectionAddr;
             k1155 = Katibeh1155(collectionAddr);
@@ -153,10 +153,11 @@ contract Factory1155 is FeeManager {
     }
 
     function predictCollectionAddr(
-        address creatorAddr
+        address creatorAddr,
+        bytes32 tag0
     ) public view returns(address) {
         return address(implementation).predictDeterministicAddress(
-            bytes32(abi.encodePacked(creatorAddr)), 
+            bytes32(abi.encodePacked(creatorAddr, tag0)), 
             address(this)
         );
     }

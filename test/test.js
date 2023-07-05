@@ -10,6 +10,8 @@ describe('Test', async function () {
     let days = 60 * 60 *24
     let ONE_MONTH_IN_SECS
     let deployer, user1, user2
+    let QH
+    let QVH
     let kat721
     let factory
     let latestId
@@ -37,10 +39,14 @@ describe('Test', async function () {
         ONE_MONTH_IN_SECS = 30 * 24 * 60 * 60;
         const accounts = await ethers.getSigners();
         [deployer, user1, user2] = accounts
+        let QVHash = await hre.ethers.getContractFactory("QVHash")
+        QVH = await QVHash.deploy()
+        let QHash = await hre.ethers.getContractFactory("QHash")
+        QH = await QHash.deploy()
         let mumbai721 = await hre.ethers.getContractFactory("Katibeh721");
-        kat721 = await mumbai721.deploy();
+        kat721 = await mumbai721.deploy(QVH.address);
         let fac1155 = await hre.ethers.getContractFactory("Factory1155");
-        factory = await fac1155.deploy();
+        factory = await fac1155.deploy(QH.address);
         nowTime = await time.latest();
 
         latestExpTime = ((await time.latest()) + ONE_MONTH_IN_SECS)
@@ -89,7 +95,7 @@ describe('Test', async function () {
         katibeh,
         0x00,
         0x00
-      )
+      ) //396,960 //441,484
         
       // await factory.connect(user2).firstFreeCollect(
       //     0,
