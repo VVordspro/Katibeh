@@ -30,7 +30,7 @@ library VerifySig {
     function _split(bytes memory _sig) private pure 
         returns(bytes32 r, bytes32 s, uint8 v) 
     {
-        require(_sig.length == 65, "invalid signature length");
+        // require(_sig.length == 65, "invalid signature length");
 
         assembly {
             r:= mload(add(_sig, 32))

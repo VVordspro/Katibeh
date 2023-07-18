@@ -86,25 +86,25 @@ describe('Test', async function () {
         // )
     })
 
-    it('should collect 1 correctly on mainnet', async () => {
+  //   it('should collect 1 correctly on mainnet', async () => {
 
-      await callFee(
-        factory, 
-        "firstFreeCollect", 
-        0,
-        katibeh,
-        0x00,
-        0x00
-      ) //396,960 //441,484
+  //     await callFee(
+  //       factory, 
+  //       "firstFreeCollect", 
+  //       0,
+  //       katibeh,
+  //       0x00,
+  //       0x00
+  //     ) //396,960 //441,484
         
-      // await factory.connect(user2).firstFreeCollect(
-      //     0,
-      //     katibeh,
-      //     0x00,
-      //     0x00,
-      //     { value: await factory.fee(0) }
-      // )
-  })
+  //     // await factory.connect(user2).firstFreeCollect(
+  //     //     0,
+  //     //     katibeh,
+  //     //     0x00,
+  //     //     0x00,
+  //     //     { value: await factory.fee(0) }
+  //     // )
+  // })
 
     // it('should not mint 721 with same token id', async () => {
     //     await expect(

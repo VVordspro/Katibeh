@@ -65,7 +65,7 @@ contract Factory1155 is FeeManager {
                 katibeh.creator,
                 getHash(katibeh)
             ),
-            "Katibeh721: Invalid signature"
+            "Factory1155: Invalid signature"
         );
         require(
             QH.checkHash(sig, tokenId),
