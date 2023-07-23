@@ -8,6 +8,16 @@ abstract contract DataStorage {
         uint16 share;
     }
 
+    struct Pricing {
+        uint256 a;
+        uint256 b;
+        uint256 c;
+        uint256 d;
+        uint256 royalty;
+        uint256 totalSupply;
+        uint256 discount;
+    }
+    
     struct Katibeh {
         address creator;
         uint256 signTime;

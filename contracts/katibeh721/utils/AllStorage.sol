@@ -1,44 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-abstract contract DataStorage {
+import "../../storage/DataStorage.sol";
+
+abstract contract AllStorage is DataStorage{
 
     mapping(uint256 => Katibeh) idToToken;
     mapping(bytes32 => uint256) URIsRegistered;
     mapping(uint256 => bytes) _dappData;
     mapping(uint256 => bytes) _signatures;
     mapping(uint256 => uint256) public tokenMintTime;
-
-    struct Payee {
-        address addr;
-        uint16 share;
-    }
-
-    struct Katibeh {
-        address creator;
-        uint256 signTime;
-        uint256 initTime;
-        uint256 expTime;
-        string tokenURI;
-        bytes data;
-        uint256[] toTokenId;
-        bytes32[] tags;
-        Payee[] owners;
-    }
-
-    event NewToken(
-        uint256 indexed tokenId, 
-        address indexed creator, 
-        bytes indexed data, 
-        uint256 signTime,
-        uint256 initTime,
-        uint256 expTime
-    );
-
-    event NewReply(
-        uint256 indexed tokenId,
-        uint256 indexed toTokenId
-    );
 
     event Tags(
         uint256 tokenId,

@@ -3,7 +3,7 @@ pragma solidity ^0.8.7;
 
 import "./utils/qHash.sol";
 import "./utils/VerifySig.sol";
-import "../katibeh721/utils/DataStorage.sol";
+import "../storage/DataStorage.sol";
 
 contract QVHash {
     using qHash for bytes;

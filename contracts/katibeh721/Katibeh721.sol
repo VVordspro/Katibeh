@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "./utils/DataStorage.sol";
+import "./utils/AllStorage.sol";
 import "./utils/TraceStorage.sol";
 
 interface IQVHash {
@@ -15,7 +15,7 @@ interface IQVHash {
     ) external view returns(uint256);
 }
 
-contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, DataStorage, TraceStorage {
+contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, TraceStorage {
     using Strings for uint256;
 
     IQVHash public QVH;

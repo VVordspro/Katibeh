@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/vvords/solidity/Katibeh/contracts/QHash/QHash.sol": {
-      "lastModificationDate": 1688544362671,
-      "contentHash": "792525a4d11d6b29cd3577ab3febc86e",
+      "lastModificationDate": 1690115409581,
+      "contentHash": "c437c33e227670d441495007ddd585e4",
       "sourceName": "contracts/QHash/QHash.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -76,8 +76,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/QHash/QVHash.sol": {
-      "lastModificationDate": 1689689386928,
-      "contentHash": "8cf6ea6901cf74a8640edea8d2aba942",
+      "lastModificationDate": 1690126554087,
+      "contentHash": "01544e48779dce560b4b645733ed383b",
       "sourceName": "contracts/QHash/QVHash.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -106,49 +106,13 @@
       "imports": [
         "./utils/qHash.sol",
         "./utils/VerifySig.sol",
-        "../katibeh721/utils/DataStorage.sol"
+        "../storage/DataStorage.sol"
       ],
       "versionPragmas": [
         "^0.8.7"
       ],
       "artifacts": [
         "QVHash"
-      ]
-    },
-    "/home/vvords/solidity/Katibeh/contracts/katibeh721/utils/DataStorage.sol": {
-      "lastModificationDate": 1688544362675,
-      "contentHash": "a156919b85a645967c90d7e86d8f8856",
-      "sourceName": "contracts/katibeh721/utils/DataStorage.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.4"
-      ],
-      "artifacts": [
-        "DataStorage"
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/QHash/utils/VerifySig.sol": {
@@ -188,8 +152,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/Factory1155.sol": {
-      "lastModificationDate": 1689688594171,
-      "contentHash": "3431c644bfe94d81056a75b19be2e784",
+      "lastModificationDate": 1690125928623,
+      "contentHash": "bd09b18c30a7e7ea1507c977b1a72d59",
       "sourceName": "contracts/katibeh1155/Factory1155.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -273,8 +237,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/utils/FeeManager.sol": {
-      "lastModificationDate": 1688544362675,
-      "contentHash": "39d2af1a8f79a2952d0d3177a14346c6",
+      "lastModificationDate": 1690126327390,
+      "contentHash": "582c26611a76a694e1fc382386b7815b",
       "sourceName": "contracts/katibeh1155/utils/FeeManager.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -301,7 +265,7 @@
         }
       },
       "imports": [
-        "../utils/DataStorage.sol"
+        "../../storage/DataStorage.sol"
       ],
       "versionPragmas": [
         "^0.8.4"
@@ -952,8 +916,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/utils/DataStorage.sol": {
-      "lastModificationDate": 1688544362675,
-      "contentHash": "7dcd983ddc21d4251ed4453216be7df1",
+      "lastModificationDate": 1690124396542,
+      "contentHash": "ee7fea10d31675f2905f32ab6c64a571",
       "sourceName": "contracts/katibeh1155/utils/DataStorage.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -1183,8 +1147,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh721/Katibeh721.sol": {
-      "lastModificationDate": 1689690209461,
-      "contentHash": "5cb922641a243d798319981cc4fcb8e8",
+      "lastModificationDate": 1690126605958,
+      "contentHash": "1ec2bddc62915e93d9ceddf22713c892",
       "sourceName": "contracts/katibeh721/Katibeh721.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -1215,7 +1179,7 @@
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
         "@openzeppelin/contracts/utils/Strings.sol",
-        "./utils/DataStorage.sol",
+        "./utils/AllStorage.sol",
         "./utils/TraceStorage.sol"
       ],
       "versionPragmas": [
@@ -1450,6 +1414,80 @@
       ],
       "artifacts": [
         "Test"
+      ]
+    },
+    "/home/vvords/solidity/Katibeh/contracts/storage/DataStorage.sol": {
+      "lastModificationDate": 1690126475528,
+      "contentHash": "0a2c16b63fde734ee9c34709fb198b94",
+      "sourceName": "contracts/storage/DataStorage.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "DataStorage"
+      ]
+    },
+    "/home/vvords/solidity/Katibeh/contracts/katibeh721/utils/AllStorage.sol": {
+      "lastModificationDate": 1690126496092,
+      "contentHash": "7a871b02fc89432fcd4c5c7c8a78c380",
+      "sourceName": "contracts/katibeh721/utils/AllStorage.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../storage/DataStorage.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "AllStorage"
       ]
     }
   }

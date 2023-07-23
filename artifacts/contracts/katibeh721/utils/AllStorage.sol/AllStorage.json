@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "DataStorage",
-  "sourceName": "contracts/katibeh721/utils/DataStorage.sol",
+  "contractName": "AllStorage",
+  "sourceName": "contracts/katibeh721/utils/AllStorage.sol",
   "abi": [
     {
       "anonymous": false,

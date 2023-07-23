@@ -8,8 +8,8 @@ contract QHash {
     
     function checkHash(
         bytes calldata sig,
-        uint256 hash
+        uint256 tokenId
     ) external pure returns(bool) {
-        return (sig.q() == hash);
+        return (sig.q() == tokenId);
     }
 }
