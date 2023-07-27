@@ -32,22 +32,21 @@ contract Factory1155 is FeeManager {
         QH = IQHash(qhAddr);
         receiver1 = payable(msg.sender);
     }
-
-    // function publicFee(uint256 tokenId) public view returns(uint256) {
-    //     uint256 supply;
-    //     if(_tokenCollection[tokenId] != address(0)){
-    //         supply = Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId);
-    //     }
-    //     return (supply + 1) * baseFee;
-    // }
-
-    // function privateFee(uint256 tokenId, Katibeh calldata katibeh) public view returns(uint256) {
-    //     uint256 supply;
-    //     if(_tokenCollection[tokenId] != address(0)){
-    //         supply = Katibeh1155(_tokenCollection[tokenId]).totalSupply(tokenId);
-    //     }
-    //     return (supply + 1) * baseFee;
-    // }
+    
+    function fee(uint256 tokenId, Katibeh calldata katibeh) public view returns(uint256) {
+        address collAddr = _tokenCollection[tokenId];
+        Katibeh1155 k1155;
+        uint256 supply;
+        if(collAddr != address(0)){
+            k1155 = Katibeh1155(collAddr);
+            supply = k1155.totalSupply(tokenId);
+        }
+        if(isPublic(katibeh)) {
+            return publicFee(supply);
+        } else {
+            return privateFee(supply, findPricing(katibeh));
+        }
+    }
 
     function uri(uint256 tokenId) public view returns(string memory) {
 
@@ -174,9 +173,19 @@ contract Factory1155 is FeeManager {
     function predictCollectionAddr(
         address creatorAddr,
         bytes32 tag0
-    ) public view returns(address) {
+    ) internal view returns(address) {
         return address(implementation).predictDeterministicAddress(
             bytes32(abi.encodePacked(creatorAddr, tag0)), 
+            address(this)
+        );
+    }
+
+    function predictCollAddr(
+        address creatorAddr,
+        string memory tag0
+    ) external view returns(address) {
+        return address(implementation).predictDeterministicAddress(
+            bytes32(abi.encodePacked(creatorAddr, bytes32(abi.encode(tag0)))), 
             address(this)
         );
     }
