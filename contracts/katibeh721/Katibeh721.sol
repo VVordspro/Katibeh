@@ -15,6 +15,11 @@ interface IQVHash {
     ) external view returns(uint256);
 }
 
+/**
+ * @title Katibeh721
+ * @dev A ERC721-compliant smart contract that represents Katibeh tokens.
+ *      These tokens are traceable on-chain and are subject to specific signing conditions.
+ */
 contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, TraceStorage {
     using Strings for uint256;
 
@@ -24,10 +29,19 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         QVH = IQVHash(qvhAddr);
     }
 
+    /**
+     * @dev Get the current timestamp.
+     * @return Current timestamp as a uint256 value.
+     */
     function timeStamp() public view returns(uint256) {
         return block.timestamp;
     }
 
+    /**
+     * @dev Compute and retrieve the hash of the provided Katibeh struct.
+     * @param katibeh The input Katibeh struct whose hash will be calculated.
+     * @return The keccak256 hash of the encoded Katibeh struct.
+     */
     function getHash(DataStorage.Katibeh calldata katibeh) public view returns(bytes32) {
         require(
             block.timestamp >= katibeh.signTime - 1 hours &&
@@ -42,6 +56,13 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         return keccak256(abi.encode(katibeh));
     }
 
+    /**
+     * @dev Safely mint a new Katibeh token and set its data.
+     * @param katibeh The input Katibeh struct with token details.
+     * @param sig The signature for the Katibeh token.
+     * @param dappData Additional data related to the token.
+     * @return tokenId The ID of the newly minted Katibeh token.
+     */
     function safeMint(
         Katibeh calldata katibeh,
         bytes calldata sig,
@@ -57,7 +78,12 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         _setSignature(tokenId, sig);
     }
 
-
+    /**
+     * @dev Safely mint a new Katibeh token, set its data, and enable traceability.
+     * @param katibeh The input Katibeh struct with token details.
+     * @param sig The signature for the Katibeh token.
+     * @param dappData Additional data related to the token.
+     */
     function safeMintAndSetTraceStorage( 
         Katibeh calldata katibeh,
         bytes calldata sig,
@@ -76,18 +102,34 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         _registerTags(tokenId, katibeh.tags);
     }
 
+    /**
+     * @dev Internal function to handle the burning of a Katibeh token.
+     *      It also clears the associated data.
+     * @param tokenId The ID of the token to burn.
+     */
     function _burn(uint256 tokenId) internal override {
         super._burn(tokenId);
         _burnData(tokenId);
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory)
-    {
+    /**
+     * @dev Override for the ERC721 tokenURI function to get the URI of a given token.
+     * @param tokenId The ID of the token.
+     * @return The URI representing the token's metadata.
+     */
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
         return _tokenURI(tokenId);
     }
 
     // The following functions are overrides required by Solidity.
 
+    /**
+     * @dev Hook function called before any token transfer.
+     * @param from The address transferring the tokens (or address(0) for minting).
+     * @param to The address receiving the tokens (or address(0) for burning).
+     * @param firstTokenId The ID of the first token being transferred.
+     * @param batchSize The number of tokens being transferred.
+     */
     function _beforeTokenTransfer(
         address from, 
         address to, 
@@ -99,11 +141,16 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
     {
         require(
             from == address(0) || to == address(0),
-            "tokens cannot be transfered on testnet"
+            "tokens cannot be transferred on testnet"
         );
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
+    /**
+     * @dev Override for the ERC721 supportsInterface function to check if a given interface is supported.
+     * @param interfaceId The interface ID to check.
+     * @return true if the interface is supported, false otherwise.
+     */
     function supportsInterface(bytes4 interfaceId)
         public
         view

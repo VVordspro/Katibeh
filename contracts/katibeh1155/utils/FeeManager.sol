@@ -1,30 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../../storage/DataStorage.sol";
+import "./FeeUtils.sol";
 
-abstract contract FeeManager is DataStorage {
+/**
+ * @title FeeManager Contract
+ * @dev An abstract contract that manages fees and payment distribution for Katibeh721 tokens.
+ */
+abstract contract FeeManager is FeeUtils {
     
-    address payable receiver1;
-    uint256 constant baseFee = 10 ** 17;
+    address payable receiver1; // Address of receiver1 for fee distribution
+    uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
 
+    /**
+     * @dev Set the address of receiver1.
+     * @param newAddr The new address of receiver1.
+     */
     function setReceiver1(address payable newAddr) public {
         require(
             msg.sender == receiver1,
-            "FeeManager: only receiver1 can change its address"
+            "FeeManager: Only receiver1 can change its address"
         );
         receiver1 = newAddr;
     }
 
-// receiver1 bayad 2 darsad begire o akhare kar harchi baqi moond ro daryaft mikone
+    /**
+     * @dev Internal function to pay fees and distribute payments to relevant parties.
+     * @param paidAmount The total amount paid by the token buyer.
+     * @param creator The address of the token creator.
+     * @param owners An array of Payee structs representing token owners.
+     * @param dapps An array of Payee structs representing Dapp owners.
+     */
     function _payFees(
         uint256 paidAmount,
         address creator,
         Payee[] memory owners,
         Payee[] calldata dapps
     ) internal {
-        uint256 receiver1Share = paidAmount * 20/1000;
-        uint256 dappShare = paidAmount * 350/1000;
+        uint256 receiver1Share = paidAmount * 20 / 1000; // 2% of the paid amount
+        uint256 dappShare = paidAmount * 350 / 1000; // 35% of the paid amount
 
         _pay(receiver1, receiver1Share);
 
@@ -34,26 +48,50 @@ abstract contract FeeManager is DataStorage {
             denom += dapps[i].share;
         }
         for(uint256 i; i < len; ++i) {
-            _pay(dapps[i].addr, dappShare * dapps[i].share/denom);
+            _pay(dapps[i].addr, dappShare * dapps[i].share / denom);
         }
 
         uint256 ownerShare = address(this).balance;
         len = owners.length;
         if(len == 0) {
-            _pay(creator, ownerShare);
+            _pay(creator, ownerShare); // Pay the full amount to the creator if there are no owners
         } else {
             denom = 0;
             for(uint256 i; i < len; ++i) {
                 denom += owners[i].share;
             }
-            for(uint256 i; i < len-1; ++i) {
-                _pay(owners[i].addr, ownerShare * owners[i].share/denom);
+            for(uint256 i; i < len - 1; ++i) {
+                _pay(owners[i].addr, ownerShare * owners[i].share / denom);
             }
-            _pay(owners[len-1].addr, address(this).balance);
+            _pay(owners[len - 1].addr, address(this).balance); // Pay the remaining balance to the last owner
         }
     }
 
+    /**
+     * @dev Internal function to transfer funds to a specific receiver.
+     * @param receiver The address of the receiver.
+     * @param amount The amount to be transferred.
+     */
     function _pay(address receiver, uint256 amount) internal {
         payable(receiver).transfer(amount);
+    }
+
+    /**
+     * @dev Internal function to find the pricing for a token based on the current chainId.
+     * @param katibeh The Katibeh struct representing the token.
+     * @return Pricing The pricing struct corresponding to the current chainId.
+     */
+    function findPricing(Katibeh memory katibeh) internal view returns(Pricing memory) {
+        uint256 chainId;
+        assembly {
+            chainId := chainid()
+        }
+        uint256 len = katibeh.pricing.length;
+        for(uint256 i; i < len; i++) {
+            if(katibeh.pricing[i].chainId == chainId){
+                return katibeh.pricing[i];
+            }
+        }
+        return katibeh.pricing[0]; // Return the first pricing struct if the current chainId is not found
     }
 }

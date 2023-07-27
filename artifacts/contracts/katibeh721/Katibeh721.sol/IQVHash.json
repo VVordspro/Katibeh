@@ -63,6 +63,53 @@
               "internalType": "struct DataStorage.Payee[]",
               "name": "owners",
               "type": "tuple[]"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "A",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "B",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "C",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "D",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "royalty",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "totalSupply",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "discount",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "chainId",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct DataStorage.Pricing[]",
+              "name": "pricing",
+              "type": "tuple[]"
             }
           ],
           "internalType": "struct DataStorage.Katibeh",

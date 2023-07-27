@@ -8,6 +8,6 @@ secret.json
 deployedAddresses.json
 
 #Hardhat files
-# cache
-# artifacts
+cache
+artifacts
 

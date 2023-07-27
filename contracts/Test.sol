@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity >=0.8.19;
 
-contract Test {
+import { SD59x18, sd, pow } from "@prb/math/src/SD59x18.sol";
+// import { UD60x18, ud, pow } from "@prb/math/src/UD60x18.sol";
 
-    uint public a;
-    mapping(address => uint256) public balance;
-
-    function set(uint _a) public payable {
-        balance[msg.sender] += msg.value;
-        a = _a;
+contract expTest {
+    // function power(UD60x18 x, UD60x18 y) public pure returns (UD60x18 result){
+    //     return pow(x,y);
+    // }
+    function powerInt(SD59x18 x, SD59x18 y) public pure returns (SD59x18 result){
+        return pow(x,y);
     }
-
-    function withdraw() public {
-        payable(msg.sender).transfer(balance[msg.sender]);
-    }
-
 }
