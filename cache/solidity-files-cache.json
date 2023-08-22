@@ -188,8 +188,8 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/Factory1155.sol": {
-      "lastModificationDate": 1690476684599,
-      "contentHash": "c6e607acd6a42ad0e487e1925fb60da1",
+      "lastModificationDate": 1691481151415,
+      "contentHash": "341bdead84523d599b6dcbf6bf07500b",
       "sourceName": "contracts/katibeh1155/Factory1155.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -310,6 +310,42 @@
         "FeeManager"
       ]
     },
+    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/proxy/Clones.sol": {
+      "lastModificationDate": 1687880342849,
+      "contentHash": "89c075565795af5e3e88fc75642a4af8",
+      "sourceName": "@openzeppelin/contracts/proxy/Clones.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Clones"
+      ]
+    },
     "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
       "lastModificationDate": 1687880343249,
       "contentHash": "48686fc32a22a3754b8e63321857dd2a",
@@ -347,42 +383,6 @@
       ],
       "artifacts": [
         "Strings"
-      ]
-    },
-    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/proxy/Clones.sol": {
-      "lastModificationDate": 1687880342849,
-      "contentHash": "89c075565795af5e3e88fc75642a4af8",
-      "sourceName": "@openzeppelin/contracts/proxy/Clones.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Clones"
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/utils/Ownable.sol": {
@@ -1145,10 +1145,10 @@
         "IERC721Metadata"
       ]
     },
-    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {
+    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol": {
       "lastModificationDate": 1687880342885,
-      "contentHash": "212e86880d210b6cac8c3eb0cd6b1fad",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
+      "contentHash": "5a341bfc4fe3ee5357ccdebd3a78ad2c",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
       "solcConfig": {
         "version": "0.8.19",
         "settings": {
@@ -1175,51 +1175,13 @@
       },
       "imports": [
         "../ERC721.sol",
-        "./IERC721Enumerable.sol"
+        "../../../utils/Context.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "ERC721Enumerable"
-      ]
-    },
-    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol": {
-      "lastModificationDate": 1687880343209,
-      "contentHash": "f4dd06783f321aa26179bc2b6e361c29",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../IERC721.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC721Enumerable"
+        "ERC721Burnable"
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh721/Katibeh721.sol": {
@@ -1343,10 +1305,10 @@
         "TraceStorage"
       ]
     },
-    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol": {
+    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {
       "lastModificationDate": 1687880342885,
-      "contentHash": "5a341bfc4fe3ee5357ccdebd3a78ad2c",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+      "contentHash": "212e86880d210b6cac8c3eb0cd6b1fad",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
       "solcConfig": {
         "version": "0.8.19",
         "settings": {
@@ -1373,13 +1335,13 @@
       },
       "imports": [
         "../ERC721.sol",
-        "../../../utils/Context.sol"
+        "./IERC721Enumerable.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "ERC721Burnable"
+        "ERC721Enumerable"
       ]
     },
     "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/utils/structs/EnumerableMap.sol": {
@@ -1454,6 +1416,44 @@
       ],
       "artifacts": [
         "EnumerableSet"
+      ]
+    },
+    "/home/vvords/solidity/Katibeh/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol": {
+      "lastModificationDate": 1687880343209,
+      "contentHash": "f4dd06783f321aa26179bc2b6e361c29",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Enumerable"
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/Test.sol": {
@@ -1579,42 +1579,6 @@
       ],
       "artifacts": []
     },
-    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd59x18/Constants.sol": {
-      "lastModificationDate": 1690265591143,
-      "contentHash": "7fc7d96c638cf5317dbba7ae8c07300d",
-      "sourceName": "@prb/math/src/sd59x18/Constants.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./ValueType.sol"
-      ],
-      "versionPragmas": [
-        ">=0.8.19"
-      ],
-      "artifacts": []
-    },
     "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd59x18/Conversions.sol": {
       "lastModificationDate": 1690265591147,
       "contentHash": "ed20ef1168816e445cf00d5ad68a5d20",
@@ -1653,6 +1617,78 @@
       ],
       "artifacts": []
     },
+    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd59x18/Errors.sol": {
+      "lastModificationDate": 1690265591147,
+      "contentHash": "a7e94006142e69ba7db582ef8ea8a777",
+      "sourceName": "@prb/math/src/sd59x18/Errors.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ValueType.sol"
+      ],
+      "versionPragmas": [
+        ">=0.8.19"
+      ],
+      "artifacts": []
+    },
+    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd59x18/Constants.sol": {
+      "lastModificationDate": 1690265591143,
+      "contentHash": "7fc7d96c638cf5317dbba7ae8c07300d",
+      "sourceName": "@prb/math/src/sd59x18/Constants.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ValueType.sol"
+      ],
+      "versionPragmas": [
+        ">=0.8.19"
+      ],
+      "artifacts": []
+    },
     "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd59x18/Helpers.sol": {
       "lastModificationDate": 1690265591147,
       "contentHash": "7d1863a86f1dd22889ee2c28737b3456",
@@ -1683,42 +1719,6 @@
       },
       "imports": [
         "./Casting.sol",
-        "./ValueType.sol"
-      ],
-      "versionPragmas": [
-        ">=0.8.19"
-      ],
-      "artifacts": []
-    },
-    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd59x18/Errors.sol": {
-      "lastModificationDate": 1690265591147,
-      "contentHash": "a7e94006142e69ba7db582ef8ea8a777",
-      "sourceName": "@prb/math/src/sd59x18/Errors.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
         "./ValueType.sol"
       ],
       "versionPragmas": [
@@ -1838,42 +1838,6 @@
       ],
       "artifacts": []
     },
-    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd1x18/Constants.sol": {
-      "lastModificationDate": 1690265591143,
-      "contentHash": "3a00d7986d0f1f5fd47ac9f2dc1475ce",
-      "sourceName": "@prb/math/src/sd1x18/Constants.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./ValueType.sol"
-      ],
-      "versionPragmas": [
-        ">=0.8.19"
-      ],
-      "artifacts": []
-    },
     "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd1x18/ValueType.sol": {
       "lastModificationDate": 1690265591159,
       "contentHash": "f0d7fec0238b9623cd5432462fba5c7f",
@@ -1904,42 +1868,6 @@
       },
       "imports": [
         "./Casting.sol"
-      ],
-      "versionPragmas": [
-        ">=0.8.19"
-      ],
-      "artifacts": []
-    },
-    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/ud2x18/Constants.sol": {
-      "lastModificationDate": 1690265591143,
-      "contentHash": "93bafe3a5bfec3c48c72e3b6dff0b5ac",
-      "sourceName": "@prb/math/src/ud2x18/Constants.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./ValueType.sol"
       ],
       "versionPragmas": [
         ">=0.8.19"
@@ -1982,6 +1910,42 @@
       ],
       "artifacts": []
     },
+    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/sd1x18/Constants.sol": {
+      "lastModificationDate": 1690265591143,
+      "contentHash": "3a00d7986d0f1f5fd47ac9f2dc1475ce",
+      "sourceName": "@prb/math/src/sd1x18/Constants.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ValueType.sol"
+      ],
+      "versionPragmas": [
+        ">=0.8.19"
+      ],
+      "artifacts": []
+    },
     "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/ud60x18/ValueType.sol": {
       "lastModificationDate": 1690265591159,
       "contentHash": "2cdd6d9529412185283eb7d955e95cbe",
@@ -2014,6 +1978,42 @@
         "./Casting.sol",
         "./Helpers.sol",
         "./Math.sol"
+      ],
+      "versionPragmas": [
+        ">=0.8.19"
+      ],
+      "artifacts": []
+    },
+    "/home/vvords/solidity/Katibeh/node_modules/@prb/math/src/ud2x18/Constants.sol": {
+      "lastModificationDate": 1690265591143,
+      "contentHash": "93bafe3a5bfec3c48c72e3b6dff0b5ac",
+      "sourceName": "@prb/math/src/ud2x18/Constants.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ValueType.sol"
       ],
       "versionPragmas": [
         ">=0.8.19"

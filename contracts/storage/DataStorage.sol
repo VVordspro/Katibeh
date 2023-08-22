@@ -15,7 +15,7 @@ abstract contract DataStorage {
         int256 B;
         int256 C;
         int256 D;
-        uint256 royalty;
+        uint96 royalty;
         uint256 totalSupply;
         uint256 discount;
         uint256 chainId;

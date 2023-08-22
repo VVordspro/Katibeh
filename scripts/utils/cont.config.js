@@ -8,10 +8,10 @@ let qhAddr = zero_address
 let qvhAddr = zero_address
 
 if (network.config.chainId == 80001) {
-    addrFac = "0xBeAE0f72eE4932e32D0A0ef094eAf27D9CDfF82d"
-    addr721 = "0xf287e59752a6B9413087176480879C2F75a52e9B"
-    qhAddr = "0xD6cD7a7EcfbBb02926D7b16EeCEEbEb564a5A2ae"
-    qvhAddr = "0xF01fA545800C0D4BEB4F834D3cbd983e675e45aB"
+    addrFac = "0x20b224D1B8ff6A82795069271B348AEF3c7679a9"
+    addr721 = "0x92c922a3aE0371D9AB9eb2598E7a45b421d019A6"
+    qhAddr = "0x7597e7f54A282b605f94c56C5a4abe5cDA532039"
+    qvhAddr = "0xb2678d388261ce1D4846FCCf42256cfA3bab6A46"
 }
 
 module.exports = {

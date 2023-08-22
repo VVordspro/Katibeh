@@ -117,6 +117,10 @@ contract FeeUtils is DataStorage {
     //@param C The base as an signed 59.18-decimal fixed-point number.
     //@param D The base as an signed 59.18-decimal fixed-point number.
     function privateFee(uint256 x, Pricing memory pricing) internal pure returns (uint256 result){
+        require(
+            x < pricing.totalSupply,
+            "Factory1155: Maximum supply reached."
+        );
         //return B*pow(A,x)/10*18+C*x/10**18+D/10**18
         //int res = C*int(x)+int(D);
         int res = pricing.B*int(pow(pricing.A,x))/10**18+pricing.C*int(x)+pricing.D;

@@ -14,7 +14,7 @@ const { deployFee, callFee } = require("../scripts/utils/gasEstimator.js");
     console.log("Factory1155 Contract Address:", F1155.address); 
 
     await delay(20000)
-    await verify(F1155.target, [qhAddr])
+    await verify(F1155.address, [qhAddr])
   }
     
   if (require.main === module) {
