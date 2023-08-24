@@ -9,7 +9,7 @@ describe('Test', async function () {
     let zero_address
     let days = 60 * 60 *24
     let ONE_MONTH_IN_SECS
-    let deployer, user1, user2
+    let deployer, user1, user2, user3
     let splitter
     let QH
     let QVH
@@ -26,7 +26,7 @@ describe('Test', async function () {
         zero_address = "0x0000000000000000000000000000000000000000"
         ONE_MONTH_IN_SECS = 30 * 24 * 60 * 60;
         const accounts = await ethers.getSigners();
-        [deployer, user1, user2] = accounts
+        [deployer, user1, user2, user3] = accounts
         let splitterCont = await hre.ethers.getContractFactory("PercentSplitETH")
         splitter = await splitterCont.deploy()
         let QVHash = await hre.ethers.getContractFactory("QVHash")
@@ -53,6 +53,27 @@ describe('Test', async function () {
 //     ISplitter.Share[] owners;
 //     Pricing[] pricing;
 // }
+// struct Pricing {
+//   uint256 A;
+//   int256 B;
+//   int256 C;
+//   int256 D;
+//   uint96 royalty;
+//   uint256 totalSupply;
+//   uint256 discount;
+//   uint256 chainId;
+// }
+
+        pricing = [[
+          0,
+          0,
+          0,
+          ethers.utils.parseEther("2"),
+          100,
+          10,
+          5,
+          0
+        ]]
         katibeh = [
           user1.address,
           nowTime,
@@ -62,15 +83,15 @@ describe('Test', async function () {
           data,
           [],
           [data, data, data],
-          [[user1.address, 1]], //354371 //396716
-          []
+          [[user2.address, 6000],[user3.address, 4000]], //354371 //396716
+          pricing
         ]
     }) 
 
     it('should mint 721 freely for every user on mumbai', async () => {
         await kat721.connect(user1).safeMint(katibeh, "0x00", "0x00")
 
-        latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
+        // latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
         
         assert.equal(
             await kat721.totalSupply(),
@@ -78,25 +99,29 @@ describe('Test', async function () {
         )
     })
 
-  //   it('should collect 1 correctly on mainnet', async () => {
+    it('should collect 1 correctly on mainnet', async () => {
 
-  //     await callFee(
-  //       factory, 
-  //       "firstFreeCollect", 
-  //       0,
-  //       katibeh,
-  //       0x00,
-  //       0x00
-  //     ) //396,960 //441,484
+      // await callFee(
+      //   factory, 
+      //   "firstFreeCollect", 
+      //   0,
+      //   katibeh,
+      //   0x00,
+      //   0x00
+      // ) //396,960 //441,484
         
-  //     // await factory.connect(user2).firstFreeCollect(
-  //     //     0,
-  //     //     katibeh,
-  //     //     0x00,
-  //     //     0x00,
-  //     //     { value: await factory.fee(0) }
-  //     // )
-  // })
+      await factory.connect(user1).collect(
+          0,
+          katibeh,
+          0x00,
+          0x00,
+          [],
+          { value: ethers.utils.parseEther("2") }
+      )
+      console.log(await ethers.provider.getBalance(user1.address))
+      console.log(await ethers.provider.getBalance(user2.address))
+      console.log(await ethers.provider.getBalance(user3.address))
+  })
 
     // it('should not mint 721 with same token id', async () => {
     //     await expect(

@@ -62,6 +62,8 @@ abstract contract FeeManager is FeeUtils {
         len = owners.length;
         if(len == 0) {
             _pay(creator, ownerShare); // Pay the full amount to the creator if there are no owners
+        } else if(len == 1) {
+            _pay(owners[0].recipient, ownerShare);
         } else {
             _pay(address(split.createSplit(owners)), ownerShare); // Pay the remaining balance to the last owner
         }
@@ -95,19 +97,21 @@ abstract contract FeeManager is FeeUtils {
     /**
      * @dev Internal function to find the pricing for a token based on the current chainId.
      * @param katibeh The Katibeh struct representing the token.
-     * @return Pricing The pricing struct corresponding to the current chainId.
+     * @return p Pricing The pricing struct corresponding to the current chainId.
      */
-    function findPricing(Katibeh memory katibeh) internal view returns(Pricing memory) {
+    function findPricing(Katibeh memory katibeh) internal view returns(Pricing memory p) {
         uint256 chainId;
         assembly {
             chainId := chainid()
         }
         uint256 len = katibeh.pricing.length;
-        for(uint256 i; i < len; i++) {
-            if(katibeh.pricing[i].chainId == chainId){
-                return katibeh.pricing[i];
+        if(len > 0){
+            for(uint256 i; i < len; i++) {
+                if(katibeh.pricing[i].chainId == chainId){
+                    return katibeh.pricing[i];
+                }
             }
+            return katibeh.pricing[0]; // Return the first pricing struct if the current chainId is not found
         }
-        return katibeh.pricing[0]; // Return the first pricing struct if the current chainId is not found
     }
 }

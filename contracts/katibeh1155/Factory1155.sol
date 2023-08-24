@@ -111,6 +111,7 @@ contract Factory1155 is FeeManager {
                 QH.checkHash(sig, tokenId),
                 "Factory1155: wrong token id"
             );
+            uint96 royalty;
             uint256 len = katibeh.toTokenId.length;
             for(uint256 i; i < len; ++i) {
                 address colAddr = _tokenCollection[katibeh.toTokenId[i]];
@@ -142,15 +143,7 @@ contract Factory1155 is FeeManager {
                     block.timestamp >= katibeh.initTime,
                     "Factory1155: token sale time has not started yet"
                 );
-                if(pricing.royalty > 0) {
-                    address royaltyReceiver;
-                    if(katibeh.owners.length == 0){
-                        royaltyReceiver = katibeh.creator;
-                    } else {
-                        royaltyReceiver = split.getPredictedSplitAddress(katibeh.owners);
-                    }
-                    k1155.setTokenRoyalty(tokenId, royaltyReceiver, pricing.royalty);
-                }
+                royalty = pricing.royalty;
             }
             collectionAddr = predictCollectionAddr(originAddr, katibeh.tags[0]);
             k1155 = Katibeh1155(collectionAddr);
@@ -164,6 +157,15 @@ contract Factory1155 is FeeManager {
             _tokenCollection[tokenId] = collectionAddr;
             k1155.setURI(tokenId, katibeh.tokenURI);
             _setCollectData(tokenId, katibeh);
+            if(royalty > 0) {
+                address royaltyReceiver;
+                if(katibeh.owners.length == 0){
+                    royaltyReceiver = katibeh.creator;
+                } else {
+                    royaltyReceiver = split.getPredictedSplitAddress(katibeh.owners);
+                }
+                k1155.setTokenRoyalty(tokenId, royaltyReceiver, royalty);
+            }
 
         } else {
             // collect
@@ -184,7 +186,7 @@ contract Factory1155 is FeeManager {
 
         require(
             msg.value >= _fee,
-            "Factory1155: insufficient publicFee"
+            "Factory1155: insufficient Fee"
         );
         k1155.mint(collector, tokenId, 1, "");
         _collectorScore[collector] ++;
