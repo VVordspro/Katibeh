@@ -10,6 +10,7 @@ describe('Test', async function () {
     let days = 60 * 60 *24
     let ONE_MONTH_IN_SECS
     let deployer, user1, user2
+    let splitter
     let QH
     let QVH
     let kat721
@@ -21,24 +22,13 @@ describe('Test', async function () {
 
     let katibeh
 
-
-  //   struct Katibeh {
-  //     address creator;
-  //     uint256 signTime;
-  //     uint256 initTime;
-  //     uint256 expTime;
-  //     string tokenURI;
-  //     bytes data;
-  //     uint256[] toTokenId;
-  //     bytes32[] tags;
-  //     Payee[] owners;
-  // }
-
     before(async function () {
         zero_address = "0x0000000000000000000000000000000000000000"
         ONE_MONTH_IN_SECS = 30 * 24 * 60 * 60;
         const accounts = await ethers.getSigners();
         [deployer, user1, user2] = accounts
+        let splitterCont = await hre.ethers.getContractFactory("PercentSplitETH")
+        splitter = await splitterCont.deploy()
         let QVHash = await hre.ethers.getContractFactory("QVHash")
         QVH = await QVHash.deploy()
         let QHash = await hre.ethers.getContractFactory("QHash")
@@ -46,22 +36,23 @@ describe('Test', async function () {
         let mumbai721 = await hre.ethers.getContractFactory("Katibeh721");
         kat721 = await mumbai721.deploy(QVH.address);
         let fac1155 = await hre.ethers.getContractFactory("Factory1155");
-        factory = await fac1155.deploy(QH.address);
+        factory = await fac1155.deploy(splitter.address, QH.address);
         nowTime = await time.latest();
 
         latestExpTime = ((await time.latest()) + ONE_MONTH_IN_SECS)
 
-  //   struct Katibeh {
-  //     address creator;
-  //     uint256 signTime;
-  //     uint256 initTime;
-  //     uint256 expTime;
-  //     string tokenURI;
-  //     bytes data;
-  //     uint256[] toTokenId;
-  //     bytes32[] tags;
-  //     Payee[] owners;
-  // }
+//   struct Katibeh {
+//     address creator;
+//     uint256 signTime;
+//     uint256 initTime;
+//     uint256 expTime;
+//     string tokenURI;
+//     bytes data;
+//     uint256[] toTokenId;
+//     bytes32[] tags;
+//     ISplitter.Share[] owners;
+//     Pricing[] pricing;
+// }
         katibeh = [
           user1.address,
           nowTime,
@@ -71,19 +62,20 @@ describe('Test', async function () {
           data,
           [],
           [data, data, data],
-          [[user1.address, 1]] //354371 //396716
+          [[user1.address, 1]], //354371 //396716
+          []
         ]
     }) 
 
     it('should mint 721 freely for every user on mumbai', async () => {
         await kat721.connect(user1).safeMint(katibeh, "0x00", "0x00")
 
-        // latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
+        latestId = await kat721.getId("tokenURI", deployer.address, latestExpTime)
         
-        // assert.equal(
-        //     await kat721.totalSupply(),
-        //     1
-        // )
+        assert.equal(
+            await kat721.totalSupply(),
+            1
+        )
     })
 
   //   it('should collect 1 correctly on mainnet', async () => {

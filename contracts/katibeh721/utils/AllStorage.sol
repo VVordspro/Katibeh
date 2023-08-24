@@ -86,6 +86,11 @@ abstract contract AllStorage is DataStorage {
         uint256 len = tags.length;
         require(len <= 3, "DataStorage: Tags length must be less than or equal to 3");
         bytes32 empty;
+        if(len > 2) {
+            require(tags[2][0] != 0x23, "DataStorage: not acceptable character # in tag3");
+        } if(len > 1) {
+            require(tags[1][0] != 0x23, "DataStorage: not acceptable character # in tag2");
+        }
         emit Tags(
             tokenId, 
             len > 0 ? tags[0] : empty,
@@ -147,13 +152,13 @@ abstract contract AllStorage is DataStorage {
     /**
      * @dev Get the shareholders for a token.
      * @param tokenId The ID of the token to query.
-     * @return _owners_ An array of Payee structs representing the token shareholders.
+     * @return _owners_ An array of ISplitter.Share structs representing the token shareholders.
      */
-    function tokenShareholders(uint256 tokenId) public view returns(Payee[] memory _owners_) {
+    function tokenShareholders(uint256 tokenId) public view returns(ISplitter.Share[] memory _owners_) {
         Katibeh memory token = idToToken[tokenId];
         if(token.owners.length == 0) {
-            _owners_ = new Payee[](1);
-            _owners_[0] = Payee(token.creator, 1);
+            _owners_ = new ISplitter.Share[](1);
+            _owners_[0] = ISplitter.Share(payable(token.creator), 1);
         } else {
             return token.owners;
         }

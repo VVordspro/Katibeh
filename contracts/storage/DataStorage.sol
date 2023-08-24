@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "../splitter/interfaces/ISplitter.sol";
+
 abstract contract DataStorage {
 
-    // Structure to represent an address and its corresponding share
-    struct Payee {
-        address addr;
-        uint16 share;
-    }
+    uint256 internal constant BASIS_POINTS = 10000;
 
     // Structure to represent the pricing details for a token
     struct Pricing {
@@ -31,7 +29,7 @@ abstract contract DataStorage {
         bytes data;
         uint256[] toTokenId;
         bytes32[] tags;
-        Payee[] owners;
+        ISplitter.Share[] owners;
         Pricing[] pricing;
     }
 

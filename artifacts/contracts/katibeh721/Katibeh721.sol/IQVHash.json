@@ -50,17 +50,17 @@
             {
               "components": [
                 {
-                  "internalType": "address",
-                  "name": "addr",
+                  "internalType": "address payable",
+                  "name": "recipient",
                   "type": "address"
                 },
                 {
-                  "internalType": "uint16",
-                  "name": "share",
-                  "type": "uint16"
+                  "internalType": "uint256",
+                  "name": "percentInBasisPoints",
+                  "type": "uint256"
                 }
               ],
-              "internalType": "struct DataStorage.Payee[]",
+              "internalType": "struct ISplitter.Share[]",
               "name": "owners",
               "type": "tuple[]"
             },
@@ -87,9 +87,9 @@
                   "type": "int256"
                 },
                 {
-                  "internalType": "uint256",
+                  "internalType": "uint96",
                   "name": "royalty",
-                  "type": "uint256"
+                  "type": "uint96"
                 },
                 {
                   "internalType": "uint256",

@@ -28,7 +28,9 @@ contract Factory1155 is FeeManager {
 
     event TokenData(uint256 indexed tokenId, bytes data);
 
-    constructor(address qhAddr) {
+    constructor(ISplitter _split, address qhAddr) 
+        FeeManager(_split) 
+    {
         QH = IQHash(qhAddr);
         receiver1 = payable(msg.sender);
     }
@@ -79,7 +81,7 @@ contract Factory1155 is FeeManager {
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata data,
-        Payee[] calldata dapps
+        ISplitter.Share[] calldata dapps
     ) public payable {
         collectTo(msg.sender, tokenId, katibeh, sig, data, dapps);
     }
@@ -90,7 +92,7 @@ contract Factory1155 is FeeManager {
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata data,
-        Payee[] calldata dapps
+        ISplitter.Share[] calldata dapps
     ) public payable {
         address collectionAddr = _tokenCollection[tokenId];
         Katibeh1155 k1155;
@@ -145,8 +147,7 @@ contract Factory1155 is FeeManager {
                     if(katibeh.owners.length == 0){
                         royaltyReceiver = katibeh.creator;
                     } else {
-                        // the split address should be cloned.
-                        // royaltyReceiver = split address
+                        royaltyReceiver = split.getPredictedSplitAddress(katibeh.owners);
                     }
                     k1155.setTokenRoyalty(tokenId, royaltyReceiver, pricing.royalty);
                 }
@@ -200,7 +201,7 @@ contract Factory1155 is FeeManager {
     }
 
     function isPublic(Katibeh calldata katibeh) internal pure returns(bool) {
-        return abi.encodePacked(katibeh.tags)[0] == 0x23;
+        return katibeh.tags[0][0] == 0x23;
     }
 
     function predictCollectionAddr(

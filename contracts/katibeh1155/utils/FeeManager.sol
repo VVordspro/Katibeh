@@ -2,6 +2,10 @@
 pragma solidity ^0.8.4;
 
 import "./FeeUtils.sol";
+import "../../splitter/interfaces/ISplitter.sol";
+
+
+// poole hame usera ham bayad bere be addresse splittereshon
 
 /**
  * @title FeeManager Contract
@@ -9,8 +13,14 @@ import "./FeeUtils.sol";
  */
 abstract contract FeeManager is FeeUtils {
     
+    ISplitter public split;
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
+    mapping(address => uint256) public userBalance;
+
+    constructor(ISplitter _split) {
+        split = _split;
+    }
 
     /**
      * @dev Set the address of receiver1.
@@ -28,42 +38,32 @@ abstract contract FeeManager is FeeUtils {
      * @dev Internal function to pay fees and distribute payments to relevant parties.
      * @param paidAmount The total amount paid by the token buyer.
      * @param creator The address of the token creator.
-     * @param owners An array of Payee structs representing token owners.
-     * @param dapps An array of Payee structs representing Dapp owners.
+     * @param owners An array of ISplitter.Share structs representing token owners.
+     * @param dapps An array of ISplitter.Share structs representing Dapp owners.
      */
     function _payFees(
         uint256 paidAmount,
         address creator,
-        Payee[] memory owners,
-        Payee[] calldata dapps
+        ISplitter.Share[] memory owners,
+        ISplitter.Share[] calldata dapps
     ) internal {
         uint256 receiver1Share = paidAmount * 20 / 1000; // 2% of the paid amount
         uint256 dappShare = paidAmount * 350 / 1000; // 35% of the paid amount
 
-        _pay(receiver1, receiver1Share);
+        _hold(receiver1, receiver1Share);
 
         uint256 len = dapps.length;
-        uint256 denom;
+        uint256 denom = BASIS_POINTS;
         for(uint256 i; i < len; ++i) {
-            denom += dapps[i].share;
-        }
-        for(uint256 i; i < len; ++i) {
-            _pay(dapps[i].addr, dappShare * dapps[i].share / denom);
+            _hold(dapps[i].recipient, dappShare * dapps[i].percentInBasisPoints / denom);
         }
 
-        uint256 ownerShare = address(this).balance;
+        uint256 ownerShare = paidAmount - (receiver1Share + dappShare);
         len = owners.length;
         if(len == 0) {
             _pay(creator, ownerShare); // Pay the full amount to the creator if there are no owners
         } else {
-            denom = 0;
-            for(uint256 i; i < len; ++i) {
-                denom += owners[i].share;
-            }
-            for(uint256 i; i < len - 1; ++i) {
-                _pay(owners[i].addr, ownerShare * owners[i].share / denom);
-            }
-            _pay(owners[len - 1].addr, address(this).balance); // Pay the remaining balance to the last owner
+            _pay(address(split.createSplit(owners)), ownerShare); // Pay the remaining balance to the last owner
         }
     }
 
@@ -72,8 +72,24 @@ abstract contract FeeManager is FeeUtils {
      * @param receiver The address of the receiver.
      * @param amount The amount to be transferred.
      */
-    function _pay(address receiver, uint256 amount) internal {
-        payable(receiver).transfer(amount);
+    function _pay(address receiver, uint256 amount) internal returns(bool success){
+        (success,) = payable(receiver).call{value : amount}("");
+    }
+
+    /**
+     * @dev Internal function to transfer funds to a specific receiver.
+     * @param receiver The address of the receiver.
+     * @param amount The amount to be transferred.
+     */
+    function _hold(address receiver, uint256 amount) internal {
+        userBalance[receiver] += amount;
+    }
+
+    function withdraw() public {
+        address userAddr = msg.sender;
+        uint256 balance = userBalance[userAddr];
+        delete userBalance[userAddr];
+        _pay(userAddr, balance);
     }
 
     /**
