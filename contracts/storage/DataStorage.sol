@@ -13,10 +13,11 @@ abstract contract DataStorage {
         int256 B;
         int256 C;
         int256 D;
-        uint96 royalty;
         uint256 totalSupply;
-        uint256 discount;
-        uint256 chainId;
+        uint256 expTime;
+        uint96 royalty;
+        uint96 discount;
+        uint96 chainId;
     }
 
     // Structure to represent a token (Katibeh)
@@ -24,7 +25,6 @@ abstract contract DataStorage {
         address creator;
         uint256 signTime;
         uint256 initTime;
-        uint256 expTime;
         string tokenURI;
         bytes data;
         uint256[] toTokenId;

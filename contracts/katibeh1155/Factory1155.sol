@@ -55,7 +55,7 @@ contract Factory1155 is FeeManager {
             k1155 = Katibeh1155(collAddr);
             supply = k1155.totalSupply(tokenId);
         }
-        if(isPublic(katibeh)) {
+        if(isPublic(katibeh.tags)) {
             _fee = publicFee(supply);
         } else {
             _fee = privateFee(supply, findPricing(katibeh));
@@ -122,7 +122,7 @@ contract Factory1155 is FeeManager {
                 );
             }
             address originAddr;
-            if(isPublic(katibeh)) {
+            if(isPublic(katibeh.tags)) {
                 require(
                     block.timestamp >= katibeh.signTime + 1 days,
                     "Factory1155: token sale time has not started yet"
@@ -136,7 +136,7 @@ contract Factory1155 is FeeManager {
 
                 originAddr = katibeh.creator;
                 require(
-                    block.timestamp <= katibeh.expTime,
+                    block.timestamp <= pricing.expTime,
                     "Factory1155: token sale time is expired"
                 );
                 require(
@@ -171,14 +171,14 @@ contract Factory1155 is FeeManager {
             // collect
             k1155 = Katibeh1155(collectionAddr);
 
-            if(isPublic(katibeh)){
+            if(isPublic(katibeh.tags)){
                 _fee = publicFee(k1155.totalSupply(tokenId));
             } else {
-
-                _fee = privateFee(k1155.totalSupply(tokenId), findPricing(katibeh));
+                Pricing memory pricing = findPricing(katibeh);
+                _fee = privateFee(k1155.totalSupply(tokenId), pricing);
 
                 require(
-                    block.timestamp <= katibeh.expTime,
+                    block.timestamp <= pricing.expTime,
                     "Factory1155: token sale time is expired"
                 );
             }
@@ -199,11 +199,11 @@ contract Factory1155 is FeeManager {
         if(msg.value > _fee) {
             payable(msg.sender).transfer(msg.value - _fee);
         }
-        _payFees(_fee, k1155.owner(), katibeh.owners, dapps);
+        _payFees(_fee, _getPayableOwner(katibeh.owners, katibeh.creator), dapps);
     }
 
-    function isPublic(Katibeh calldata katibeh) internal pure returns(bool) {
-        return katibeh.tags[0][0] == 0x23;
+    function isPublic(bytes32[] calldata tags) internal pure returns(bool) {
+        return tags[0][0] == 0x23;
     }
 
     function predictCollectionAddr(
@@ -224,5 +224,190 @@ contract Factory1155 is FeeManager {
             bytes32(abi.encodePacked(creatorAddr, bytes32(abi.encode(tag0)))), 
             address(this)
         );
+    }
+
+    function firstPublicCollect(
+        address collector,
+        uint256 tokenId,
+        Katibeh calldata katibeh,
+        bytes calldata sig,
+        bytes calldata data,
+        ISplitter.Share[] calldata dapps
+    ) public payable {
+        _checkFirstCollect(tokenId, katibeh, sig);
+        _checkToTokenId(katibeh.toTokenId);
+        uint256 _fee = _checkPublicCollect(katibeh, 0);
+        Katibeh1155 k1155 = Katibeh1155(_getCreateCollectionAddr(address(0), katibeh));
+        address royaltyReceiver = _getPayableOwner(katibeh.owners, katibeh.creator);
+        _setTokenData(tokenId, 0, k1155, royaltyReceiver, katibeh);
+        _collect(k1155, collector, tokenId);
+        _payFees(_fee, royaltyReceiver, dapps);
+        _emitData(data, tokenId);
+    }
+
+    function firstPrivateCollect(
+        address collector,
+        uint256 tokenId,
+        Katibeh calldata katibeh,
+        bytes calldata sig,
+        bytes calldata data,
+        ISplitter.Share[] calldata dapps
+    ) public payable {
+        _checkFirstCollect(tokenId, katibeh, sig);
+        _checkToTokenId(katibeh.toTokenId);
+        (uint256 _fee, uint96 royalty) = _checkPrivateCollect(katibeh, 0, tokenId);
+        Katibeh1155 k1155 = Katibeh1155(_getCreateCollectionAddr(katibeh.creator, katibeh));
+        address royaltyReceiver = _getPayableOwner(katibeh.owners, katibeh.creator);
+        _setTokenData(tokenId, royalty, k1155, royaltyReceiver, katibeh);
+        _collect(k1155, collector, tokenId);
+        _payFees(_fee, royaltyReceiver, dapps);
+        _emitData(data, tokenId);
+    }
+
+    function publicCollect(
+        address collector,
+        uint256 tokenId,
+        bytes calldata data,
+        ISplitter.Share[] calldata dapps
+    ) public payable {
+        Katibeh1155 k1155 = Katibeh1155(_tokenCollection[tokenId]);
+        uint256 _fee = publicFee(k1155.totalSupply(tokenId));
+        _collect(k1155, collector, tokenId);
+        (address royaltyReceiver,) = k1155.royaltyInfo(tokenId, 0);
+        _payFees(_fee, royaltyReceiver, dapps);
+        _emitData(data, tokenId);
+    }
+
+    function privateCollect(
+        address collector,
+        uint256 tokenId,
+        bytes calldata data,
+        ISplitter.Share[] calldata dapps
+    ) public payable {
+        Katibeh1155 k1155 = Katibeh1155(_tokenCollection[tokenId]);
+        uint256 _fee = privateFee(k1155.totalSupply(tokenId), tokenPricing[tokenId]);
+        _collect(k1155, collector, tokenId);
+        (address royaltyReceiver,) = k1155.royaltyInfo(tokenId, 0);
+        _payFees(_fee, royaltyReceiver, dapps);
+        _emitData(data, tokenId);
+    }
+
+    function _checkFirstCollect(uint256 tokenId, Katibeh calldata katibeh, bytes calldata sig) internal view {
+        require(_tokenCollection[tokenId] == address(0), "Factory1155: This is not the first collect");
+        require(
+            sig.verify(
+                katibeh.creator,
+                getHash(katibeh)
+            ),
+            "Factory1155: Invalid signature"
+        );
+        require(
+            QH.checkHash(sig, tokenId),
+            "Factory1155: wrong token id"
+        );
+    }
+
+    function _checkToTokenId(uint256[] calldata toTokenId) internal view {
+            uint256 len = toTokenId.length;
+            for(uint256 i; i < len; ++i) {
+                address colAddr = _tokenCollection[toTokenId[i]];
+                require(
+                    colAddr != address(0) &&
+                    Katibeh1155(colAddr).totalSupply(toTokenId[i]) > 0,
+                    "Factory1155: to token id has not minted on current chain"
+                );
+            }
+    }
+
+    function _checkPublicCollect(Katibeh calldata katibeh, uint256 supply) internal view returns(uint256 _fee) {
+        require(isPublic(katibeh.tags), "Factory1155: Only public collect allowed.");
+        require(
+            block.timestamp >= katibeh.signTime + 1 days,
+            "Factory1155: token sale time has not started yet"
+        );
+        _fee = publicFee(supply);
+    }
+
+    function _checkPrivateCollect(Katibeh calldata katibeh, uint256 supply, uint256 tokenId) internal returns(
+        uint256 _fee, 
+        uint96 royalty
+    ) {
+        require(!isPublic(katibeh.tags), "Factory1155: Only private collect allowed.");
+
+        Pricing memory pricing = findPricing(katibeh);
+
+        _fee = privateFee(supply, pricing);
+
+        require(
+            block.timestamp <= pricing.expTime,
+            "Factory1155: token sale time is expired"
+        );
+        require(
+            block.timestamp >= katibeh.initTime,
+            "Factory1155: token sale time has not started yet"
+        );
+        royalty = pricing.royalty;
+        _setPricing(tokenId, pricing);
+    }
+
+    function _getCreateCollectionAddr(
+        address originAddr, 
+        Katibeh calldata katibeh
+    ) internal returns(address collectionAddr) {
+        Katibeh1155 k1155;
+        collectionAddr = predictCollectionAddr(originAddr, katibeh.tags[0]);            k1155 = Katibeh1155(collectionAddr);
+        if(collectionAddr.code.length == 0){
+            address(implementation).cloneDeterministic(
+                bytes32(abi.encodePacked(katibeh.creator, katibeh.tags[0]))
+            );
+            k1155.init(katibeh.creator, string(abi.encode(katibeh.tags[0])), "Katibeh");
+        }
+    }
+
+    function _setTokenData(
+        uint256 tokenId, 
+        uint96 royalty,
+        Katibeh1155 k1155,
+        address royaltyReceiver,
+        Katibeh calldata katibeh
+    ) internal returns(address collectionAddr) {
+        _tokenCollection[tokenId] = collectionAddr;
+        k1155.setURI(tokenId, katibeh.tokenURI);
+        _setCollectData(tokenId, katibeh);
+        k1155.setTokenRoyalty(tokenId, royaltyReceiver, royalty);
+    }
+
+    function _collect(Katibeh1155 k1155, address collector, uint256 tokenId) internal {
+        k1155.mint(collector, tokenId, 1, "");
+        _collectorScore[collector] ++;
+        emit TransferSingle(address(this), address(0), collector, uint256(uint160(collector)), 1);
+    }
+
+    function _emitData(bytes calldata data, uint256 tokenId) internal {
+        if(data.length != 0) {
+            emit TokenData(tokenId, data);
+        }
+    }
+
+    function _getPayableOwner(ISplitter.Share[] memory owners, address creator) internal returns(address) {
+        uint256 len = owners.length;
+        if(len == 0) {
+            return creator; // return the creator if there are no owners
+        } else if(len == 1) {
+            return owners[0].recipient;
+        } else {
+            return address(split.createSplit(owners)); // return the splitter for specified owners.
+        }
+    }
+
+    function _setPricing(uint256 tokenId, Pricing memory pricing) internal {
+        Pricing storage p = tokenPricing[tokenId];
+        p.A = pricing.A;
+        p.B = pricing.B;
+        p.C = pricing.C;
+        p.D = pricing.D;
+        p.totalSupply = pricing.totalSupply;
+        p.expTime = pricing.expTime;
+        p.discount = pricing.discount;
     }
 } 

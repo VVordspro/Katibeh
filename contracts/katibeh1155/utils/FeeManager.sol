@@ -5,8 +5,6 @@ import "./FeeUtils.sol";
 import "../../splitter/interfaces/ISplitter.sol";
 
 
-// poole hame usera ham bayad bere be addresse splittereshon
-
 /**
  * @title FeeManager Contract
  * @dev An abstract contract that manages fees and payment distribution for Katibeh721 tokens.
@@ -17,6 +15,7 @@ abstract contract FeeManager is FeeUtils {
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
     mapping(address => uint256) public userBalance;
+    mapping(uint256 => Pricing) tokenPricing;
 
     constructor(ISplitter _split) {
         split = _split;
@@ -37,16 +36,21 @@ abstract contract FeeManager is FeeUtils {
     /**
      * @dev Internal function to pay fees and distribute payments to relevant parties.
      * @param paidAmount The total amount paid by the token buyer.
-     * @param creator The address of the token creator.
-     * @param owners An array of ISplitter.Share structs representing token owners.
+     * @param owner the payable owner to receive collect fee.
      * @param dapps An array of ISplitter.Share structs representing Dapp owners.
      */
     function _payFees(
         uint256 paidAmount,
-        address creator,
-        ISplitter.Share[] memory owners,
+        address owner,
         ISplitter.Share[] calldata dapps
     ) internal {
+        require(
+            msg.value >= paidAmount,
+            "Factory1155: insufficient Fee"
+        );
+        if(msg.value > paidAmount) {
+            payable(msg.sender).transfer(msg.value - paidAmount);
+        }
         uint256 receiver1Share = paidAmount * 20 / 1000; // 2% of the paid amount
         uint256 dappShare = paidAmount * 350 / 1000; // 35% of the paid amount
 
@@ -59,14 +63,7 @@ abstract contract FeeManager is FeeUtils {
         }
 
         uint256 ownerShare = paidAmount - (receiver1Share + dappShare);
-        len = owners.length;
-        if(len == 0) {
-            _pay(creator, ownerShare); // Pay the full amount to the creator if there are no owners
-        } else if(len == 1) {
-            _pay(owners[0].recipient, ownerShare);
-        } else {
-            _pay(address(split.createSplit(owners)), ownerShare); // Pay the remaining balance to the last owner
-        }
+        _pay(owner, ownerShare);
     }
 
     /**

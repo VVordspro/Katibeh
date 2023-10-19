@@ -49,9 +49,8 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
             "Katibeh721: more than 1 hours sign time difference."
         );
         require(
-            katibeh.signTime <= katibeh.initTime &&
-            katibeh.initTime <= katibeh.expTime,
-            "Katibeh721: sign time must be less than init time & init time must be less than expire time."
+            katibeh.signTime <= katibeh.initTime,
+            "Katibeh721: sign time must be less than init time."
         );
         return keccak256(abi.encode(katibeh));
     }

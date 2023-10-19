@@ -6,7 +6,7 @@
       "contentHash": "c437c33e227670d441495007ddd585e4",
       "sourceName": "contracts/QHash/QHash.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -44,7 +44,7 @@
       "contentHash": "64b4794fa261972480002ca72550ecf3",
       "sourceName": "contracts/QHash/utils/qHash.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -76,11 +76,11 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/QHash/QVHash.sol": {
-      "lastModificationDate": 1692884586678,
-      "contentHash": "d0de4018ba15165572e95e8f16bbe530",
+      "lastModificationDate": 1692890490159,
+      "contentHash": "01544e48779dce560b4b645733ed383b",
       "sourceName": "contracts/QHash/QVHash.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -116,11 +116,11 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/storage/DataStorage.sol": {
-      "lastModificationDate": 1692882898801,
-      "contentHash": "c46a1e6b315516b3714dfb32de0b31c5",
+      "lastModificationDate": 1697547227092,
+      "contentHash": "19245fb317eb2d6ef839e69fc922f2c0",
       "sourceName": "contracts/storage/DataStorage.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -158,7 +158,7 @@
       "contentHash": "3588c29a771f8072c52ee97fdd6036e7",
       "sourceName": "contracts/QHash/utils/VerifySig.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -190,11 +190,11 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/katibeh1155/Factory1155.sol": {
-      "lastModificationDate": 1692890070348,
-      "contentHash": "77a653eb477151e8122b222e10bec915",
+      "lastModificationDate": 1697543808599,
+      "contentHash": "3fd3082d68e28561ebd414e303a7be09",
       "sourceName": "contracts/katibeh1155/Factory1155.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -237,7 +237,7 @@
       "contentHash": "47450a17c21e5233060063a0d488b45d",
       "sourceName": "contracts/katibeh1155/Katibeh1155.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -280,7 +280,7 @@
       "contentHash": "4c46ec2d78441e15a88053d56f1db038",
       "sourceName": "contracts/katibeh1155/utils/FeeManager.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -319,7 +319,7 @@
       "contentHash": "89c075565795af5e3e88fc75642a4af8",
       "sourceName": "@openzeppelin/contracts/proxy/Clones.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -355,7 +355,7 @@
       "contentHash": "48686fc32a22a3754b8e63321857dd2a",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -394,7 +394,7 @@
       "contentHash": "0592ba3b08d57bacb837bb28f7ffb1c6",
       "sourceName": "contracts/katibeh1155/utils/Ownable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -432,7 +432,7 @@
       "contentHash": "65c9d9c87e2b4df70e723819774a0482",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/ERC1155.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -475,7 +475,7 @@
       "contentHash": "319ae047a2324eed34ea1d673e586059",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -513,7 +513,7 @@
       "contentHash": "6a99607f60a77d468b7ed41303ea4a6c",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -551,7 +551,7 @@
       "contentHash": "6046dbdf9591874037a20159d431e11f",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -590,7 +590,7 @@
       "contentHash": "5efeb93e6b1c83c754da2846c2da51a7",
       "sourceName": "@openzeppelin/contracts/proxy/utils/Initializable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -628,7 +628,7 @@
       "contentHash": "211ffd288c1588ba8c10eae668ca3c66",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -664,7 +664,7 @@
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -700,7 +700,7 @@
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -738,7 +738,7 @@
       "contentHash": "93aa9af4f5d2d2095a71ccde917038bb",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -776,7 +776,7 @@
       "contentHash": "9f8822b72fe2702979e40160cb6d9636",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -814,7 +814,7 @@
       "contentHash": "9148c2e10c4efb12c71a7f080da5559b",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -852,7 +852,7 @@
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -888,7 +888,7 @@
       "contentHash": "fe63409d8a06818b926cf89e0ea88b1b",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -924,7 +924,7 @@
       "contentHash": "9488ebd4daacfee8ad04811600d7d061",
       "sourceName": "@openzeppelin/contracts/utils/math/SignedMath.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -960,7 +960,7 @@
       "contentHash": "44d69eb75dbdbe9ead2dfe6925fb3b7a",
       "sourceName": "contracts/katibeh1155/utils/FeeUtils.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -998,7 +998,7 @@
       "contentHash": "95602b04f0b53f1139f4668d123ddeb7",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1042,7 +1042,7 @@
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1078,7 +1078,7 @@
       "contentHash": "48de4c9a3a4ae5ef66a2aa620843413f",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1116,7 +1116,7 @@
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1154,7 +1154,7 @@
       "contentHash": "5a341bfc4fe3ee5357ccdebd3a78ad2c",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1193,7 +1193,7 @@
       "contentHash": "96302cd1358ae0bfb615120a25c2dc7a",
       "sourceName": "contracts/katibeh721/Katibeh721.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1237,7 +1237,7 @@
       "contentHash": "481039e293839d391512710b2bb10f64",
       "sourceName": "contracts/katibeh721/utils/AllStorage.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1275,7 +1275,7 @@
       "contentHash": "3bdfd40ebabc9097b292ec17ec3bbe8c",
       "sourceName": "contracts/katibeh721/utils/TraceStorage.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1314,7 +1314,7 @@
       "contentHash": "212e86880d210b6cac8c3eb0cd6b1fad",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1353,7 +1353,7 @@
       "contentHash": "95822db95440af83b6df65ea18862ed9",
       "sourceName": "@openzeppelin/contracts/utils/structs/EnumerableMap.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1391,7 +1391,7 @@
       "contentHash": "e029f029abc1fd2d85d54fd69086f076",
       "sourceName": "@openzeppelin/contracts/utils/structs/EnumerableSet.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1427,7 +1427,7 @@
       "contentHash": "f4dd06783f321aa26179bc2b6e361c29",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1465,7 +1465,7 @@
       "contentHash": "35e613ccb234637ebc3b56334e23ddc6",
       "sourceName": "contracts/Test.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1503,7 +1503,7 @@
       "contentHash": "901bbf52c355f7ef00c935391346419a",
       "sourceName": "@prb/math/src/SD59x18.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1545,7 +1545,7 @@
       "contentHash": "cad7d3fe4dba2c04d2c7c481e6e0e210",
       "sourceName": "@prb/math/src/sd59x18/Casting.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1588,7 +1588,7 @@
       "contentHash": "ed20ef1168816e445cf00d5ad68a5d20",
       "sourceName": "@prb/math/src/sd59x18/Conversions.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1626,7 +1626,7 @@
       "contentHash": "a7e94006142e69ba7db582ef8ea8a777",
       "sourceName": "@prb/math/src/sd59x18/Errors.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1662,7 +1662,7 @@
       "contentHash": "7fc7d96c638cf5317dbba7ae8c07300d",
       "sourceName": "@prb/math/src/sd59x18/Constants.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1698,7 +1698,7 @@
       "contentHash": "7d1863a86f1dd22889ee2c28737b3456",
       "sourceName": "@prb/math/src/sd59x18/Helpers.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1735,7 +1735,7 @@
       "contentHash": "9ba39059764f9bac4b29f829c0dec4db",
       "sourceName": "@prb/math/src/sd59x18/Math.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1775,7 +1775,7 @@
       "contentHash": "a8cbdd366dbe50e8199a8d59109c94ab",
       "sourceName": "@prb/math/src/sd59x18/ValueType.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1813,7 +1813,7 @@
       "contentHash": "d77a476e938b130819f9bb3bd2932e57",
       "sourceName": "@prb/math/src/Common.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1847,7 +1847,7 @@
       "contentHash": "f0d7fec0238b9623cd5432462fba5c7f",
       "sourceName": "@prb/math/src/sd1x18/ValueType.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1883,7 +1883,7 @@
       "contentHash": "4bf392abdd32a2c1d83ad65c640ac7bd",
       "sourceName": "@prb/math/src/ud2x18/ValueType.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1919,7 +1919,7 @@
       "contentHash": "3a00d7986d0f1f5fd47ac9f2dc1475ce",
       "sourceName": "@prb/math/src/sd1x18/Constants.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1955,7 +1955,7 @@
       "contentHash": "2cdd6d9529412185283eb7d955e95cbe",
       "sourceName": "@prb/math/src/ud60x18/ValueType.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -1993,7 +1993,7 @@
       "contentHash": "93bafe3a5bfec3c48c72e3b6dff0b5ac",
       "sourceName": "@prb/math/src/ud2x18/Constants.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2029,7 +2029,7 @@
       "contentHash": "fdf620cd0842991c797eef17265b5138",
       "sourceName": "@prb/math/src/sd1x18/Casting.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2070,7 +2070,7 @@
       "contentHash": "01ce16eb254b596aa49047e21d548541",
       "sourceName": "@prb/math/src/sd1x18/Errors.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2106,7 +2106,7 @@
       "contentHash": "5b5adfd1cd28d449eccc56ed83738365",
       "sourceName": "@prb/math/src/ud2x18/Casting.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2149,7 +2149,7 @@
       "contentHash": "b114bc752027098a098fe200d9600fa4",
       "sourceName": "@prb/math/src/ud2x18/Errors.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2185,7 +2185,7 @@
       "contentHash": "210f9ed8d979a7449cdb5b7adb003808",
       "sourceName": "@prb/math/src/ud60x18/Casting.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2229,7 +2229,7 @@
       "contentHash": "f17f113af284236759bc9217ed544728",
       "sourceName": "@prb/math/src/ud60x18/Helpers.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2266,7 +2266,7 @@
       "contentHash": "925bb9fcc75f579cf3e9dd58fa10a90c",
       "sourceName": "@prb/math/src/ud60x18/Math.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2306,7 +2306,7 @@
       "contentHash": "63cbb9480bb14e0824736d5c109aa7ce",
       "sourceName": "@prb/math/src/ud60x18/Errors.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2342,7 +2342,7 @@
       "contentHash": "282d93a05c3ed412d5a3b74a4ad05d6d",
       "sourceName": "@prb/math/src/ud60x18/Constants.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2378,7 +2378,7 @@
       "contentHash": "8dbffefc9f90bf604f3b8575e708dc03",
       "sourceName": "@openzeppelin/contracts/token/common/ERC2981.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2417,7 +2417,7 @@
       "contentHash": "23ed9f4f05068d7fc726138726c34bee",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC2981.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2455,7 +2455,7 @@
       "contentHash": "c30c805386fda8a42ff515da963d3a95",
       "sourceName": "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2491,7 +2491,7 @@
       "contentHash": "b0970a564d121abf9adfff8d1a01eb16",
       "sourceName": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2529,7 +2529,7 @@
       "contentHash": "f6f4fda16c536e57069af40a245c985e",
       "sourceName": "@openzeppelin/contracts/utils/math/SafeMath.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2565,7 +2565,7 @@
       "contentHash": "df36f7051335cd1e748b1b6463b7fdd3",
       "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2601,7 +2601,7 @@
       "contentHash": "5d2e85434d5f4ec342d409ae7c02ffa4",
       "sourceName": "contracts/splitter/interfaces/ISplitter.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2633,11 +2633,11 @@
       ]
     },
     "/home/vvords/solidity/Katibeh/contracts/splitter/PercentSplitETH.sol": {
-      "lastModificationDate": 1692878354584,
+      "lastModificationDate": 1692882843810,
       "contentHash": "535225ba6f06f311eae18d38513af156",
       "sourceName": "contracts/splitter/PercentSplitETH.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2681,7 +2681,7 @@
       "contentHash": "ff5b0f0525d94c616741d5e4fba63c8b",
       "sourceName": "contracts/splitter/interfaces/IERC20Approve.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {
@@ -2717,7 +2717,7 @@
       "contentHash": "53e4e726dbdf5bebf1267249743f09af",
       "sourceName": "contracts/splitter/libraries/BytesLibrary.sol",
       "solcConfig": {
-        "version": "0.8.19",
+        "version": "0.8.21",
         "settings": {
           "viaIR": true,
           "optimizer": {

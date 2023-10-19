@@ -7,12 +7,12 @@ const { ACCOUNT, POLYGONSCAN_API_KEY } = require('./secret.json');
 
 module.exports = {
   solidity: {
-    version: "0.8.19",
+    version: "0.8.21",
     settings: {
       viaIR: true,
       optimizer: {
         enabled: true,
-        runs: 200,
+        // runs: 200,
       },
     },
   },
