@@ -370,8 +370,8 @@ contract Factory1155 is FeeManager {
         Katibeh1155 k1155,
         address royaltyReceiver,
         Katibeh calldata katibeh
-    ) internal returns(address collectionAddr) {
-        _tokenCollection[tokenId] = collectionAddr;
+    ) internal {
+        _tokenCollection[tokenId] = address(k1155);
         k1155.setURI(tokenId, katibeh.tokenURI);
         _setCollectData(tokenId, katibeh);
         k1155.setTokenRoyalty(tokenId, royaltyReceiver, royalty);
