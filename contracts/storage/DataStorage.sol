@@ -23,7 +23,7 @@ abstract contract DataStorage {
     // Structure to represent a token (Katibeh)
     struct Katibeh {
         address creator;
-        uint256 signTime;
+        uint96 signTime;
         uint256 initTime;
         string tokenURI;
         bytes data;

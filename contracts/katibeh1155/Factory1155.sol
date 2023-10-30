@@ -25,14 +25,16 @@ contract Factory1155 is FeeManager {
 
     Katibeh1155 public implementation = new Katibeh1155();
     IQHash public QH;
+    uint96 public startTime;
 
     event TokenData(uint256 indexed tokenHash, bytes data);
 
-    constructor(ISplitter _split, address qhAddr) 
+    constructor(ISplitter _split, address qhAddr, uint96 _startTime) 
         FeeManager(_split) 
     {
         QH = IQHash(qhAddr);
         receiver1 = payable(msg.sender);
+        startTime = _startTime;
     }
     
     function fee(
@@ -40,6 +42,10 @@ contract Factory1155 is FeeManager {
         Katibeh calldata katibeh
     ) public view returns(uint256 _fee) {
         (_fee,) = feeAndSupply(tokenHash, katibeh);
+    }
+
+    function getTokenId(uint96 signTime) public view returns(uint96) {
+        return signTime - startTime;
     }
     
     function feeAndSupply(
