@@ -15,7 +15,7 @@ abstract contract FeeManager is FeeUtils {
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
     mapping(address => uint256) public userBalance;
-    mapping(uint256 => Pricing) tokenPricing;
+    mapping(address => mapping(uint256 => Pricing)) tokenPricing;
 
     constructor(ISplitter _split) {
         split = _split;
