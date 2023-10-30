@@ -44,8 +44,8 @@ contract Factory1155 is FeeManager {
         (_fee,) = feeAndSupply(tokenHash, katibeh);
     }
 
-    function getTokenId(uint96 signTime) public view returns(uint96) {
-        return signTime - startTime;
+    function _getInitialTokenId(uint96 signTime, Katibeh1155 k1155) internal view returns(uint96 tokenId) {
+        return k1155.getInitialId(signTime - startTime);
     }
     
     function feeAndSupply(

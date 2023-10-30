@@ -41,6 +41,13 @@ contract Katibeh1155 is
         __Ownable_init(owner_);
     }
 
+    function getInitialId(uint96 tokenId) public view returns(uint96 _tokenId) {
+        _tokenId = tokenId;
+        while(totalSupply(_tokenId) > 0) {
+            _tokenId ++;
+        }
+    }
+
     function mint(
         address addr,
         uint256 id,
