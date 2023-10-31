@@ -14,8 +14,9 @@ abstract contract FeeManager is FeeUtils {
     ISplitter public split;
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
+    uint256 public totalValueLocked;
     mapping(address => uint256) public userBalance;
-    mapping(address => mapping(uint256 => Pricing)) tokenPricing;
+    mapping(address => mapping(uint96 => Pricing)) public tokenPricing;
 
     constructor(ISplitter _split) {
         split = _split;
@@ -33,37 +34,79 @@ abstract contract FeeManager is FeeUtils {
         receiver1 = newAddr;
     }
 
+    function _payPublicFees(
+        uint256 feeAmount,
+        ISplitter.Share[] calldata owners,
+        ISplitter.Share[] calldata dapps
+    ) internal {
+        require(
+            msg.value >= feeAmount,
+            "FeeManager: insufficient Fee"
+        );
+        uint256 devShare = feeAmount * 95 / 100000;
+
+        uint256 len = dapps.length;
+        uint256 denom = BASIS_POINTS;
+        uint256 totalShare;
+        for(uint256 i; i < len; ++i) {
+            totalShare += dapps[i].percentInBasisPoints;
+            _hold(dapps[i].recipient, devShare * dapps[i].percentInBasisPoints / denom);
+        }
+        for(uint256 i; i < len; ++i) {
+            _hold(owners[i].recipient, devShare * owners[i].percentInBasisPoints / denom);
+        }
+        require(totalShare == denom, "FeeManager: The sum of Dapp percentInBasisPoints must equal 10000");
+
+        if(msg.value > feeAmount) {
+            _pay(msg.sender, msg.value - feeAmount);
+        }
+        unchecked{
+            totalValueLocked += devShare;
+        }
+    }
+
     /**
      * @dev Internal function to pay fees and distribute payments to relevant parties.
-     * @param paidAmount The total amount paid by the token buyer.
+     * @param feeAmount The total amount paid by the token buyer.
      * @param owner the payable owner to receive collect fee.
      * @param dapps An array of ISplitter.Share structs representing Dapp owners.
      */
-    function _payFees(
-        uint256 paidAmount,
+    function _payPrivateFees(
+        uint256 feeAmount,
+        uint96 discount,
         address owner,
         ISplitter.Share[] calldata dapps
     ) internal {
         require(
-            msg.value >= paidAmount,
-            "Factory1155: insufficient Fee"
+            msg.value >= feeAmount,
+            "FeeManager: insufficient Fee"
         );
-        if(msg.value > paidAmount) {
-            payable(msg.sender).transfer(msg.value - paidAmount);
+        if(feeAmount > 0){
+            require(
+                discount <= 10000,
+                "FeeManager: Maximum discount is 100%"
+            );
+            uint256 dappShare;
+            if(discount > 0){
+                dappShare = feeAmount * discount / 10000;
+
+                uint256 len = dapps.length;
+                uint256 denom = BASIS_POINTS;
+                uint256 totalShare;
+                for(uint256 i; i < len; ++i) {
+                    totalShare += dapps[i].percentInBasisPoints;
+                    _hold(dapps[i].recipient, dappShare * dapps[i].percentInBasisPoints / denom);
+                }
+                require(totalShare == denom, "FeeManager: The sum of Dapp percentInBasisPoints must equal 10000");
+                unchecked{
+                    totalValueLocked += dappShare;
+                }
+            }
+            _pay(owner, feeAmount - dappShare);
         }
-        uint256 receiver1Share = paidAmount * 20 / 1000; // 2% of the paid amount
-        uint256 dappShare = paidAmount * 350 / 1000; // 35% of the paid amount
-
-        _hold(receiver1, receiver1Share);
-
-        uint256 len = dapps.length;
-        uint256 denom = BASIS_POINTS;
-        for(uint256 i; i < len; ++i) {
-            _hold(dapps[i].recipient, dappShare * dapps[i].percentInBasisPoints / denom);
+        if(msg.value > feeAmount) {
+            _pay(msg.sender, msg.value - feeAmount);
         }
-
-        uint256 ownerShare = paidAmount - (receiver1Share + dappShare);
-        _pay(owner, ownerShare);
     }
 
     /**
@@ -81,7 +124,9 @@ abstract contract FeeManager is FeeUtils {
      * @param amount The amount to be transferred.
      */
     function _hold(address receiver, uint256 amount) internal {
-        userBalance[receiver] += amount;
+        unchecked {
+            userBalance[receiver] += amount;
+        }
     }
 
     function withdraw() public {
@@ -108,7 +153,14 @@ abstract contract FeeManager is FeeUtils {
                     return katibeh.pricing[i];
                 }
             }
-            return katibeh.pricing[0]; // Return the first pricing struct if the current chainId is not found
+            for(uint256 i; i < len; i++) {
+                if(katibeh.pricing[i].chainId == 0){
+                    return katibeh.pricing[i];
+                }
+            }
+            revert("FeeManager: Pricing is not set on this chainId.");
+        } else {
+            revert("FeeManager: Pricing is not set.");
         }
     }
 }

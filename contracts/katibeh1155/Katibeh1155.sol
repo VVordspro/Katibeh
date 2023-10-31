@@ -16,9 +16,11 @@ contract Katibeh1155 is
     Ownable,
     ERC2981
 {
-    constructor() ERC1155("") {}
+    constructor() ERC1155("") {
+        Factory = msg.sender;
+    }
 
-    address Factory;
+    address immutable Factory;
     modifier onlyFactory() {
         require(
             msg.sender == Factory,
@@ -30,6 +32,13 @@ contract Katibeh1155 is
     string public name;
     string public symbol;
 
+    event TokenData(
+        address operator,
+        uint256[] ids,
+        uint256[] amounts,
+        bytes data
+    );
+
     function init(
         address owner_,
         string memory name_,
@@ -37,7 +46,6 @@ contract Katibeh1155 is
     ) public initializer {
         name = name_;
         symbol = symbol_;
-        Factory = msg.sender;
         __Ownable_init(owner_);
     }
 
@@ -77,6 +85,20 @@ contract Katibeh1155 is
         uint256 tokenId
     ) public view override(ERC1155, ERC1155URIStorage) returns (string memory) {
         return super.uri(tokenId);
+    }
+
+    function _afterTokenTransfer(
+        address operator,
+        address from,
+        address to,
+        uint256[] memory ids,
+        uint256[] memory amounts,
+        bytes memory data
+    ) internal override {
+        super._afterTokenTransfer(operator, from, to, ids, amounts, data);
+        if(data.length != 0){
+            emit TokenData(operator, ids, amounts, data);
+        }
     }
 
     function _beforeTokenTransfer(

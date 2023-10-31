@@ -102,12 +102,16 @@ contract FeeUtils is DataStorage {
         }
     }
     
-    function publicFee(uint256 x) internal pure returns (uint256 result){
-        uint256 levev = findLevel(x);
+    function publicFee(
+        uint256 supply, 
+        uint256 amount, 
+        uint256 initialSupply
+    ) internal pure returns (uint256 result){
+        uint256 levev = findLevel(supply);
         if(levev == 1){
-            return pow(10**18+10**17,x);
+            return pow(10**18+10**17,supply);
         }else{
-            return pow(10**18+10**17/levev,x)+(levev)*10**18;
+            return pow(10**18+10**17/levev,supply)+(levev)*10**18;
         }
     }
     
@@ -116,9 +120,13 @@ contract FeeUtils is DataStorage {
     //@param B The base as an signed 59.18-decimal fixed-point number.
     //@param C The base as an signed 59.18-decimal fixed-point number.
     //@param D The base as an signed 59.18-decimal fixed-point number.
-    function privateFee(uint256 x, Pricing memory pricing) internal pure returns (uint256 result){
+    function privateFee(uint256 x, uint256 amount, Pricing memory pricing) internal view returns (uint256 result){
         require(
-            x < pricing.totalSupply,
+            block.timestamp <= pricing.expTime,
+            "Factory1155: token sale time is expired"
+        );
+        require(
+            x + amount <= pricing.totalSupply,
             "Factory1155: Maximum supply reached."
         );
         //return B*pow(A,x)/10*18+C*x/10**18+D/10**18
