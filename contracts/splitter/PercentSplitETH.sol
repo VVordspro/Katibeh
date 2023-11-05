@@ -62,10 +62,10 @@ contract PercentSplitETH is Initializable {
 
   struct Share {
     address payable recipient;
-    uint256 percentInBasisPoints;
+    uint96 percentInBasisPoints;
   }
 
-  uint256 internal constant BASIS_POINTS = 10000;
+  uint96 internal constant BASIS_POINTS = 10000;
 
   Share[] private _shares;
 
