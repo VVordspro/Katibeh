@@ -41,7 +41,7 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
@@ -65,7 +65,7 @@ contract PercentSplitETH is Initializable {
     uint96 percentInBasisPoints;
   }
 
-  uint96 internal BASIS_POINTS = 10000;
+  uint96 internal BASIS_POINTS;
   address public immutable FACTORY;
 
   Share[] private _shares;
@@ -125,13 +125,13 @@ contract PercentSplitETH is Initializable {
   function initialize(Share[] memory shares) public initializer {
     require(shares.length >= 2, "Split: Too few recipients");
     require(shares.length <= 5, "Split: Too many recipients");
-    uint256 total;
+    uint96 total;
     for (uint256 i = 0; i < shares.length; i++) {
       total += shares[i].percentInBasisPoints;
       _shares.push(shares[i]);
       emit PercentSplitShare(shares[i].recipient, shares[i].percentInBasisPoints);
     }
-    require(total == BASIS_POINTS, "Split: Total amount must equal 100%");
+    BASIS_POINTS = total;
   }
 
   /**

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../splitter/interfaces/ISplitter.sol";
+import "../splitter/PercentSplitETH.sol";
 
 abstract contract DataStorage {
 
@@ -30,7 +30,7 @@ abstract contract DataStorage {
         bytes data;
         uint256[] toTokenHash;
         bytes32[] tags;
-        ISplitter.Share[] owners;
+        PercentSplitETH.Share[] owners;
         Pricing[] pricing;
     }
 
