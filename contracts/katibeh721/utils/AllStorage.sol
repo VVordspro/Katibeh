@@ -44,9 +44,9 @@ abstract contract AllStorage is DataStorage {
     function _setMintData(uint256 tokenId, Katibeh calldata katibeh) internal {
         idToToken[tokenId] = katibeh;
         emit NewToken(tokenId, katibeh.creator, katibeh.data);
-        uint256 toIdLen = katibeh.toTokenId.length;
+        uint256 toIdLen = katibeh.toTokenHash.length;
         for (uint256 i; i < toIdLen; ++i){
-            emit NewReply(tokenId, katibeh.toTokenId[i]);
+            emit NewReply(tokenId, katibeh.toTokenHash[i]);
         }
     }
 

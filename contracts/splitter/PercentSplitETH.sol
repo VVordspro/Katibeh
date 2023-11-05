@@ -65,7 +65,8 @@ contract PercentSplitETH is Initializable {
     uint96 percentInBasisPoints;
   }
 
-  uint96 internal constant BASIS_POINTS = 10000;
+  uint96 internal BASIS_POINTS = 10000;
+  address public immutable FACTORY;
 
   Share[] private _shares;
 
@@ -85,6 +86,10 @@ contract PercentSplitETH is Initializable {
       }
     }
     revert("Split: Can only be called by one of the recipients");
+  }
+
+  constructor(address factory) {
+    FACTORY = factory;
   }
 
   /**

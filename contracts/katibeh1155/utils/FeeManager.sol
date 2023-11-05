@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "./FeeUtils.sol";
-import "../../splitter/interfaces/ISplitter.sol";
+import "../../splitter/PercentSplitETH.sol";
 
 
 /**
@@ -11,15 +11,15 @@ import "../../splitter/interfaces/ISplitter.sol";
  */
 abstract contract FeeManager is FeeUtils {
     
-    ISplitter public split;
+    PercentSplitETH public split;
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
     uint256 public totalValueLocked;
     mapping(address => uint256) public userBalance;
     mapping(address => mapping(uint96 => Pricing)) public tokenPricing;
 
-    constructor(ISplitter _split) {
-        split = _split;
+    constructor() {
+        split = new PercentSplitETH(address(this));
     }
 
     /**
@@ -36,8 +36,8 @@ abstract contract FeeManager is FeeUtils {
 
     function _payPublicFees(
         uint256 feeAmount,
-        ISplitter.Share[] calldata owners,
-        ISplitter.Share[] calldata dapps
+        PercentSplitETH.Share[] calldata owners,
+        PercentSplitETH.Share[] calldata dapps
     ) internal {
         require(
             msg.value >= feeAmount,
@@ -69,13 +69,13 @@ abstract contract FeeManager is FeeUtils {
      * @dev Internal function to pay fees and distribute payments to relevant parties.
      * @param feeAmount The total amount paid by the token buyer.
      * @param owner the payable owner to receive collect fee.
-     * @param dapps An array of ISplitter.Share structs representing Dapp owners.
+     * @param dapps An array of PercentSplitETH.Share structs representing Dapp owners.
      */
     function _payPrivateFees(
         uint256 feeAmount,
         uint96 discount,
         address owner,
-        ISplitter.Share[] calldata dapps
+        PercentSplitETH.Share[] calldata dapps
     ) internal {
         require(
             msg.value >= feeAmount,
