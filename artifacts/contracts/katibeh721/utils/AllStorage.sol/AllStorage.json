@@ -9,13 +9,13 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "toTokenId",
+          "name": "toTokenHash",
           "type": "uint256"
         }
       ],
@@ -28,7 +28,7 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
@@ -53,7 +53,7 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
@@ -152,18 +152,13 @@
               "type": "address"
             },
             {
-              "internalType": "uint256",
+              "internalType": "uint96",
               "name": "signTime",
-              "type": "uint256"
+              "type": "uint96"
             },
             {
               "internalType": "uint256",
               "name": "initTime",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "expTime",
               "type": "uint256"
             },
             {
@@ -178,7 +173,7 @@
             },
             {
               "internalType": "uint256[]",
-              "name": "toTokenId",
+              "name": "toTokenHash",
               "type": "uint256[]"
             },
             {
@@ -194,51 +189,61 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "uint256",
+                  "internalType": "uint96",
                   "name": "percentInBasisPoints",
-                  "type": "uint256"
+                  "type": "uint96"
                 }
               ],
-              "internalType": "struct ISplitter.Share[]",
+              "internalType": "struct PercentSplitETH.Share[]",
               "name": "owners",
               "type": "tuple[]"
             },
             {
               "components": [
                 {
-                  "internalType": "uint128",
+                  "internalType": "uint256",
                   "name": "A",
-                  "type": "uint128"
+                  "type": "uint256"
                 },
                 {
-                  "internalType": "int128",
+                  "internalType": "int256",
                   "name": "B",
-                  "type": "int128"
+                  "type": "int256"
                 },
                 {
-                  "internalType": "int128",
+                  "internalType": "int256",
                   "name": "C",
-                  "type": "int128"
+                  "type": "int256"
                 },
                 {
-                  "internalType": "int128",
+                  "internalType": "int256",
                   "name": "D",
-                  "type": "int128"
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint96",
+                  "name": "totalSupply",
+                  "type": "uint96"
+                },
+                {
+                  "internalType": "uint96",
+                  "name": "expTime",
+                  "type": "uint96"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "discount",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint96",
+                  "name": "initTime",
+                  "type": "uint96"
                 },
                 {
                   "internalType": "uint96",
                   "name": "royalty",
                   "type": "uint96"
-                },
-                {
-                  "internalType": "uint96",
-                  "name": "discount",
-                  "type": "uint96"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "totalSupply",
-                  "type": "uint256"
                 },
                 {
                   "internalType": "uint256",
@@ -311,12 +316,12 @@
               "type": "address"
             },
             {
-              "internalType": "uint256",
+              "internalType": "uint96",
               "name": "percentInBasisPoints",
-              "type": "uint256"
+              "type": "uint96"
             }
           ],
-          "internalType": "struct ISplitter.Share[]",
+          "internalType": "struct PercentSplitETH.Share[]",
           "name": "_owners_",
           "type": "tuple[]"
         }
@@ -342,18 +347,13 @@
               "type": "address"
             },
             {
-              "internalType": "uint256",
+              "internalType": "uint96",
               "name": "signTime",
-              "type": "uint256"
+              "type": "uint96"
             },
             {
               "internalType": "uint256",
               "name": "initTime",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "expTime",
               "type": "uint256"
             },
             {
@@ -368,7 +368,7 @@
             },
             {
               "internalType": "uint256[]",
-              "name": "toTokenId",
+              "name": "toTokenHash",
               "type": "uint256[]"
             },
             {
@@ -384,51 +384,61 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "uint256",
+                  "internalType": "uint96",
                   "name": "percentInBasisPoints",
-                  "type": "uint256"
+                  "type": "uint96"
                 }
               ],
-              "internalType": "struct ISplitter.Share[]",
+              "internalType": "struct PercentSplitETH.Share[]",
               "name": "owners",
               "type": "tuple[]"
             },
             {
               "components": [
                 {
-                  "internalType": "uint128",
+                  "internalType": "uint256",
                   "name": "A",
-                  "type": "uint128"
+                  "type": "uint256"
                 },
                 {
-                  "internalType": "int128",
+                  "internalType": "int256",
                   "name": "B",
-                  "type": "int128"
+                  "type": "int256"
                 },
                 {
-                  "internalType": "int128",
+                  "internalType": "int256",
                   "name": "C",
-                  "type": "int128"
+                  "type": "int256"
                 },
                 {
-                  "internalType": "int128",
+                  "internalType": "int256",
                   "name": "D",
-                  "type": "int128"
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint96",
+                  "name": "totalSupply",
+                  "type": "uint96"
+                },
+                {
+                  "internalType": "uint96",
+                  "name": "expTime",
+                  "type": "uint96"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "discount",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint96",
+                  "name": "initTime",
+                  "type": "uint96"
                 },
                 {
                   "internalType": "uint96",
                   "name": "royalty",
                   "type": "uint96"
-                },
-                {
-                  "internalType": "uint96",
-                  "name": "discount",
-                  "type": "uint96"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "totalSupply",
-                  "type": "uint256"
                 },
                 {
                   "internalType": "uint256",

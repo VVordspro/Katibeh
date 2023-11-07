@@ -35,7 +35,7 @@ abstract contract FeeManager is FeeUtils {
 
     function _payPublicFees(
         uint256 feeAmount,
-        PercentSplitETH.Share[] calldata owners,
+        address royaltyReceiver,
         PercentSplitETH.Share[] calldata dapps
     ) internal {
         require(
@@ -45,16 +45,16 @@ abstract contract FeeManager is FeeUtils {
         uint256 devShare = feeAmount * 95 / 100000;
 
         uint256 len = dapps.length;
-        uint256 denom = BASIS_POINTS;
         uint256 totalShare;
         for(uint256 i; i < len; ++i) {
             totalShare += dapps[i].percentInBasisPoints;
-            _hold(dapps[i].recipient, devShare * dapps[i].percentInBasisPoints / denom);
         }
         for(uint256 i; i < len; ++i) {
-            _hold(owners[i].recipient, devShare * owners[i].percentInBasisPoints / denom);
+            _hold(dapps[i].recipient, devShare * dapps[i].percentInBasisPoints / totalShare);
         }
-        require(totalShare == denom, "FeeManager: The sum of Dapp percentInBasisPoints must equal 10000");
+        for(uint256 i; i < len; ++i) {
+            _hold(royaltyReceiver, devShare);
+        }
 
         if(msg.value > feeAmount) {
             _pay(msg.sender, msg.value - feeAmount);
@@ -67,13 +67,13 @@ abstract contract FeeManager is FeeUtils {
     /**
      * @dev Internal function to pay fees and distribute payments to relevant parties.
      * @param feeAmount The total amount paid by the token buyer.
-     * @param owner the payable owner to receive collect fee.
+     * @param royaltyReceiver the payable owner to receive collect fee.
      * @param dapps An array of PercentSplitETH.Share structs representing Dapp owners.
      */
     function _payPrivateFees(
         uint256 feeAmount,
         uint96 discount,
-        address owner,
+        address royaltyReceiver,
         PercentSplitETH.Share[] calldata dapps
     ) internal {
         require(
@@ -90,18 +90,18 @@ abstract contract FeeManager is FeeUtils {
                 dappShare = feeAmount * discount / 10000;
 
                 uint256 len = dapps.length;
-                uint256 denom = BASIS_POINTS;
                 uint256 totalShare;
                 for(uint256 i; i < len; ++i) {
                     totalShare += dapps[i].percentInBasisPoints;
-                    _hold(dapps[i].recipient, dappShare * dapps[i].percentInBasisPoints / denom);
                 }
-                require(totalShare == denom, "FeeManager: The sum of Dapp percentInBasisPoints must equal 10000");
+                for(uint256 i; i < len; ++i) {
+                    _hold(dapps[i].recipient, dappShare * dapps[i].percentInBasisPoints / totalShare);
+                }
                 unchecked{
                     totalValueLocked += dappShare;
                 }
             }
-            _pay(owner, feeAmount - dappShare);
+            _pay(royaltyReceiver, feeAmount - dappShare);
         }
         if(msg.value > feeAmount) {
             _pay(msg.sender, msg.value - feeAmount);

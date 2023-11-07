@@ -9,13 +9,13 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "toTokenId",
+          "name": "toTokenHash",
           "type": "uint256"
         }
       ],
@@ -28,7 +28,7 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
@@ -53,7 +53,7 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {

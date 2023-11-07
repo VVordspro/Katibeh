@@ -264,7 +264,7 @@ contract Factory1155 is FeeManager {
         uint256 _fee = publicFee(0, amount, initialSupply[address(k1155)][tokenId]);
         _setTokenData(tokenHash, tokenId, 500, k1155, royaltyReceiver, katibeh);
         _collect(k1155, collector, tokenId, amount, data);
-        // _payPublicFees(_fee, royaltyReceiver, dapps);
+        _payPublicFees(_fee, royaltyReceiver, dapps);
         _emitData(katibeh.data, tokenHash);
     }
 
@@ -292,19 +292,19 @@ contract Factory1155 is FeeManager {
         _emitData(katibeh.data, tokenHash);
     }
 
-    // function publicCollect(
-    //     Collection memory tokenInfo,
-    //     address collector,
-    //     uint256 amount,
-    //     bytes calldata data,
-    //     ISplitter.Share[] calldata dapps
-    // ) public payable {
-    //     Katibeh1155 k1155 = Katibeh1155(tokenInfo.addr);
-    //     uint256 _fee = publicFee(k1155.totalSupply(tokenInfo.tokenId));
-    //     _collect(k1155, collector, tokenInfo.tokenId, amount, data);
-    //     (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
-    //     _payPublicFees(_fee, royaltyReceiver, dapps);
-    // }
+    function publicCollect(
+        Collection memory tokenInfo,
+        address collector,
+        uint256 amount,
+        bytes calldata data,
+        PercentSplitETH.Share[] calldata dapps
+    ) public payable {
+        Katibeh1155 k1155 = Katibeh1155(tokenInfo.addr);
+        // uint256 _fee = publicFee(k1155.totalSupply(tokenInfo.tokenId));
+        _collect(k1155, collector, tokenInfo.tokenId, amount, data);
+        (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
+        // _payPublicFees(_fee, royaltyReceiver, dapps);
+    }
 
     function privateCollect(
         uint256 tokenHash,
@@ -329,6 +329,13 @@ contract Factory1155 is FeeManager {
         _collect(k1155, collector, tokenInfo.tokenId, amount, data);
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
         _payPrivateFees(_fee, pricing.discount, royaltyReceiver, dapps);
+    }
+
+    function withdraw(Collection memory tokenInfo) public {
+        (address royaltyReceiver,) = Katibeh1155(tokenInfo.addr).royaltyInfo(tokenInfo.tokenId, 0);
+        uint256 balance = userBalance[royaltyReceiver];
+        delete userBalance[royaltyReceiver];
+        _pay(royaltyReceiver, balance);
     }
 
     // check if this is the first collect of the tokenHash.

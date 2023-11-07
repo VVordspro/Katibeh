@@ -9,13 +9,13 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "toTokenId",
+          "name": "toTokenHash",
           "type": "uint256"
         }
       ],
@@ -28,7 +28,7 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
@@ -53,7 +53,7 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         },
         {
@@ -133,9 +133,91 @@
       "name": "split",
       "outputs": [
         {
-          "internalType": "contract ISplitter",
+          "internalType": "contract PercentSplitETH",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint96",
+          "name": "",
+          "type": "uint96"
+        }
+      ],
+      "name": "tokenPricing",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "A",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "B",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "C",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "D",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint96",
+          "name": "totalSupply",
+          "type": "uint96"
+        },
+        {
+          "internalType": "uint96",
+          "name": "expTime",
+          "type": "uint96"
+        },
+        {
+          "internalType": "uint64",
+          "name": "discount",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint96",
+          "name": "initTime",
+          "type": "uint96"
+        },
+        {
+          "internalType": "uint96",
+          "name": "royalty",
+          "type": "uint96"
+        },
+        {
+          "internalType": "uint256",
+          "name": "chainId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalValueLocked",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",

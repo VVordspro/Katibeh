@@ -5,8 +5,6 @@ import "../splitter/PercentSplitETH.sol";
 
 abstract contract DataStorage {
 
-    uint256 internal constant BASIS_POINTS = 10000;
-
     // Structure to represent the pricing details for a token
     struct Pricing {
         uint256 A;

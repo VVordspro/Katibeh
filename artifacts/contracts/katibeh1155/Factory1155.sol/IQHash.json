@@ -12,7 +12,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "tokenHash",
           "type": "uint256"
         }
       ],
