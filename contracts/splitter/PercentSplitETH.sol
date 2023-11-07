@@ -54,7 +54,7 @@ import "./libraries/BytesLibrary.sol";
  * considering their percent share of the payment received.
  * @dev Uses create2 counterfactual addresses so that the destination is known from the terms of the split.
  */
-contract PercentSplitETH is Initializable {
+contract SplitterForOwners is Initializable {
   using AddressUpgradeable for address payable;
   using AddressUpgradeable for address;
   using BytesLibrary for bytes;
@@ -74,6 +74,8 @@ contract PercentSplitETH is Initializable {
   event PercentSplitShare(address indexed recipient, uint256 percentInBasisPoints);
   event ETHTransferred(address indexed account, uint256 amount);
   event ERC20Transferred(address indexed erc20Contract, address indexed account, uint256 amount);
+
+  event TransferSingle(address indexed operator, address indexed from, address indexed to, uint256 id, uint256 value);
 
   /**
    * @dev Requires that the msg.sender is one of the recipients in this split.
@@ -108,15 +110,19 @@ contract PercentSplitETH is Initializable {
     require(success, "Unable to withdraw");
   }
 
+function uri(uint256 id) external view returns (string memory){
+  return "";
+}
+
   /**
    * @notice Creates a new minimal proxy contract and initializes it with the given split terms.
    * If the contract had already been created, its address is returned.
    * This must be called on the original implementation and not a proxy created previously.
    */
-  function createSplit(Share[] memory shares) public returns (PercentSplitETH splitInstance) {
+  function createSplit(Share[] memory shares) public returns (SplitterForOwners splitInstance) {
     bytes32 salt = keccak256(abi.encode(shares));
     address clone = Clones.predictDeterministicAddress(address(this), salt);
-    splitInstance = PercentSplitETH(payable(clone));
+    splitInstance = SplitterForOwners(payable(clone));
     if (!clone.isContract()) {
       emit PercentSplitCreated(clone);
       Clones.cloneDeterministic(address(this), salt);
@@ -140,12 +146,12 @@ contract PercentSplitETH is Initializable {
    */
   function initialize(Share[] memory shares) public initializer {
     require(shares.length >= 2, "Split: Too few recipients");
-    require(shares.length <= 5, "Split: Too many recipients");
+    require(shares.length <= 7, "Split: Too many recipients");
     uint96 total;
     for (uint256 i = 0; i < shares.length; i++) {
       total += shares[i].percentInBasisPoints;
       _shares.push(shares[i]);
-      emit PercentSplitShare(shares[i].recipient, shares[i].percentInBasisPoints);
+      emit TransferSingle(FACTORY, address(0), shares[i].recipient, 0, shares[i].percentInBasisPoints);
     }
     BASIS_POINTS = total;
   }

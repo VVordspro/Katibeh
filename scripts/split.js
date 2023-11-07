@@ -5,10 +5,10 @@ let { qvhAddr } = require("./utils/cont.config.js")
   async function deployPercentSplitETH() {
 
     // simple deploy
-    const PercentSplitETH = await ethers.getContractFactory("PercentSplitETH");
-    const splitter = await PercentSplitETH.deploy();
+    const SplitterForOwners = await ethers.getContractFactory("SplitterForOwners");
+    const splitter = await SplitterForOwners.deploy();
     await splitter.deployed();
-    console.log("PercentSplitETH Contract Address:", splitter.address); 
+    console.log("SplitterForOwners Contract Address:", splitter.address); 
 
     await verify(splitter.address, [])
   }

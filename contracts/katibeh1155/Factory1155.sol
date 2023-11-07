@@ -27,7 +27,7 @@ contract Factory1155 is FeeManager {
     mapping(uint256 => Collection) public _tokenCollection;
     mapping(address => uint256) public _collectorScore;
     mapping(address => mapping(uint96 => uint256)) initialSupply;
-    mapping(address => mapping(uint96 => PercentSplitETH.Share[])) tokenOwners;
+    mapping(address => mapping(uint96 => SplitterForOwners.Share[])) tokenOwners;
 
     Katibeh1155 immutable public implementation;
     IQHash public QH;
@@ -250,7 +250,7 @@ contract Factory1155 is FeeManager {
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata data,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) public payable {
         require(isPublic(katibeh.tags[0]), "Factory1155: Only public collect allowed.");
         _checkFirstCollect(tokenHash, katibeh, sig);
@@ -280,7 +280,7 @@ contract Factory1155 is FeeManager {
         Katibeh calldata katibeh,
         bytes calldata sig,
         bytes calldata data,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) public payable {
         require(!isPublic(katibeh.tags[0]), "Factory1155: Only private collect allowed.");
         _checkFirstCollect(tokenHash, katibeh, sig);
@@ -306,7 +306,7 @@ contract Factory1155 is FeeManager {
         address collector,
         uint256 amount,
         bytes calldata data,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) public payable {
         Katibeh1155 k1155 = Katibeh1155(tokenInfo.addr);
         uint256 supply = k1155.totalSupply(tokenInfo.tokenId);
@@ -324,7 +324,7 @@ contract Factory1155 is FeeManager {
         _collect(k1155, collector, tokenInfo.tokenId, amount, data);
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
         _payPublicFees(_fee, royaltyReceiver, dapps);
-        
+
     }
 
     function privateCollect(
@@ -332,7 +332,7 @@ contract Factory1155 is FeeManager {
         address collector,
         uint256 amount,
         bytes calldata data,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) public payable {
         privateCollect(_tokenCollection[tokenHash], collector, amount, data, dapps);
     }
@@ -342,7 +342,7 @@ contract Factory1155 is FeeManager {
         address collector,
         uint256 amount,
         bytes calldata data,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) public payable {
         Katibeh1155 k1155 = Katibeh1155(tokenInfo.addr);
         Pricing memory pricing = tokenPricing[tokenInfo.addr][tokenInfo.tokenId];
@@ -455,7 +455,7 @@ contract Factory1155 is FeeManager {
         }
     }
 
-    function _getPayableOwner(PercentSplitETH.Share[] memory owners, address creator) internal returns(address) {
+    function _getPayableOwner(SplitterForOwners.Share[] memory owners, address creator) internal returns(address) {
         uint256 len = owners.length;
         if(len == 0) {
             return creator; // return the creator if there are no owners
@@ -467,13 +467,13 @@ contract Factory1155 is FeeManager {
     }
 
     function _getPayableOwners(
-        PercentSplitETH.Share[] memory owners, 
+        SplitterForOwners.Share[] memory owners, 
         address creator
-    ) internal pure returns(PercentSplitETH.Share[] memory ownersList) {
+    ) internal pure returns(SplitterForOwners.Share[] memory ownersList) {
         uint256 len = owners.length;
         if(len == 0) {
-            ownersList = new PercentSplitETH.Share[](1);
-            ownersList[0] = PercentSplitETH.Share(payable(creator), 10000); // return the creator if there are no owners
+            ownersList = new SplitterForOwners.Share[](1);
+            ownersList[0] = SplitterForOwners.Share(payable(creator), 10000); // return the creator if there are no owners
         } else {
             return owners;
         }

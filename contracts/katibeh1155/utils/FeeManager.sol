@@ -10,7 +10,7 @@ import "./FeeUtils.sol";
  */
 abstract contract FeeManager is FeeUtils {
     
-    PercentSplitETH public split;
+    SplitterForOwners public split;
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
     uint256 public totalValueLocked;
@@ -18,7 +18,7 @@ abstract contract FeeManager is FeeUtils {
     mapping(address => mapping(uint96 => Pricing)) public tokenPricing;
 
     constructor() {
-        split = new PercentSplitETH(address(this));
+        split = new SplitterForOwners(address(this));
     }
 
     /**
@@ -36,7 +36,7 @@ abstract contract FeeManager is FeeUtils {
     function _payPublicFees(
         uint256 feeAmount,
         address royaltyReceiver,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) internal {
         require(
             msg.value >= feeAmount,
@@ -68,13 +68,13 @@ abstract contract FeeManager is FeeUtils {
      * @dev Internal function to pay fees and distribute payments to relevant parties.
      * @param feeAmount The total amount paid by the token buyer.
      * @param royaltyReceiver the payable owner to receive collect fee.
-     * @param dapps An array of PercentSplitETH.Share structs representing Dapp owners.
+     * @param dapps An array of SplitterForOwners.Share structs representing Dapp owners.
      */
     function _payPrivateFees(
         uint256 feeAmount,
         uint96 discount,
         address royaltyReceiver,
-        PercentSplitETH.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps
     ) internal {
         require(
             msg.value >= feeAmount,

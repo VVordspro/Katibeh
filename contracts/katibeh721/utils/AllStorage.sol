@@ -154,11 +154,11 @@ abstract contract AllStorage is DataStorage {
      * @param tokenId The ID of the token to query.
      * @return _owners_ An array of ISplitter.Share structs representing the token shareholders.
      */
-    function tokenShareholders(uint256 tokenId) public view returns(PercentSplitETH.Share[] memory _owners_) {
+    function tokenShareholders(uint256 tokenId) public view returns(SplitterForOwners.Share[] memory _owners_) {
         Katibeh memory token = idToToken[tokenId];
         if(token.owners.length == 0) {
-            _owners_ = new PercentSplitETH.Share[](1);
-            _owners_[0] = PercentSplitETH.Share(payable(token.creator), 1);
+            _owners_ = new SplitterForOwners.Share[](1);
+            _owners_[0] = SplitterForOwners.Share(payable(token.creator), 1);
         } else {
             return token.owners;
         }

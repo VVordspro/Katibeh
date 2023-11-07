@@ -27,7 +27,7 @@ describe('Test', async function () {
         ONE_MONTH_IN_SECS = 30 * 24 * 60 * 60;
         const accounts = await ethers.getSigners();
         [deployer, user1, user2, user3] = accounts
-        let splitterCont = await hre.ethers.getContractFactory("PercentSplitETH")
+        let splitterCont = await hre.ethers.getContractFactory("SplitterForOwners")
         splitter = await splitterCont.deploy()
         let QVHash = await hre.ethers.getContractFactory("QVHash")
         QVH = await QVHash.deploy()
