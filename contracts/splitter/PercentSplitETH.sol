@@ -93,6 +93,22 @@ contract PercentSplitETH is Initializable {
   }
 
   /**
+   * @notice Returns the ETH balance of this splitter in the KATIBEH factory.
+   */
+  function balanceETH() external view returns(uint256) {
+    (, bytes memory data) = FACTORY.staticcall(abi.encodeWithSignature("userBalance(address)", address(this)));
+    return abi.decode(data, (uint256));
+  }
+
+  /**
+   * @notice Withdraw the ETH balance of this splitter in the KATIBEH factory and split it to the members.
+   */
+  function withdraw() external {
+    (bool success,) = FACTORY.call(abi.encodeWithSignature("withdraw()"));
+    require(success, "Unable to withdraw");
+  }
+
+  /**
    * @notice Creates a new minimal proxy contract and initializes it with the given split terms.
    * If the contract had already been created, its address is returned.
    * This must be called on the original implementation and not a proxy created previously.
