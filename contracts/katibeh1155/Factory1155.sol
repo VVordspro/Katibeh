@@ -255,14 +255,19 @@ contract Factory1155 is FeeManager {
         require(isPublic(katibeh.tags[0]), "Factory1155: Only public collect allowed.");
         _checkFirstCollect(tokenHash, katibeh, sig);
         _checkToTokenHash(katibeh.toTokenHash);
-        Katibeh1155 k1155 = Katibeh1155(_getCreateCollectionAddr(address(0), katibeh));
-        uint96 tokenId = _getInitialTokenId(katibeh.signTime, k1155);
+        address collAddr = _getCreateCollectionAddr(address(0), katibeh);
+        Katibeh1155 k1155 = Katibeh1155(collAddr);
+        uint96 tokenId = k1155.getInitialId(katibeh.signTime - startTime);
         address royaltyReceiver = _getPayableOwner(katibeh.owners, katibeh.creator);
-        if(block.timestamp > katibeh.signTime + 1 days){
-            initialSupply[address(k1155)][tokenId] = 1;
-        }
         uint256 _fee = publicFee(0, amount, initialSupply[address(k1155)][tokenId]);
-        _setTokenData(tokenHash, tokenId, 500, k1155, royaltyReceiver, katibeh);
+        if(block.timestamp > katibeh.signTime + 2 days){
+            initialSupply[address(k1155)][tokenId] = amount;
+        }
+        Collection memory coll = Collection(collAddr, tokenId);
+        _tokenCollection[tokenHash] = coll;
+        k1155.setURI(tokenId, katibeh.tokenURI);
+        k1155.setTokenRoyalty(tokenId, royaltyReceiver, 500);
+        _firstEmits(tokenHash, katibeh);
         _collect(k1155, collector, tokenId, amount, data);
         _payPublicFees(_fee, royaltyReceiver, dapps);
         _emitData(katibeh.data, tokenHash);
@@ -282,11 +287,15 @@ contract Factory1155 is FeeManager {
         _checkToTokenHash(katibeh.toTokenHash);
         address collAddr = _getCreateCollectionAddr(katibeh.creator, katibeh);
         Katibeh1155 k1155 = Katibeh1155(collAddr);
-        uint96 tokenId = _getInitialTokenId(katibeh.signTime, k1155);
+        uint96 tokenId = k1155.getInitialId(katibeh.signTime - startTime);
         address royaltyReceiver = _getPayableOwner(katibeh.owners, katibeh.creator);
         Pricing memory pricing = findPricing(katibeh);
-        _setPrivatePricing(pricing, Collection(collAddr, tokenId));
-        _setTokenData(tokenHash, tokenId, pricing.royalty, k1155, royaltyReceiver, katibeh);
+        Collection memory coll = Collection(collAddr, tokenId);
+        _setPrivatePricing(pricing, coll);
+        _tokenCollection[tokenHash] = coll;
+        k1155.setURI(tokenId, katibeh.tokenURI);
+        k1155.setTokenRoyalty(tokenId, royaltyReceiver, pricing.royalty);
+        _firstEmits(tokenHash, katibeh);
         _collect(k1155, collector, tokenId, amount, data);
         _payPrivateFees(privateFee(0, amount, pricing), pricing.discount,  royaltyReceiver, dapps);
         _emitData(katibeh.data, tokenHash);
@@ -300,10 +309,22 @@ contract Factory1155 is FeeManager {
         PercentSplitETH.Share[] calldata dapps
     ) public payable {
         Katibeh1155 k1155 = Katibeh1155(tokenInfo.addr);
-        // uint256 _fee = publicFee(k1155.totalSupply(tokenInfo.tokenId));
+        uint256 supply = k1155.totalSupply(tokenInfo.tokenId);
+        if(
+            block.timestamp > tokenInfo.tokenId + 2 days &&
+            initialSupply[address(k1155)][tokenInfo.tokenId] == 0
+        ){
+            initialSupply[address(k1155)][tokenInfo.tokenId] = supply;
+        }
+        uint256 _fee = publicFee(
+            supply, 
+            amount, 
+            initialSupply[address(k1155)][tokenInfo.tokenId]
+        );
         _collect(k1155, collector, tokenInfo.tokenId, amount, data);
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
-        // _payPublicFees(_fee, royaltyReceiver, dapps);
+        _payPublicFees(_fee, royaltyReceiver, dapps);
+        
     }
 
     function privateCollect(
