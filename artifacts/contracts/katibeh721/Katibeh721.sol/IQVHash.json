@@ -18,11 +18,6 @@
               "type": "uint96"
             },
             {
-              "internalType": "uint256",
-              "name": "initTime",
-              "type": "uint256"
-            },
-            {
               "internalType": "string",
               "name": "tokenURI",
               "type": "string"
@@ -55,7 +50,7 @@
                   "type": "uint96"
                 }
               ],
-              "internalType": "struct PercentSplitETH.Share[]",
+              "internalType": "struct SplitterForOwners.Share[]",
               "name": "owners",
               "type": "tuple[]"
             },
@@ -69,16 +64,6 @@
                 {
                   "internalType": "int256",
                   "name": "B",
-                  "type": "int256"
-                },
-                {
-                  "internalType": "int256",
-                  "name": "C",
-                  "type": "int256"
-                },
-                {
-                  "internalType": "int256",
-                  "name": "D",
                   "type": "int256"
                 },
                 {

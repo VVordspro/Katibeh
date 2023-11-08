@@ -110,9 +110,18 @@ contract SplitterForOwners is Initializable {
     require(success, "Unable to withdraw");
   }
 
-function uri(uint256 id) external view returns (string memory){
-  return "";
-}
+  function uri(uint256 id) external pure returns (string memory){
+    require(id == 0);
+    return "data:application/json;base64,eyJuYW1lIjoiS2F0aWJlaCBTcGxpdHRlciIsImRlc2NyaXB0aW9uIjoiVGhpcyBDb250cmFjdCBTcGxpdCB5b3VyIEZ1bmRzIHdoaXQgWW91ciBzaGFyZSBIb2xkZWVycy4iLCJpbWFnZSI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjJhV1YzUW05NFBTSXdJREFnTVRZdU1EQWdNVFl1TURBaUlIaHRiRzV6UFNKb2RIUndPaTh2ZDNkM0xuY3pMbTl5Wnk4eU1EQXdMM04yWnlJZ1ptbHNiRDBpSXpBd01EQXdNQ0lnWTJ4aGMzTTlJbUpwSUdKcExYTnBaMjV3YjNOMExYTndiR2wwSWlCMGNtRnVjMlp2Y20wOUltMWhkSEpwZUNneExDQXdMQ0F3TENBeExDQXdMQ0F3S1NJZ2MzUnliMnRsUFNJak1EQXdNREF3SWlCemRISnZhMlV0ZDJsa2RHZzlJakF1TURBd01UWWlQanhuSUdsa1BTSlRWa2RTWlhCdlgySm5RMkZ5Y21sbGNpSWdjM1J5YjJ0bExYZHBaSFJvUFNJd0lqNDhMMmMrUEdjZ2FXUTlJbE5XUjFKbGNHOWZkSEpoWTJWeVEyRnljbWxsY2lJZ2MzUnliMnRsTFd4cGJtVmpZWEE5SW5KdmRXNWtJaUJ6ZEhKdmEyVXRiR2x1WldwdmFXNDlJbkp2ZFc1a0lpQnpkSEp2YTJVOUlpTkRRME5EUTBNaUlITjBjbTlyWlMxM2FXUjBhRDBpTUM0eU9EZ2lQand2Wno0OFp5QnBaRDBpVTFaSFVtVndiMTlwWTI5dVEyRnljbWxsY2lJK0lEeHdZWFJvSUdROUlrMDNJRGRXTVM0ME1UUmhNU0F4SURBZ01DQXhJRElnTUZZeWFEVmhNU0F4SURBZ01DQXhJQzQ0TGpSc0xqazNOU0F4TGpOaExqVXVOU0F3SURBZ01TQXdJQzQyVERFMExqZ2dOUzQyWVRFZ01TQXdJREFnTVMwdU9DNDBTRGwyTVRCSU4zWXROVWd5WVRFZ01TQXdJREFnTVMwdU9DMHVORXd1TWpJMUlEa3VNMkV1TlM0MUlEQWdNQ0F4SURBdExqWk1NUzR5SURjdU5FRXhJREVnTUNBd0lERWdNaUEzYURWNmJURWdNMVk0U0RKc0xTNDNOU0F4VERJZ01UQm9ObnB0TUMwMWFEWnNMamMxTFRGTU1UUWdNMGc0ZGpKNklqNDhMM0JoZEdnK0lEd3ZaejQ4TDNOMlp6ND0ifQ==";
+  }
+
+  function name() external pure returns(string memory) {
+    return "Katibeh Splitter";
+  }
+
+  function symbol() external pure returns(string memory) {
+    return "split";
+  }
 
   /**
    * @notice Creates a new minimal proxy contract and initializes it with the given split terms.

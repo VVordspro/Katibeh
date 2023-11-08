@@ -118,6 +118,59 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "y",
+          "type": "uint256"
+        }
+      ],
+      "name": "pow",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "result",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "supply",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialSupply",
+          "type": "uint256"
+        }
+      ],
+      "name": "publicFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "result",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address payable",
           "name": "newAddr",
           "type": "address"
@@ -133,7 +186,7 @@
       "name": "split",
       "outputs": [
         {
-          "internalType": "contract PercentSplitETH",
+          "internalType": "contract SplitterForOwners",
           "name": "",
           "type": "address"
         }
@@ -164,16 +217,6 @@
         {
           "internalType": "int256",
           "name": "B",
-          "type": "int256"
-        },
-        {
-          "internalType": "int256",
-          "name": "C",
-          "type": "int256"
-        },
-        {
-          "internalType": "int256",
-          "name": "D",
           "type": "int256"
         },
         {

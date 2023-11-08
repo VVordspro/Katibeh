@@ -143,9 +143,9 @@ abstract contract AllStorage is DataStorage {
     ) {
         katibeh = idToToken[tokenId];
         mintTime = tokenMintTime[tokenId];
-        if(block.timestamp >= katibeh.initTime) {
+        // if(block.timestamp >= katibeh.initTime) {
             sig = _signatures[tokenId];
-        }
+        // }
         dappData = _dappData[tokenId];
     }
 

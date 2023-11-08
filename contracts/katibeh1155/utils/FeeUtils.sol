@@ -124,7 +124,7 @@ function publicFee(
 }
 
 
-
+// Price : A + 2(B x (mintSupplyNumber+1))
     function privateFee(uint256 supply, uint256 amount, Pricing memory pricing) internal view returns (uint256 result){
         require(
             block.timestamp <= pricing.expTime,
@@ -134,9 +134,8 @@ function publicFee(
             supply + amount <= pricing.totalSupply,
             "Factory1155: Maximum supply reached."
         );
-
         
-        int res = int256(pricing.A * amount) + int256((supply+amount)*(supply+amount) - supply*supply)*pricing.B/10**18;
+        int res = int256(pricing.A * amount) + int256((supply+amount)*(supply+amount) - supply*supply)*pricing.B;
          if (res<0){
           return 0;
          }else{

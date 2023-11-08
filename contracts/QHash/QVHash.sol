@@ -29,10 +29,6 @@ contract QVHash {
             block.timestamp < katibeh.signTime + 1 hours,
             "Katibeh721: more than 1 hours sign time difference."
         );
-        require(
-            katibeh.signTime <= katibeh.initTime,
-            "Katibeh721: sign time must be less than init time."
-        );
         return keccak256(abi.encode(katibeh));
     }
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../splitter/SplitterForOwners.sol";
+import "../splitter/PercentSplitETH.sol";
 
 abstract contract DataStorage {
 
@@ -9,8 +9,6 @@ abstract contract DataStorage {
     struct Pricing {
         uint256 A;
         int256 B;
-        int256 C;
-        int256 D;
         uint96 totalSupply;
         uint96 expTime;
         uint64 discount;
@@ -23,7 +21,7 @@ abstract contract DataStorage {
     struct Katibeh {
         address creator;
         uint96 signTime;
-        uint256 initTime;
+        // uint256 initTime;
         string tokenURI;
         bytes data;
         uint256[] toTokenHash;
