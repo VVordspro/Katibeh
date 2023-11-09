@@ -65,6 +65,15 @@ contract Katibeh1155 is
         _mint(addr, id, amount, data);
     }
 
+    function mintBatch(
+        address addr,
+        uint256[] memory ids,
+        uint256[] memory amounts,
+        bytes memory data
+    ) public onlyFactory {
+        _mintBatch(addr, ids, amounts, data);
+    }
+
     function setURI(
         uint256 tokenId,
         string calldata tokenURI

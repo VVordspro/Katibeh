@@ -197,7 +197,7 @@ contract Factory1155 is FeeManager {
         k1155.setURI(tokenId, katibeh.tokenURI);
         k1155.setTokenRoyalty(tokenId, royaltyReceiver, 500);
         _firstEmits(tokenHash, katibeh);
-        _collect(k1155, collector, tokenId, amount, data);
+        _publicCollect(k1155, collector, tokenId, amount, fixedInterest(_fee), data);
         _payPublicFees(_fee, royaltyReceiver, dapps);
         _emitData(katibeh.data, tokenHash);
     }
@@ -225,7 +225,7 @@ contract Factory1155 is FeeManager {
         k1155.setURI(tokenId, katibeh.tokenURI);
         k1155.setTokenRoyalty(tokenId, royaltyReceiver, pricing.royalty);
         _firstEmits(tokenHash, katibeh);
-        _collect(k1155, collector, tokenId, amount, data);
+        k1155.mint(collector, tokenId, amount, data);
         _payPrivateFees(privateFee(0, amount, pricing), pricing.discount,  royaltyReceiver, dapps);
         _emitData(katibeh.data, tokenHash);
     }
@@ -251,7 +251,7 @@ contract Factory1155 is FeeManager {
             amount, 
             initialSupply[address(k1155)][tokenInfo.tokenId]
         );
-        _collect(k1155, collector, tokenInfo.tokenId, amount, data);
+        _publicCollect(k1155, collector, tokenInfo.tokenId, amount, fixedInterest(_fee), data);
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
         _payPublicFees(_fee, royaltyReceiver, dapps);
 
@@ -278,7 +278,7 @@ contract Factory1155 is FeeManager {
         Pricing memory pricing = tokenPricing[tokenInfo.addr][tokenInfo.tokenId];
         require(!isPublic(bytes32(bytes(k1155.name()))), "Token is not available in private collection");
         uint256 _fee = privateFee(k1155.totalSupply(tokenInfo.tokenId), amount, pricing);
-        _collect(k1155, collector, tokenInfo.tokenId, amount, data);
+        k1155.mint(collector, tokenInfo.tokenId, amount, data);
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
         _payPrivateFees(_fee, pricing.discount, royaltyReceiver, dapps);
     }
@@ -373,8 +373,17 @@ contract Factory1155 is FeeManager {
         k1155.setTokenRoyalty(tokenId, royaltyReceiver, royalty);
     }
 
-    function _collect(Katibeh1155 k1155, address collector, uint256 tokenId, uint256 amount, bytes memory data) internal {
-        k1155.mint(collector, tokenId, amount, data);
+    function _publicCollect(Katibeh1155 k1155, address collector, uint256 tokenId, uint256 amount, uint256 value, bytes memory data) internal {
+        uint256[] memory tokenIds = new uint256[](2);
+        uint256[] memory amounts = new uint256[](2);
+        (tokenIds[0], tokenIds[1]) = (tokenId, 0);
+        (amounts[0], amounts[1]) = (amount, value);
+
+        k1155.mintBatch(collector, tokenIds, amounts, data);
+    }
+
+    function fixedInterest(uint256 value) public view returns (uint256 amount){
+        return value / ((block.timestamp - startTime + 365 days) * 100000000 / 365 days);
     }
 
     function _emitData(bytes calldata data, uint256 tokenHash) internal {
