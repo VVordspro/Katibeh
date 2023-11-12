@@ -39,6 +39,14 @@ contract Katibeh1155 is
         bytes data
     );
 
+    /**
+     * @dev Initializes the contract with the given `owner_`, `name_`, and `symbol_` values.
+     *     This function is marked as `public` and `initializer`.
+     *
+     * @param owner_ The address of the contract owner.
+     * @param name_ The name of the contract.
+     * @param symbol_ The symbol of the contract.
+     */
     function init(
         address owner_,
         string memory name_,
@@ -49,13 +57,28 @@ contract Katibeh1155 is
         __Ownable_init(owner_);
     }
 
-    function getInitialId(uint96 tokenId) public view returns(uint96 _tokenId) {
+    /**
+     * @dev Returns the initial ID for the given `tokenId`.
+     * 
+     * @param tokenId The token ID for which to get the initial ID.
+     * @return _tokenId The initial ID for the given `tokenId`.
+     */
+    function getInitialId(uint96 tokenId) public view returns (uint96 _tokenId) {
         _tokenId = tokenId;
-        while(totalSupply(_tokenId) > 0) {
-            _tokenId ++;
+        while (totalSupply(_tokenId) > 0) {
+            _tokenId++;
         }
     }
 
+    /**
+     * @dev Mints tokens to the specified address.
+     * 
+     * @param addr The address to which the tokens will be minted.
+     * @param id The ID of the token to be minted.
+     * @param amount The amount of tokens to be minted.
+     * @param data Additional data that can be attached to the minting operation.
+     * @dev Only the factory contract can call this function.
+     */
     function mint(
         address addr,
         uint256 id,
@@ -65,6 +88,15 @@ contract Katibeh1155 is
         _mint(addr, id, amount, data);
     }
 
+    /**
+     * @dev Mints multiple tokens to the specified address in a batch.
+     *
+     * @param addr The address to which the tokens will be minted.
+     * @param ids The array of token IDs to be minted.
+     * @param amounts The array of amounts corresponding to each token ID to be minted.
+     * @param data Additional data that can be attached to the minting operation.
+     * @dev Only the factory contract can call this function.
+     */
     function mintBatch(
         address addr,
         uint256[] memory ids,
@@ -73,7 +105,13 @@ contract Katibeh1155 is
     ) public onlyFactory {
         _mintBatch(addr, ids, amounts, data);
     }
-
+    /**
+     * @dev Sets the URI for a given token ID.
+     * 
+     * @param tokenId The ID of the token for which to set the URI.
+     * @param tokenURI The URI to be set for the token.
+     * @dev Only the factory contract can call this function.
+     */
     function setURI(
         uint256 tokenId,
         string calldata tokenURI
@@ -81,6 +119,14 @@ contract Katibeh1155 is
         _setURI(tokenId, tokenURI);
     }
 
+    /**
+     * @dev Sets the royalty fee for a given token ID to be received by a specific address.
+     * 
+     * @param tokenId The ID of the token for which to set the royalty fee.
+     * @param receiver The address that will receive the royalty fee.
+     * @param feeNumerator The numerator of the royalty fee.
+     * @dev Only the factory contract can call this function.
+     */
     function setTokenRoyalty(
         uint256 tokenId,
         address receiver,
