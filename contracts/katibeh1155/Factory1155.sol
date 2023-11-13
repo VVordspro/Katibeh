@@ -317,10 +317,7 @@ contract Factory1155 is FeeManager {
         
         // Check the validity of the first collect signature
         _checkFirstCollect(tokenHash, katibeh, sig);
-        
-        // Check the validity of the toTokenHash
-        _checkToTokenHash(katibeh.toTokenHash);
-        
+
         // Get the address of the collection contract
         address collAddr = _getCreateCollectionAddr(address(0), katibeh);
         
@@ -335,6 +332,9 @@ contract Factory1155 is FeeManager {
         
         // Calculate the fee for the public collect
         uint256 _fee = publicFee(0, amount, initialSupply[address(k1155)][tokenId]);
+        
+        // Check the validity of the toTokenHash
+        _checkToTokenHash(katibeh.toTokenHash);
         
         // Update the initial supply if the sign time + 2 days has passed
         if (block.timestamp > katibeh.signTime + 2 days) {
@@ -576,13 +576,13 @@ contract Factory1155 is FeeManager {
      * @dev Internal function to check if the to token hashes have been minted on the current chain.
      * @param toTokenHash The array of to token hashes to check.
      */
-    function _checkToTokenHash(uint256[] calldata toTokenHash) internal view {
+    function _checkToTokenHash(ToTokenHash[] calldata toTokenHash) internal view {
         uint256 len = toTokenHash.length;
         for(uint256 i; i < len; ++i) {
-            address colAddr = _tokenCollection[toTokenHash[i]].addr;
+            address colAddr = _tokenCollection[toTokenHash[i].tokenHash].addr;
             require(
                 colAddr != address(0) &&
-                Katibeh1155(colAddr).totalSupply(toTokenHash[i]) > 0,
+                Katibeh1155(colAddr).totalSupply(toTokenHash[i].tokenHash) > 0,
                 "Factory1155: to token hash has not been minted on the current chain"
             );
         }

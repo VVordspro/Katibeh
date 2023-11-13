@@ -23,10 +23,15 @@ abstract contract DataStorage {
         uint96 signTime;
         string tokenURI;
         bytes data;
-        uint256[] toTokenHash;
+        ToTokenHash[] toTokenHash;
         bytes32[] tags;
         SplitterForOwners.Share[] owners;
         Pricing[] pricing;
+    }
+
+    struct ToTokenHash {
+        uint256 tokenHash;
+        int256 value;
     }
 
     // Event emitted when a new token is created
@@ -39,7 +44,8 @@ abstract contract DataStorage {
     // Event emitted when a new reply (relation between tokens) is created
     event NewReply(
         uint256 indexed tokenHash,
-        uint256 indexed toTokenHash
+        uint256 indexed toTokenHash,
+        int256 value
     );
 
     // Event emitted when tags are associated with a token
@@ -50,9 +56,6 @@ abstract contract DataStorage {
         bytes32 indexed tag3
     );
 
-    // Event emitted when a token is transferred
-    event TransferSingle(address indexed operator, address indexed from, address indexed to, uint256 id, uint256 value);
-
     // Function to set the data for a newly created token (Katibeh)
     function _firstEmits(
         uint256 tokenHash,
@@ -62,7 +65,7 @@ abstract contract DataStorage {
         emit NewToken(tokenHash, katibeh.creator, katibeh.data);
         uint256 toIdLen = katibeh.toTokenHash.length;
         for (uint256 i; i < toIdLen; ++i){
-            emit NewReply(tokenHash, katibeh.toTokenHash[i]);
+            emit NewReply(tokenHash, katibeh.toTokenHash[i].tokenHash, katibeh.toTokenHash[i].value);
         }
 
         // Emit event for tags associated with the token

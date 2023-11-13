@@ -17,6 +17,12 @@
           "internalType": "uint256",
           "name": "toTokenHash",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "value",
+          "type": "int256"
         }
       ],
       "name": "NewReply",
@@ -79,43 +85,6 @@
       "type": "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "operator",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "TransferSingle",
-      "type": "event"
-    },
-    {
       "inputs": [
         {
           "internalType": "bytes32",
@@ -167,9 +136,21 @@
               "type": "bytes"
             },
             {
-              "internalType": "uint256[]",
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "tokenHash",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "value",
+                  "type": "int256"
+                }
+              ],
+              "internalType": "struct DataStorage.ToTokenHash[]",
               "name": "toTokenHash",
-              "type": "uint256[]"
+              "type": "tuple[]"
             },
             {
               "internalType": "bytes32[]",
@@ -347,9 +328,21 @@
               "type": "bytes"
             },
             {
-              "internalType": "uint256[]",
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "tokenHash",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "value",
+                  "type": "int256"
+                }
+              ],
+              "internalType": "struct DataStorage.ToTokenHash[]",
               "name": "toTokenHash",
-              "type": "uint256[]"
+              "type": "tuple[]"
             },
             {
               "internalType": "bytes32[]",

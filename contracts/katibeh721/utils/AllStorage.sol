@@ -46,7 +46,7 @@ abstract contract AllStorage is DataStorage {
         emit NewToken(tokenId, katibeh.creator, katibeh.data);
         uint256 toIdLen = katibeh.toTokenHash.length;
         for (uint256 i; i < toIdLen; ++i){
-            emit NewReply(tokenId, katibeh.toTokenHash[i]);
+            emit NewReply(tokenId, katibeh.toTokenHash[i].tokenHash, katibeh.toTokenHash[i].value);
         }
     }
 
