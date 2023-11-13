@@ -3,6 +3,13 @@ pragma solidity ^0.8.10;
 
 library VerifySig {
 
+    /**
+     * @dev Verifies the signature of a message hash.
+     * @param _sig The signature as bytes.
+     * @param _signer The expected signer address.
+     * @param messageHash The hash of the message.
+     * @return Returns true if the recovered address matches the expected signer, false otherwise.
+     */
     function verify(
         bytes calldata _sig,
         address _signer,

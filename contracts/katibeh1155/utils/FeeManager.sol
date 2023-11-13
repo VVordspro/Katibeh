@@ -33,6 +33,12 @@ abstract contract FeeManager is FeeUtils {
         receiver1 = newAddr;
     }
 
+    /**
+     * @dev Collects and distributes public fees.
+     * @param feeAmount The amount of fees to be collected.
+     * @param royaltyReceiver The address of the royalty receiver.
+     * @param dapps The array of dapps and their respective shares.
+     */
     function _payPublicFees(
         uint256 feeAmount,
         address royaltyReceiver,
@@ -50,16 +56,20 @@ abstract contract FeeManager is FeeUtils {
             totalShare += dapps[i].percentInBasisPoints;
         }
         for(uint256 i; i < len; ++i) {
+            // Calculate and hold the share for each dapp recipient
             _hold(dapps[i].recipient, devShare * dapps[i].percentInBasisPoints / totalShare);
         }
         for(uint256 i; i < len; ++i) {
+            // Hold the devShare for the royalty receiver
             _hold(royaltyReceiver, devShare);
         }
 
         if(msg.value > feeAmount) {
+            // Pay back the excess amount to the msg.sender
             _pay(msg.sender, msg.value - feeAmount);
         }
         unchecked{
+            // Update the totalValueLocked
             totalValueLocked += devShare;
         }
     }
@@ -67,7 +77,8 @@ abstract contract FeeManager is FeeUtils {
     /**
      * @dev Internal function to pay fees and distribute payments to relevant parties.
      * @param feeAmount The total amount paid by the token buyer.
-     * @param royaltyReceiver the payable owner to receive collect fee.
+     * @param discount The discount percentage applied to the feeAmount.
+     * @param royaltyReceiver The payable owner to receive collect fee.
      * @param dapps An array of SplitterForOwners.Share structs representing Dapp owners.
      */
     function _payPrivateFees(
@@ -87,6 +98,7 @@ abstract contract FeeManager is FeeUtils {
             );
             uint256 dappShare;
             if(discount > 0){
+                // Calculate the dappShare based on the discount percentage
                 dappShare = feeAmount * discount / 10000;
 
                 uint256 len = dapps.length;
@@ -95,15 +107,19 @@ abstract contract FeeManager is FeeUtils {
                     totalShare += dapps[i].percentInBasisPoints;
                 }
                 for(uint256 i; i < len; ++i) {
+                    // Hold the dappShare for each dapp recipient
                     _hold(dapps[i].recipient, dappShare * dapps[i].percentInBasisPoints / totalShare);
                 }
                 unchecked{
+                    // Update the totalValueLocked
                     totalValueLocked += dappShare;
                 }
             }
+            // Pay the remaining feeAmount to the royaltyReceiver
             _pay(royaltyReceiver, feeAmount - dappShare);
         }
         if(msg.value > feeAmount) {
+            // Pay back the excess amount to the msg.sender
             _pay(msg.sender, msg.value - feeAmount);
         }
     }
@@ -128,6 +144,10 @@ abstract contract FeeManager is FeeUtils {
         }
     }
 
+    /**
+     * @dev Withdraws the balance of the caller's account.
+     * The balance is transferred to the caller's address.
+     */
     function withdraw() public {
         address userAddr = msg.sender;
         uint256 balance = userBalance[userAddr];
@@ -145,20 +165,30 @@ abstract contract FeeManager is FeeUtils {
         assembly {
             chainId := chainid()
         }
+
+        // Get the length of the pricing array
         uint256 len = katibeh.pricing.length;
-        if(len > 0){
-            for(uint256 i; i < len; i++) {
-                if(katibeh.pricing[i].chainId == chainId){
+
+        if (len > 0) {
+            // Iterate through the pricing array to find a matching chainId
+            for (uint256 i; i < len; i++) {
+                if (katibeh.pricing[i].chainId == chainId) {
+                    // Return the pricing struct for the matching chainId
                     return katibeh.pricing[i];
                 }
             }
-            for(uint256 i; i < len; i++) {
-                if(katibeh.pricing[i].chainId == 0){
+
+            // If no matching chainId is found, fall back to chainId 0
+            for (uint256 i; i < len; i++) {
+                if (katibeh.pricing[i].chainId == 0) {
                     return katibeh.pricing[i];
                 }
             }
+
+            // If no pricing struct is found, revert with an error message
             revert("FeeManager: Pricing is not set on this chainId.");
         } else {
+            // If no pricing struct is found, revert with an error message
             revert("FeeManager: Pricing is not set.");
         }
     }

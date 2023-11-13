@@ -555,14 +555,23 @@ contract Factory1155 is FeeManager {
         p.discount = pricing.discount;
     }
 
+    /**
+     * @dev Internal function to get or create the collection address for a token.
+     * @param originAddr The address of the origin token.
+     * @param katibeh The Katibeh struct representing the token.
+     * @return collectionAddr The address of the collection contract.
+     */
     function _getCreateCollectionAddr(
         address originAddr, 
         Katibeh calldata katibeh
     ) internal returns(address collectionAddr) {
         Katibeh1155 k1155;
-        collectionAddr = predictCollectionAddr(originAddr, katibeh.tags[0]);            
+        collectionAddr = predictCollectionAddr(originAddr, katibeh.tags[0]);
+
+        // Check if the collection address already exists
         k1155 = Katibeh1155(collectionAddr);
-        if(collectionAddr.code.length == 0){
+        if(collectionAddr.code.length == 0) {
+            // Create a new collection address if it doesn't exist
             address(implementation).cloneDeterministic(
                 bytes32(abi.encodePacked(katibeh.creator, katibeh.tags[0]))
             );
