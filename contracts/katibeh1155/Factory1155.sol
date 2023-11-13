@@ -32,19 +32,6 @@ interface IQHash {
  * - Fee Management: The Factory1155 contract includes a fee management system for token creation and transfer. This allows creators to set fees for their ERC721 NFTs and earn rewards when collectors trade or interact with their tokens.
  * - Metadata and Batch Transfers: The Katibeh1155 contract supports token metadata, allowing creators to attach additional information and properties to their ERC1155 NFTs. It also provides batch transfer functions for efficient token transfers.
  *
- * Dependencies:
- * - OpenZeppelin Contracts: The project relies on the OpenZeppelin Contracts library, which provides secure and tested implementations of ERC standards and other common contract functionalities.
- * - PRB Math: This library is used for precise mathematical calculations in the contract.
- *
- * Development Tools:
- * - Hardhat: The project uses Hardhat as the development environment and testing framework. Hardhat provides a set of tools for compiling, deploying, and testing smart contracts.
- *
- * Installation and Usage:
- * 1. Clone the Katibeh project repository from GitHub.
- * 2. Install the required dependencies listed in the package.json file using npm or yarn.
- * 3. Use the Hardhat command-line interface (CLI) to compile, deploy, and test the smart contracts.
- * 4. Interact with the dApp on the Mumbai testnet to create and collect ERC721 and ERC1155 NFTs.
- *
  * Contributing:
  * - If you would like to contribute to the Katibeh project, please follow the guidelines outlined in the CONTRIBUTING.md file in the project repository. Contributions can include bug fixes, feature enhancements, documentation improvements, and more.
  *
