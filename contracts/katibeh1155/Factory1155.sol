@@ -15,6 +15,60 @@ interface IQHash {
     ) external pure returns(bool);
 }
 
+/**
+ * Katibeh Project Documentation
+ *
+ * The Katibeh project is a decentralized application (dApp) built on the Ethereum blockchain. It provides a platform for creating and managing non-fungible tokens (NFTs) and fungible tokens (ERC-1155). The project aims to enable the creation and trading of unique digital assets, such as artwork, collectibles, and in-game items.
+ *
+ * Smart Contracts:
+ * - Factory1155.sol: This contract is responsible for creating new instances of the Katibeh1155 contract, which represents a collection of ERC-1155 tokens. It also includes a fee management system for token creation and transfer.
+ * - Katibeh1155.sol: This contract implements the ERC-1155 token standard and provides functionality for minting, transferring, and querying tokens. It also includes additional features like token metadata and batch transfers.
+ * - FeeManager.sol: This contract handles the management of fees associated with token creation and transfer. It provides functions for setting and getting fee rates.
+ * - VerifySig.sol: This contract provides utility functions for verifying digital signatures using the Ethereum recovery process.
+ *
+ * Features:
+ * - Create ERC721 NFTs: Users can create their own ERC721 NFTs on the Mumbai testnet without any fees. This allows users to showcase their unique collectibles and artwork on the blockchain.
+ * - Collect ERC1155 NFTs: Collectors can freely collect ERC1155 NFTs created by other users. These NFTs can represent various digital assets, such as in-game items, virtual currencies, or unique digital artwork.
+ * - Fee Management: The Factory1155 contract includes a fee management system for token creation and transfer. This allows creators to set fees for their ERC721 NFTs and earn rewards when collectors trade or interact with their tokens.
+ * - Metadata and Batch Transfers: The Katibeh1155 contract supports token metadata, allowing creators to attach additional information and properties to their ERC1155 NFTs. It also provides batch transfer functions for efficient token transfers.
+ *
+ * Dependencies:
+ * - OpenZeppelin Contracts: The project relies on the OpenZeppelin Contracts library, which provides secure and tested implementations of ERC standards and other common contract functionalities.
+ * - PRB Math: This library is used for precise mathematical calculations in the contract.
+ *
+ * Development Tools:
+ * - Hardhat: The project uses Hardhat as the development environment and testing framework. Hardhat provides a set of tools for compiling, deploying, and testing smart contracts.
+ *
+ * Installation and Usage:
+ * 1. Clone the Katibeh project repository from GitHub.
+ * 2. Install the required dependencies listed in the package.json file using npm or yarn.
+ * 3. Use the Hardhat command-line interface (CLI) to compile, deploy, and test the smart contracts.
+ * 4. Interact with the dApp on the Mumbai testnet to create and collect ERC721 and ERC1155 NFTs.
+ *
+ * Contributing:
+ * - If you would like to contribute to the Katibeh project, please follow the guidelines outlined in the CONTRIBUTING.md file in the project repository. Contributions can include bug fixes, feature enhancements, documentation improvements, and more.
+ *
+ * Support and Contact:
+ * - For any questions, issues, or feedback related to the Katibeh project, please open an issue on the project's GitHub repository or contact the project maintainers directly.
+ *
+ * License:
+ * - The Katibeh project is licensed under the MIT License. Please see the LICENSE file for more details.
+ *
+ * Disclaimer:
+ * - The Katibeh project is provided as-is, without any warranty or guarantee of its functionality or security. Users of the project are responsible for their own actions and should exercise caution when interacting with the smart contracts or the associated dApp
+ */
+
+/**
+ * @title Factory1155
+ * @dev A contract for creating instances of the Katibeh721 contract on various EVM networks.
+ * @notice This contract provides functionality for creating collections of ERC721 tokens, managing fees, and transferring ownership of the collections.
+ * @notice This contract is part of the Katibeh project, a decentralized application (dApp) built on various EVM networks, including Polygon, Avalanche, Arbitrum, etc.
+ * @dev This contract allows users to create new instances of the Katibeh721 contract, which represents a collection of ERC721 tokens.
+ * @dev The Factory1155 contract includes a fee management system for public and private collections. Creators can set fees for token collection in public collections, and determine receivers and fees for private collections.
+ * @dev The Factory1155 contract interacts with the Katibeh721 contract to create and manage collections of ERC721 tokens.
+ * @notice Creators can create both private and public collections. Private collections are exclusive to the creator, and the creator can determine the receivers of the collection fees. Public collections are open to all users, and as more collectors collect the same collectible, the asset price increases. Collectors can retrieve their NFTs at any time and receive their paid value and potentially more.
+ * @dev Creators do not pay any fee for creating an instance. The Factory1155 contract earns fees from the collection activity of the instances.
+ */
 contract Factory1155 is FeeManager {
     using VerifySig for bytes;
     using Clones for address;
@@ -44,9 +98,11 @@ contract Factory1155 is FeeManager {
     
     /**
      * @dev Returns the initial token ID based on the given sign time and Katibeh1155 contract.
-     * @param signTime The sign time used to calculate the initial token ID.
+     * @param signTime The timestamp when the token was signed by the creator.
      * @param k1155 The Katibeh1155 contract instance.
      * @return tokenId The initial token ID.
+     * @notice The tokenId is calculated based on the provided sign time and the Katibeh1155 contract.
+     * @dev The initial token ID is obtained by subtracting the start time from the sign time and passing it to the `getInitialId` function of the Katibeh1155 contract.
      */
     function _getInitialTokenId(uint96 signTime, Katibeh1155 k1155) internal view returns (uint96 tokenId) {
         return k1155.getInitialId(signTime - startTime);
@@ -151,14 +207,17 @@ contract Factory1155 is FeeManager {
     function getHash(Katibeh calldata katibeh) internal pure returns (bytes32) {
         return keccak256(abi.encode(katibeh));
     }
-
+    
     /**
      * @dev Collects tokens to a specified collector address.
      * @param collector The address of the collector.
-     * @param tokenInfo The token information.
+     * @param tokenInfo The token information (contains the address of the ERC1155 collection contract and the tokenId).
      * @param amount The amount of tokens to collect.
      * @param data Additional data for the collect.
-     * @param dapps The array of Dapps to distribute fees to.
+     * @param dapps The array of Dapps to distribute fees to (includes receiver address and share percentage).
+     * 
+     * @notice This function is only used for collecting tokens that have been previously collected.
+     * @notice The decision to make a public or private collect is based on the name of the ERC1155 collection contract.
      */
     function collectTo(
         address collector,
@@ -220,7 +279,12 @@ contract Factory1155 is FeeManager {
         }
     }
 
-    function isPublic(bytes32 firstTag) internal pure returns(bool) {
+    /**
+     * @dev Checks if a given firstTag is considered public.
+     * @param firstTag The first tag to check.
+     * @return A boolean indicating whether the firstTag is public.
+     */
+    function isPublic(bytes32 firstTag) internal pure returns (bool) {
         return firstTag[0] == 0xA4;
     }
 
