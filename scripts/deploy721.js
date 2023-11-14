@@ -10,7 +10,7 @@ let { qvhAddr } = require("./utils/cont.config.js")
     await KF.deployed();
     console.log("Katibeh721 Contract Address:", KF.address); 
 
-    await verify(KF.address, [qvhAddr])
+    // await verify(KF.address, [qvhAddr])
   }
     
   if (require.main === module) {

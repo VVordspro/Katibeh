@@ -579,7 +579,7 @@ contract Factory1155 is FeeManager {
             Collection memory replyTokenInfo;
             for(uint256 i; i < len; ++i) {
                 replyTokenInfo = _tokenCollection[toTokenHash[i].tokenHash];
-                rc[i] = ReplyCollection(replyTokenInfo.addr, uint80(replyTokenInfo.tokenId), toTokenHash[i].value);
+                rc[i] = ReplyCollection(replyTokenInfo.addr, uint80(replyTokenInfo.tokenId), int16(toTokenHash[i].value));
                 if(toTokenHash[i].value >= 0) {
                     total += toTokenHash[i].value;
                 } else {

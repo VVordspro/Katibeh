@@ -18,15 +18,15 @@ async function qHash() {
   // Gas fee (ETH): 0.064624310384338292
 
 
-  const QHash = await ethers.getContractFactory("QHash");
-  const QH = await QHash.deploy();
-  await QH.deployed();
-  console.log("QHash Contract Address:", QH.address); 
+  // const QHash = await ethers.getContractFactory("QHash");
+  // const QH = await QHash.deploy();
+  // await QH.deployed();
+  // console.log("QHash Contract Address:", QH.address); 
 
-  // const QVHash = await ethers.getContractFactory("QVHash");
-  // const QVH = await QVHash.deploy();
-  // await QVH.deployed();
-  // console.log("QVHash Contract Address:", QVH.address);
+  const QVHash = await ethers.getContractFactory("QVHash");
+  const QVH = await QVHash.deploy();
+  await QVH.deployed();
+  console.log("QVHash Contract Address:", QVH.address);
 
 }
 

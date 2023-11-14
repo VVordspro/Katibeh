@@ -33,7 +33,7 @@ abstract contract DataStorage {
 
     struct ToTokenHash {
         uint256 tokenHash;
-        int16 value;
+        int256 value;
     }
 
     struct Collection{
