@@ -15,6 +15,7 @@ abstract contract FeeManager is FeeUtils {
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
     uint256 public totalValueLocked;
     mapping(address => uint256) public userBalance;
+    mapping(address => mapping(uint96 => uint256)) public tokenValueLocked;
     mapping(address => mapping(uint96 => Pricing)) public tokenPricing;
 
     constructor() {
@@ -35,34 +36,71 @@ abstract contract FeeManager is FeeUtils {
 
     /**
      * @dev Collects and distributes public fees.
-     * @param feeAmount The amount of fees to be collected.
+     * @param lockFee The amount of fees to be collected.
      * @param royaltyReceiver The address of the royalty receiver.
      * @param dapps The array of dapps and their respective shares.
      */
     function _payPublicFees(
-        uint256 feeAmount,
+        Collection memory tokenInfo,
+        uint256 lockFee,
         address royaltyReceiver,
-        SplitterForOwners.Share[] calldata dapps
+        SplitterForOwners.Share[] calldata dapps,
+        ReplyCollection[] memory replyCollections
     ) internal {
+        uint256 feeAmount = lockFee * 105/100;
         require(
             msg.value >= feeAmount,
             "FeeManager: insufficient Fee"
         );
-        uint256 devShare = feeAmount * 95 / 100000;
+        unchecked{
+            tokenValueLocked[tokenInfo.addr][tokenInfo.tokenId] += lockFee;
+        }
 
+        uint256 otherFee = feeAmount - lockFee;
+
+        // dev payment
+        uint256 devShare = otherFee / 5;
         uint256 len = dapps.length;
         uint256 totalShare;
-        for(uint256 i; i < len; ++i) {
-            totalShare += dapps[i].percentInBasisPoints;
+        if(len > 0) {
+            for(uint256 i; i < len; ++i) {
+                totalShare += dapps[i].percentInBasisPoints;
+            }
+            for(uint256 i; i < len; ++i) {
+                // Calculate and hold the share for each dapp recipient
+                _hold(dapps[i].recipient, devShare * dapps[i].percentInBasisPoints / totalShare);
+            }
+        } else {
+            devShare = 0;
         }
-        for(uint256 i; i < len; ++i) {
-            // Calculate and hold the share for each dapp recipient
-            _hold(dapps[i].recipient, devShare * dapps[i].percentInBasisPoints / totalShare);
+
+        // creator payment
+        uint256 creatorShare = otherFee / 5;
+        _hold(royaltyReceiver, creatorShare);
+
+        // contract payment
+        uint256 contractShare = otherFee / 5;
+        unchecked{
+            tokenValueLocked[tokenInfo.addr][0] += contractShare;
         }
-        for(uint256 i; i < len; ++i) {
-            // Hold the devShare for the royalty receiver
-            _hold(royaltyReceiver, devShare);
+
+        // reply payment
+        uint256 repliesShare = otherFee / 5;
+        uint256 replyShare;
+        len = replyCollections.length;
+        int256 total;
+        for(uint256 i; i < len; i++) {
+            if(replyCollections[i].value >= 0) {
+                total += replyCollections[i].value;
+                replyShare = repliesShare * uint16(replyCollections[i].value) / basisPoint;
+                addValue(replyCollections[i].addr, replyCollections[i].tokenId, replyShare);
+            } else {
+                total -= replyCollections[i].value;
+                replyShare = repliesShare * uint16(-replyCollections[i].value) / basisPoint;
+                removeValue(replyCollections[i].addr, replyCollections[i].tokenId, replyShare);
+            }
         }
+
 
         if(msg.value > feeAmount) {
             // Pay back the excess amount to the msg.sender

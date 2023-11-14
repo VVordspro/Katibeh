@@ -35,9 +35,9 @@
                   "type": "uint256"
                 },
                 {
-                  "internalType": "int256",
+                  "internalType": "int16",
                   "name": "value",
-                  "type": "int256"
+                  "type": "int16"
                 }
               ],
               "internalType": "struct DataStorage.ToTokenHash[]",

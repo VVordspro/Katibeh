@@ -142,7 +142,11 @@ function publicFee(
              return uint256(res);
          }
         
-    }           
+    }      
+
+
+    function addValue(address collAddr, uint256 tokenId, uint256 value) internal {}     
+    function removeValue(address collAddr, uint256 tokenId, uint256 value) internal {}     
 
 }
 

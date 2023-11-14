@@ -61,10 +61,6 @@ contract Factory1155 is FeeManager {
     using Clones for address;
     using Strings for *;
 
-    struct Collection{
-        address addr;
-        uint96 tokenId;
-    }
     mapping(uint256 => Collection) public _tokenCollection;
     mapping(address => uint256) public _collectorScore;
     mapping(address => mapping(uint96 => uint256)) initialSupply;
@@ -333,9 +329,6 @@ contract Factory1155 is FeeManager {
         // Calculate the fee for the public collect
         uint256 _fee = publicFee(0, amount, initialSupply[address(k1155)][tokenId]);
         
-        // Check the validity of the toTokenHash
-        _checkToTokenHash(katibeh.toTokenHash);
-        
         // Update the initial supply if the sign time + 2 days has passed
         if (block.timestamp > katibeh.signTime + 2 days) {
             initialSupply[address(k1155)][tokenId] = amount;
@@ -360,7 +353,7 @@ contract Factory1155 is FeeManager {
         _publicCollect(k1155, collector, tokenId, amount, fixedInterest(_fee), data);
         
         // Pay the public collection fees to the royalty receiver and Dapps
-        _payPublicFees(_fee, royaltyReceiver, dapps);
+        _payPublicFees(tokenInfo, _fee, royaltyReceiver, dapps, _checkToTokenHash(tokenInfo, katibeh.toTokenHash));
         
         // Emit the necessary data
         _emitData(katibeh.data, tokenHash);
@@ -391,9 +384,6 @@ contract Factory1155 is FeeManager {
         // Check the validity of the first collect signature
         _checkFirstCollect(tokenHash, katibeh, sig);
         
-        // Check the validity of the toTokenHash
-        _checkToTokenHash(katibeh.toTokenHash);
-        
         // Get the address of the collection contract
         address collAddr = _getCreateCollectionAddr(katibeh.creator, katibeh);
         
@@ -411,6 +401,9 @@ contract Factory1155 is FeeManager {
         
         // Create the token information
         Collection memory tokenInfo = Collection(collAddr, tokenId);
+        
+        // Check the validity of the toTokenHash
+        _checkToTokenHash(tokenInfo, katibeh.toTokenHash);
         
         // Set the private pricing for the token
         _setPrivatePricing(pricing, tokenInfo);
@@ -477,7 +470,7 @@ contract Factory1155 is FeeManager {
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
         
         // Pay the public collection fees to the royalty receiver and Dapps
-        _payPublicFees(_fee, royaltyReceiver, dapps);
+        // _payPublicFees(tokenInfo, _fee, royaltyReceiver, dapps);
     }
 
     /**
@@ -572,19 +565,34 @@ contract Factory1155 is FeeManager {
         );
     }
 
+    mapping(address => mapping(uint96 => ReplyCollection[])) public tokenReplyCollection;
+
     /**
      * @dev Internal function to check if the to token hashes have been minted on the current chain.
      * @param toTokenHash The array of to token hashes to check.
      */
-    function _checkToTokenHash(ToTokenHash[] calldata toTokenHash) internal view {
+    function _checkToTokenHash(Collection memory tokenInfo, ToTokenHash[] calldata toTokenHash) internal returns(ReplyCollection[] memory rc){
         uint256 len = toTokenHash.length;
-        for(uint256 i; i < len; ++i) {
-            address colAddr = _tokenCollection[toTokenHash[i].tokenHash].addr;
-            require(
-                colAddr != address(0) &&
-                Katibeh1155(colAddr).totalSupply(toTokenHash[i].tokenHash) > 0,
-                "Factory1155: to token hash has not been minted on the current chain"
-            );
+        if(len > 0) {
+            int256 total;
+            rc = new ReplyCollection[](len);
+            Collection memory replyTokenInfo;
+            for(uint256 i; i < len; ++i) {
+                replyTokenInfo = _tokenCollection[toTokenHash[i].tokenHash];
+                rc[i] = ReplyCollection(replyTokenInfo.addr, uint80(replyTokenInfo.tokenId), toTokenHash[i].value);
+                if(toTokenHash[i].value >= 0) {
+                    total += toTokenHash[i].value;
+                } else {
+                    total -= toTokenHash[i].value;
+                }
+                require(
+                    replyTokenInfo.addr != address(0) &&
+                    Katibeh1155(replyTokenInfo.addr).totalSupply(toTokenHash[i].tokenHash) > 0,
+                    "Factory1155: to token hash has not been minted on the current chain"
+                );
+            }
+            require(uint256(total) <= basisPoint);
+            tokenReplyCollection[tokenInfo.addr][tokenInfo.tokenId] = rc;
         }
     }
 

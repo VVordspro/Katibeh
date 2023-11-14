@@ -5,6 +5,8 @@ import "../splitter/PercentSplitETH.sol";
 
 abstract contract DataStorage {
 
+    uint256 constant basisPoint = 32767;
+
     // Structure to represent the pricing details for a token
     struct Pricing {
         uint256 A;
@@ -31,7 +33,18 @@ abstract contract DataStorage {
 
     struct ToTokenHash {
         uint256 tokenHash;
-        int256 value;
+        int16 value;
+    }
+
+    struct Collection{
+        address addr;
+        uint96 tokenId;
+    }
+
+    struct ReplyCollection{
+        address addr;
+        uint80 tokenId;
+        int16 value;
     }
 
     // Event emitted when a new token is created
