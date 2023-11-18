@@ -9,7 +9,7 @@ abstract contract DataStorage {
 
     // Structure to represent the pricing details for a token
     struct Pricing {
-        uint256 A;
+        int256 A;
         int256 B;
         uint96 totalSupply;
         uint96 expTime;

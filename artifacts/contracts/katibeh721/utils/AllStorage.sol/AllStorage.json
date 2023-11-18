@@ -177,9 +177,9 @@
             {
               "components": [
                 {
-                  "internalType": "uint256",
+                  "internalType": "int256",
                   "name": "A",
-                  "type": "uint256"
+                  "type": "int256"
                 },
                 {
                   "internalType": "int256",
@@ -369,9 +369,9 @@
             {
               "components": [
                 {
-                  "internalType": "uint256",
+                  "internalType": "int256",
                   "name": "A",
-                  "type": "uint256"
+                  "type": "int256"
                 },
                 {
                   "internalType": "int256",
