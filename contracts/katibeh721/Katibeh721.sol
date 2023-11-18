@@ -4,7 +4,6 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 import "./utils/AllStorage.sol";
 import "./utils/TraceStorage.sol";
 
@@ -18,7 +17,16 @@ interface IQVHash {
 /**
  * @title Katibeh721
  * @dev A ERC721-compliant smart contract that represents Katibeh tokens.
- *      These tokens are traceable on-chain and are subject to specific signing conditions.
+ * 
+ * @dev Katibeh721 is an extension of the ERC721 standard and implements the supportInterface of ERC721 and ERC721Enumerable.
+ * 
+ * @dev This contract includes features to store and manage token traces, creator tokens, creators, token replies, and tags.
+ * 
+ * @dev Users can mint freely their own collectibles here and burn if they want.
+ * 
+ * @dev Every collectible has a unique token ID and token URI.
+ * 
+ * @dev This is a free open-source project. DApp developers can customize their use cases and contribute to this contract as they desire.
  */
 contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, TraceStorage {
     using Strings for uint256;
@@ -52,11 +60,22 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
     }
 
     /**
-     * @dev Safely mint a new Katibeh token and set its data.
+     * @dev Safely mint a new Katibeh ERC721 token and set its data.
+     * 
      * @param katibeh The input Katibeh struct with token details.
-     * @param sig The signature for the Katibeh token.
-     * @param dappData Additional data related to the token.
-     * @return tokenId The ID of the newly minted Katibeh token.
+     * @param sig The signature for the Katibeh token signed by the creator.
+     * @param dappData Additional data related to the token.(optional parameter for dapps)
+     * @return tokenId (tokenHash) The ID of the newly minted Katibeh token.
+     * 
+     * @dev The tokenID is computed using the keccak256 hash of the encoded Katibeh 
+     *  struct and the signature provided by the creator.
+     * 
+     * @notice If the signature provided by the creator is invalid, the minting will fail.
+     * 
+     * @notice The keccak256 hash of the URI is registered, which means that other users are
+     *  not allowed to use the same URI again.
+     * 
+     * @notice katibeh tokens are able to be collected multi-chain on ERC1155 collections.
      */
     function safeMint(
         Katibeh calldata katibeh,
@@ -74,10 +93,9 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
     }
 
     /**
-     * @dev Safely mint a new Katibeh token, set its data, and enable traceability.
-     * @param katibeh The input Katibeh struct with token details.
-     * @param sig The signature for the Katibeh token.
-     * @param dappData Additional data related to the token.
+     * @dev {safeMint}.
+     * 
+     * @dev This function stores all the data in networks that do not support the latest event protocol.
      */
     function safeMintAndSetTraceStorage( 
         Katibeh calldata katibeh,
@@ -116,15 +134,9 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         return _tokenURI(tokenId);
     }
 
+
     // The following functions are overrides required by Solidity.
 
-    /**
-     * @dev Hook function called before any token transfer.
-     * @param from The address transferring the tokens (or address(0) for minting).
-     * @param to The address receiving the tokens (or address(0) for burning).
-     * @param firstTokenId The ID of the first token being transferred.
-     * @param batchSize The number of tokens being transferred.
-     */
     function _beforeTokenTransfer(
         address from, 
         address to, 
@@ -137,11 +149,6 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
-    /**
-     * @dev Override for the ERC721 supportsInterface function to check if a given interface is supported.
-     * @param interfaceId The interface ID to check.
-     * @return true if the interface is supported, false otherwise.
-     */
     function supportsInterface(bytes4 interfaceId)
         public
         view
@@ -151,3 +158,4 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         return super.supportsInterface(interfaceId);
     }
 }
+ 

@@ -17,6 +17,7 @@ abstract contract AllStorage is DataStorage {
 
     /**
      * @dev Internal function to register a token URI hash.
+     * @dev The token URI hash must be unique and not registered already.
      * @param _uri The token URI to be registered.
      * @param tokenId The ID of the token to associate with the URI hash.
      */
@@ -33,7 +34,7 @@ abstract contract AllStorage is DataStorage {
     function _burnData(uint256 tokenId) internal {
         Katibeh storage katibeh = idToToken[tokenId];
         delete _signatures[tokenId];
-        katibeh.tokenURI = "data:application/json;base64,eyJuYW1lIjogIlRoaXMgdG9rZW4gaXMgYnVybmVkLiIsImRlc2NyaXB0aW9uIjogIlRva2VuIGlzIG5vdCBjb2xsZWN0aWJsZSBvbiB0aGlzIG5ldHdvcmsuIn0";
+        delete katibeh.tokenURI;
     }
 
     /**
@@ -70,10 +71,14 @@ abstract contract AllStorage is DataStorage {
 
     /**
      * @dev Internal function to retrieve the token URI for a token.
+     * @dev A burned token or a token with no URI returns a default pre-defined base64 URI.
      * @param tokenId The ID of the token to retrieve the URI for.
      * @return The URI associated with the token.
      */
     function _tokenURI(uint256 tokenId) internal view returns(string memory) {
+        if(_signatures[tokenId].length == 0) {
+            return "data:application/json;base64,eyJuYW1lIjogIlRoaXMgdG9rZW4gaXMgYnVybmVkLiIsImRlc2NyaXB0aW9uIjogIlRva2VuIGlzIG5vdCBjb2xsZWN0aWJsZSBvbiB0aGlzIG5ldHdvcmsuIn0";
+        }
         return idToToken[tokenId].tokenURI;
     }
 
@@ -164,3 +169,4 @@ abstract contract AllStorage is DataStorage {
         }
     }
 }
+ 

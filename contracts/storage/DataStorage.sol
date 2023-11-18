@@ -21,13 +21,25 @@ abstract contract DataStorage {
 
     // Structure to represent a token (Katibeh)
     struct Katibeh {
+        // the creator of katibeh token
         address creator;
+        // the timestamp that creator signed the katibeh as their property and made users able to collect it.
         uint96 signTime;
+        // the URI of the NFT.
         string tokenURI;
+        // the extra data associated with the token.(emits in NewToken event.)
         bytes data;
+        // the tokens that this token is a reply to.(empty if this is an independant token.)
         ToTokenHash[] toTokenHash;
+        // describes the category of the token. 
+        // can be used for filtering.
+        // commonly contains 3 members.
+        // the first tag can be used to make ERC1155 collections
         bytes32[] tags;
+        // the fee receivers of the token.
+        // owners can receive the collect fee and royalty fee in ERC1155 collections.
         SplitterForOwners.Share[] owners;
+        // the pricing details for the token.(all used in ERC1155 collections)
         Pricing[] pricing;
     }
 
