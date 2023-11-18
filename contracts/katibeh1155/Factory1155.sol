@@ -424,7 +424,7 @@ contract Factory1155 is FeeManager {
         k1155.mint(collector, tokenId, amount, data);
         
         // Pay the private collection fees to the royalty receiver and Dapps
-        _payPrivateFees(privateFee(0, amount, pricing), pricing.discount, royaltyReceiver, dapps);
+        _payPrivateFees(privateFee(0, amount, pricing), pricing.creatorShare, royaltyReceiver, dapps);
         
         // Emit the necessary data
         _emitData(katibeh.data, tokenHash);
@@ -525,7 +525,7 @@ contract Factory1155 is FeeManager {
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
 
         // Pay the private collection fees to the royalty receiver and Dapps
-        _payPrivateFees(_fee, pricing.discount, royaltyReceiver, dapps);
+        _payPrivateFees(_fee, pricing.creatorShare, royaltyReceiver, dapps);
     }
 
     /**
@@ -611,7 +611,7 @@ contract Factory1155 is FeeManager {
         p.B = pricing.B;
         p.totalSupply = pricing.totalSupply;
         p.expTime = pricing.expTime;
-        p.discount = pricing.discount;
+        p.creatorShare = pricing.creatorShare;
     }
 
     /**

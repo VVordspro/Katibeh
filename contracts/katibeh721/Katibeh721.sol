@@ -134,10 +134,6 @@ contract Katibeh721 is ERC721, ERC721Enumerable, ERC721Burnable, AllStorage, Tra
         internal
         override(ERC721, ERC721Enumerable)
     {
-        require(
-            from == address(0) || to == address(0),
-            "tokens cannot be transferred on testnet"
-        );
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 

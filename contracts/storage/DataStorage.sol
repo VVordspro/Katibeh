@@ -13,9 +13,9 @@ abstract contract DataStorage {
         int256 B;
         uint96 totalSupply;
         uint96 expTime;
-        uint64 discount;
-        uint96 initTime;
+        uint64 creatorShare;
         uint96 royalty;
+        uint96 initTime;
         uint256 chainId;
     }
 
