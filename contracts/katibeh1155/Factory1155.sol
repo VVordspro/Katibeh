@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Katibeh1155.sol";
 import "./utils/FeeManager.sol";
 import "../QHash/utils/VerifySig.sol";
+import "../katibeh20/KatibehToken.sol";
 
 
 interface IQHash {
@@ -56,7 +57,7 @@ interface IQHash {
  * @notice Creators can create both private and public collections. Private collections are exclusive to the creator, and the creator can determine the receivers of the collection fees. Public collections are open to all users, and as more collectors collect the same collectible, the asset price increases. Collectors can retrieve their NFTs at any time and receive their paid value and potentially more.
  * @dev Creators do not pay any fee for creating an instance. The Factory1155 contract earns fees from the collection activity of the instances.
  */
-contract Factory1155 is FeeManager {
+contract Factory1155 is FeeManager, KatibehToken {
     using VerifySig for bytes;
     using Clones for address;
     using Strings for *;
@@ -77,18 +78,6 @@ contract Factory1155 is FeeManager {
         QH = IQHash(qhAddr);
         receiver1 = payable(msg.sender);
         startTime = _startTime;
-    }
-    
-    /**
-     * @dev Returns the initial token ID based on the given sign time and Katibeh1155 contract.
-     * @param signTime The timestamp when the token was signed by the creator.
-     * @param k1155 The Katibeh1155 contract instance.
-     * @return tokenId The initial token ID.
-     * @notice The tokenId is calculated based on the provided sign time and the Katibeh1155 contract.
-     * @dev The initial token ID is obtained by subtracting the start time from the sign time and passing it to the `getInitialId` function of the Katibeh1155 contract.
-     */
-    function _getInitialTokenId(uint96 signTime, Katibeh1155 k1155) internal view returns (uint96 tokenId) {
-        return k1155.getInitialId(signTime - startTime);
     }
 
     /**
@@ -350,7 +339,7 @@ contract Factory1155 is FeeManager {
         _firstEmits(tokenHash, katibeh);
         
         // Perform the public collect
-        _publicCollect(k1155, collector, tokenId, amount, fixedInterest(_fee), data);
+        _collect(k1155, collector, tokenId, amount, fixedInterest(_fee), data);
         
         // Pay the public collection fees to the royalty receiver and Dapps
         _payPublicFees(tokenInfo, _fee, royaltyReceiver, dapps, _checkToTokenHash(tokenInfo, katibeh.toTokenHash));
@@ -420,11 +409,13 @@ contract Factory1155 is FeeManager {
         // Emit the necessary events for the first collect
         _firstEmits(tokenHash, katibeh);
         
-        // Mint the tokens to the collector
-        k1155.mint(collector, tokenId, amount, data);
-        
+        uint256 _fee = privateFee(0, amount, pricing);
+
         // Pay the private collection fees to the royalty receiver and Dapps
-        _payPrivateFees(privateFee(0, amount, pricing), pricing.creatorShare, royaltyReceiver, dapps);
+        _payPrivateFees(_fee, pricing.creatorShare, royaltyReceiver, dapps);
+        
+        // Mint the tokens to the collector
+        _collect(k1155, collector, tokenId, amount, fixedInterest(_fee), data);
         
         // Emit the necessary data
         _emitData(katibeh.data, tokenHash);
@@ -464,7 +455,7 @@ contract Factory1155 is FeeManager {
         uint256 _fee = publicFee(supply, amount, initialSupply[address(k1155)][tokenInfo.tokenId]);
         
         // Perform the public collect
-        _publicCollect(k1155, collector, tokenInfo.tokenId, amount, fixedInterest(_fee), data);
+        _collect(k1155, collector, tokenInfo.tokenId, amount, fixedInterest(_fee), data);
         
         // Get the royalty receiver address
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
@@ -519,7 +510,7 @@ contract Factory1155 is FeeManager {
         uint256 _fee = privateFee(k1155.totalSupply(tokenInfo.tokenId), amount, pricing);
 
         // Mint the tokens to the collector
-        k1155.mint(collector, tokenInfo.tokenId, amount, data);
+        _collect(k1155, collector, tokenInfo.tokenId, amount, fixedInterest(_fee), data);
 
         // Get the royalty receiver address
         (address royaltyReceiver,) = k1155.royaltyInfo(tokenInfo.tokenId, 0);
@@ -671,7 +662,7 @@ contract Factory1155 is FeeManager {
      * @param value The value associated with the minted tokens.
      * @param data Additional data to be passed along with the minted tokens.
      */
-    function _publicCollect(
+    function _collect(
         Katibeh1155 k1155,
         address collector,
         uint256 tokenId,
@@ -679,12 +670,8 @@ contract Factory1155 is FeeManager {
         uint256 value,
         bytes memory data
     ) internal {
-        uint256[] memory tokenIds = new uint256[](2);
-        uint256[] memory amounts = new uint256[](2);
-        (tokenIds[0], tokenIds[1]) = (tokenId, 0);
-        (amounts[0], amounts[1]) = (amount, value);
-
-        k1155.mintBatch(collector, tokenIds, amounts, data);
+        k1155.mint(collector, tokenId, amount, data);
+        _mint(collector, value);
     }
 
     /**

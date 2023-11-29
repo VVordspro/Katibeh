@@ -33,9 +33,10 @@ contract Katibeh1155 is
     string public symbol;
 
     event TokenData(
-        address operator,
-        uint256[] ids,
-        uint256[] amounts,
+        uint256 indexed id,
+        address indexed addr,
+        int8 indexed action,
+        uint256 amount,
         bytes data
     );
 
@@ -86,25 +87,29 @@ contract Katibeh1155 is
         bytes memory data
     ) public onlyFactory {
         _mint(addr, id, amount, data);
+        if(data.length != 0){
+            emit TokenData(id, addr, 1, amount, data);
+        }
     }
 
-    /**
-     * @dev Mints multiple tokens to the specified address in a batch.
-     *
-     * @param addr The address to which the tokens will be minted.
-     * @param ids The array of token IDs to be minted.
-     * @param amounts The array of amounts corresponding to each token ID to be minted.
-     * @param data Additional data that can be attached to the minting operation.
-     * @dev Only the factory contract can call this function.
-     */
-    function mintBatch(
-        address addr,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    ) public onlyFactory {
-        _mintBatch(addr, ids, amounts, data);
-    }
+    // /**
+    //  * @dev Mints multiple tokens to the specified address in a batch.
+    //  *
+    //  * @param addr The address to which the tokens will be minted.
+    //  * @param ids The array of token IDs to be minted.
+    //  * @param amounts The array of amounts corresponding to each token ID to be minted.
+    //  * @param data Additional data that can be attached to the minting operation.
+    //  * @dev Only the factory contract can call this function.
+    //  */
+    // function mintBatch(
+    //     address addr,
+    //     uint256[] memory ids,
+    //     uint256[] memory amounts,
+    //     bytes memory data
+    // ) public onlyFactory {
+    //     _mintBatch(addr, ids, amounts, data);
+    // }
+
     /**
      * @dev Sets the URI for a given token ID.
      * 
@@ -140,20 +145,6 @@ contract Katibeh1155 is
         uint256 tokenId
     ) public view override(ERC1155, ERC1155URIStorage) returns (string memory) {
         return super.uri(tokenId);
-    }
-
-    function _afterTokenTransfer(
-        address operator,
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    ) internal override {
-        super._afterTokenTransfer(operator, from, to, ids, amounts, data);
-        if(data.length != 0){
-            emit TokenData(operator, ids, amounts, data);
-        }
     }
 
     function _beforeTokenTransfer(
