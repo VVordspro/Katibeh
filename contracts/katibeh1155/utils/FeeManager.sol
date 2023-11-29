@@ -13,6 +13,7 @@ abstract contract FeeManager is FeeUtils {
     SplitterForOwners public split;
     address payable receiver1; // Address of receiver1 for fee distribution
     uint256 constant baseFee = 10 ** 17; // Base fee amount in wei (0.1 ether)
+    uint256 constant BASIS_POINTS = 10 **6;
     uint256 public totalValueLocked;
     mapping(address => uint256) public userBalance;
     mapping(address => mapping(uint96 => uint256)) public tokenValueLocked;
@@ -44,10 +45,11 @@ abstract contract FeeManager is FeeUtils {
         Collection memory tokenInfo,
         uint256 lockFee,
         address royaltyReceiver,
+        uint64 creatorShare,
         SplitterForOwners.Share[] calldata dapps,
         ReplyCollection[] memory replyCollections
     ) internal {
-        uint256 feeAmount = lockFee * 105/100;
+        uint256 feeAmount = lockFee * 101/100 + lockFee * creatorShare/BASIS_POINTS;
         require(
             msg.value >= feeAmount,
             "FeeManager: insufficient Fee"

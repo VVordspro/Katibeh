@@ -341,8 +341,11 @@ contract Factory1155 is FeeManager, KatibehToken {
         // Perform the public collect
         _collect(k1155, collector, tokenId, amount, fixedInterest(_fee), data);
         
+        // Find the pricing information for the token
+        Pricing memory pricing = findPricing(katibeh); // pricing should be saved
+        
         // Pay the public collection fees to the royalty receiver and Dapps
-        _payPublicFees(tokenInfo, _fee, royaltyReceiver, dapps, _checkToTokenHash(tokenInfo, katibeh.toTokenHash));
+        _payPublicFees(tokenInfo, _fee, royaltyReceiver, pricing.creatorShare, dapps, _checkToTokenHash(tokenInfo, katibeh.toTokenHash));
         
         // Emit the necessary data
         _emitData(katibeh.data, tokenHash);
